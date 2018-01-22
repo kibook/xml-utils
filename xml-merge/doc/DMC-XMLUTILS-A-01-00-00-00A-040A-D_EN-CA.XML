@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dmodule>
+<dmodule xmlns:dc="http://www.purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.s1000d.org/S1000D_4-2/xml_schema_flat/descript.xsd">
+  <identAndStatusSection>
+    <dmAddress>
+      <dmIdent>
+        <dmCode modelIdentCode="XMLUTILS" systemDiffCode="A" systemCode="01" subSystemCode="0" subSubSystemCode="0" assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="040" infoCodeVariant="A" itemLocationCode="D"/>
+        <language languageIsoCode="en" countryIsoCode="CA"/>
+        <issueInfo issueNumber="000" inWork="01"/>
+      </dmIdent>
+      <dmAddressItems>
+        <issueDate year="2018" month="01" day="21"/>
+        <dmTitle>
+          <techName>xml-merge(1)</techName>
+          <infoName>Description</infoName>
+        </dmTitle>
+      </dmAddressItems>
+    </dmAddress>
+    <dmStatus issueType="new">
+      <security securityClassification="01"/>
+      <responsiblePartnerCompany>
+        <enterpriseName>khzae.net</enterpriseName>
+      </responsiblePartnerCompany>
+      <originator>
+        <enterpriseName>khzae.net</enterpriseName>
+      </originator>
+      <applic>
+        <displayText>
+          <simplePara>All</simplePara>
+        </displayText>
+      </applic>
+      <brexDmRef>
+        <dmRef>
+          <dmRefIdent>
+            <dmCode modelIdentCode="S1000D" systemDiffCode="F" systemCode="04" subSystemCode="1" subSubSystemCode="0" assyCode="0301" disassyCode="00" disassyCodeVariant="A" infoCode="022" infoCodeVariant="A" itemLocationCode="D"/>
+          </dmRefIdent>
+        </dmRef>
+      </brexDmRef>
+      <qualityAssurance>
+        <unverified/>
+      </qualityAssurance>
+    </dmStatus>
+  </identAndStatusSection>
+  <content>
+    <description>
+      <levelledPara>
+        <title>General</title>
+        <para>The <emphasis>xml-merge</emphasis> utility merges two XML files together, based on a common element.</para>
+      </levelledPara>
+      <levelledPara>
+        <title>Usage</title>
+        <para><verbatimText verbatimStyle="vs24">xml-merge &lt;dst&gt; &lt;src&gt;</verbatimText></para>
+      </levelledPara>
+      <levelledPara>
+        <title>Options</title>
+        <para>
+          <definitionList>
+            <definitionListItem>
+              <listItemTerm>&lt;dst&gt;</listItemTerm>
+              <listItemDefinition>
+                <para>The XML file which &lt;src&gt; will be merged in to.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>&lt;src&gt;</listItemTerm>
+              <listItemDefinition>
+                <para>The XML file which will me merged in to &lt;dst&gt;. The first occurence of an element in &lt;dst&gt; which matches the root element of this file is where the merge will occur.</para>
+              </listItemDefinition>
+            </definitionListItem>
+          </definitionList>
+        </para>
+      </levelledPara>
+      <levelledPara>
+        <title>Example</title>
+        <para>Given the following two XML files:</para>
+        <para>
+          <emphasis><verbatimText verbatimStyle="vs02">file1.xml</verbatimText>:</emphasis>
+          <verbatimText verbatimStyle="vs11"><![CDATA[<root>
+<metadata>...</metadata>
+<content/>
+</root>]]></verbatimText>
+        </para>
+        <para>
+          <emphasis><verbatimText verbatimStyle="vs02">file2.xml</verbatimText>:</emphasis>
+          <verbatimText verbatimStyle="vs11"><![CDATA[<content>
+<text>Hello world.</text>
+</content>]]></verbatimText>
+        </para>
+        <para>the xml-merge utility will merge them on the element <verbatimText verbatimStyle="vs12">content</verbatimText>:</para>
+        <para>
+          <verbatimText verbatimStyle="vs24"><![CDATA[$ xml-merge file1.xml file2.xml > merged.xml]]></verbatimText>
+        </para>
+        <para>to produce the merged file:</para>
+        <para>
+          <emphasis><verbatimText verbatimStyle="vs02">merged.xml</verbatimText>:</emphasis>
+          <verbatimText verbatimStyle="vs11"><![CDATA[<root>
+<metadata>...</metadata>
+<content>
+<text>Hello world.</text>
+</content>
+</root>]]></verbatimText>
+        </para>
+      </levelledPara>
+    </description>
+  </content>
+</dmodule>

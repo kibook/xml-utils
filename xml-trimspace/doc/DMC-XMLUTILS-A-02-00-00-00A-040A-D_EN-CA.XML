@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dmodule>
+<dmodule xmlns:dc="http://www.purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.s1000d.org/S1000D_4-2/xml_schema_flat/descript.xsd">
+  <identAndStatusSection>
+    <dmAddress>
+      <dmIdent>
+        <dmCode modelIdentCode="XMLUTILS" systemDiffCode="A" systemCode="02" subSystemCode="0" subSubSystemCode="0" assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="040" infoCodeVariant="A" itemLocationCode="D"/>
+        <language languageIsoCode="en" countryIsoCode="CA"/>
+        <issueInfo issueNumber="000" inWork="01"/>
+      </dmIdent>
+      <dmAddressItems>
+        <issueDate year="2018" month="01" day="22"/>
+        <dmTitle>
+          <techName>xml-trimspace(1)</techName>
+          <infoName>Description</infoName>
+        </dmTitle>
+      </dmAddressItems>
+    </dmAddress>
+    <dmStatus issueType="new">
+      <security securityClassification="01"/>
+      <responsiblePartnerCompany>
+        <enterpriseName>khzae.net</enterpriseName>
+      </responsiblePartnerCompany>
+      <originator>
+        <enterpriseName>khzae.net</enterpriseName>
+      </originator>
+      <applic>
+        <displayText>
+          <simplePara>All</simplePara>
+        </displayText>
+      </applic>
+      <brexDmRef>
+        <dmRef>
+          <dmRefIdent>
+            <dmCode modelIdentCode="S1000D" systemDiffCode="F" systemCode="04" subSystemCode="1" subSubSystemCode="0" assyCode="0301" disassyCode="00" disassyCodeVariant="A" infoCode="022" infoCodeVariant="A" itemLocationCode="D"/>
+          </dmRefIdent>
+        </dmRef>
+      </brexDmRef>
+      <qualityAssurance>
+        <unverified/>
+      </qualityAssurance>
+    </dmStatus>
+  </identAndStatusSection>
+  <content>
+    <description>
+      <levelledPara>
+        <title>General</title>
+        <para>The <emphasis>xml-trimspace</emphasis> utility trims whitespace around the text contents of specified elements.</para>
+      </levelledPara>
+      <levelledPara>
+        <title>Usage</title>
+        <para>
+          <verbatimText verbatimStyle="vs24">xml-trimspace [-N] [-n &lt;ns=URL&gt;] &lt;elem&gt;... &lt; &lt;src&gt; &gt; &lt;dst&gt;</verbatimText>
+        </para>
+      </levelledPara>
+      <levelledPara>
+        <title>Options</title>
+        <para>
+          <definitionList>
+            <definitionListItem>
+              <listItemTerm>-n &lt;ns=URL&gt;</listItemTerm>
+              <listItemDefinition>
+                <para>Registers an XML namespace handle for URL, which can then be used when specifying element names as options. Multiple namespaces can be registered by specifying this option multiple times.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>-N</listItemTerm>
+              <listItemDefinition>
+                <para>Normalize space in the specified elements in addition to trimming whitespace.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>&lt;elem&gt;</listItemTerm>
+              <listItemDefinition>
+                <para>Elements to trim space on. May include a namespace prefix if the namespace was registered with -n.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>&lt;src&gt;</listItemTerm>
+              <listItemDefinition>
+                <para>The source XML file containing the elements to trim.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>&lt;dst&gt;</listItemTerm>
+              <listItemDefinition>
+                <para>The output file.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>-h -?</listItemTerm>
+              <listItemDefinition>
+                <para>Show help/usage message.</para>
+              </listItemDefinition>
+            </definitionListItem>
+          </definitionList>
+        </para>
+      </levelledPara>
+      <levelledPara>
+        <title>Example</title>
+        <levelledPara>
+          <title>Without namespace</title>
+          <para>
+            <verbatimText verbatimStyle="vs11"><![CDATA[<section>
+  <para>
+    Hello world.
+  </para>
+</section>]]></verbatimText>
+            <verbatimText verbatimStyle="vs24">$ xml-trimspace para &lt; example.xml</verbatimText>
+            <verbatimText verbatimStyle="vs11"><![CDATA[<section>
+  <para>Hello world.</para>
+</section>]]></verbatimText>
+          </para>
+        </levelledPara>
+        <levelledPara>
+          <title>With namespace</title>
+          <para>
+            <verbatimText verbatimStyle="vs11"><![CDATA[<d:section>
+  <d:para>
+    Hello world.
+  </d:para>
+</d:section>]]></verbatimText>
+            <verbatimText verbatimStyle="vs24">$ xml-trimspace -n d=http://docbook.org/ns/docbook d:para &lt; example.xml</verbatimText>
+            <verbatimText verbatimStyle="vs11"><![CDATA[<d:section>
+  <d:para>Hello world.</d:para>
+</d:section>]]></verbatimText>
+          </para>
+        </levelledPara>
+        <levelledPara>
+          <title>Normalizing space</title>
+          <para>
+            <verbatimText verbatimStyle="vs11"><![CDATA[<section>
+  <para>
+    This is a long paragraph with both
+    extra whitespace before and after
+    the text, and line breaks entered
+    by the author to wrap the text on
+    a certain column.
+  </para>]]></verbatimText>
+            <verbatimText verbatimStyle="vs24">$ xml-trimspace -N para &lt; example.xml</verbatimText>
+            <verbatimText verbatimStyle="vs11"><![CDATA[<section>
+  <para>This is a long paragraph with both extra whitespace before
+and after the text, and line breaks entered by the author to wrap the
+text on a certain column.</para>
+</section>]]></verbatimText>
+          </para>
+        </levelledPara>
+      </levelledPara>
+    </description>
+  </content>
+</dmodule>
