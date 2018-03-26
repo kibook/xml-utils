@@ -26,9 +26,6 @@ The source XML file containing the elements to trim.
 &lt;dst&gt;  
 The output file.
 
--h -?  
-Show help/usage message.
-
 Example
 =======
 
