@@ -40,7 +40,7 @@ void trim(xmlNodePtr node, char *(*f)(char *, const char *)) {
 	char *content, *trimmed;
 
 	content = (char *) xmlNodeGetContent(node);
-	trimmed = calloc(strlen(content) + 1, sizeof(char));
+	trimmed = calloc(strlen(content) + 1, 1);
 	f(trimmed, content);
 	xmlFree(content);
 	content = (char *) xmlEncodeEntitiesReentrant(node->doc, BAD_CAST trimmed);
@@ -106,7 +106,6 @@ int main(int argc, char **argv)
 	xmlXPathContextPtr ctx = NULL;
 
 	doc = xmlReadFile("-", NULL, 0);
-	ctx = xmlXPathNewContext(doc);
 
 	while ((i = getopt(argc, argv, "n:N")) != -1)
 		switch (i) {
@@ -124,6 +123,7 @@ int main(int argc, char **argv)
 
 		snprintf(xpath, 256, "//%s", argv[i]);
 
+		ctx = xmlXPathNewContext(doc);
 		obj = xmlXPathEvalExpression(BAD_CAST xpath, ctx);
 
 		if (!xmlXPathNodeSetIsEmpty(obj->nodesetval)) {
@@ -131,13 +131,13 @@ int main(int argc, char **argv)
 		}
 		
 		xmlXPathFreeObject(obj);
+		xmlXPathFreeContext(ctx);
 
 		if (normalize) {
 			doc = normalizeElem(doc, argv[i]);
 		}
 	}
 
-	xmlXPathFreeContext(ctx);
 
 	xmlSaveFile("-", doc);
 
