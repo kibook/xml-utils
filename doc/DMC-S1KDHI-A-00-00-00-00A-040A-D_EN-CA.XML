@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dmodule>
+<dmodule xmlns:dc="http://www.purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.s1000d.org/S1000D_4-2/xml_schema_flat/descript.xsd">
+  <identAndStatusSection>
+    <dmAddress>
+      <dmIdent>
+        <dmCode modelIdentCode="S1KDHI" systemDiffCode="A" systemCode="00" subSystemCode="0" subSubSystemCode="0" assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="040" infoCodeVariant="A" itemLocationCode="D"/>
+        <language languageIsoCode="en" countryIsoCode="CA"/>
+        <issueInfo issueNumber="000" inWork="01"/>
+      </dmIdent>
+      <dmAddressItems>
+        <issueDate year="2018" month="04" day="06"/>
+        <dmTitle>
+          <techName>s1kd-highlight(1) | General Commands Manual</techName>
+        </dmTitle>
+      </dmAddressItems>
+    </dmAddress>
+    <dmStatus issueType="new">
+      <security securityClassification="01"/>
+      <responsiblePartnerCompany>
+        <enterpriseName>khzae.net</enterpriseName>
+      </responsiblePartnerCompany>
+      <originator>
+        <enterpriseName>khzae.net</enterpriseName>
+      </originator>
+      <applic>
+        <displayText>
+          <simplePara>All</simplePara>
+        </displayText>
+      </applic>
+      <brexDmRef>
+        <dmRef>
+          <dmRefIdent>
+            <dmCode modelIdentCode="S1000D" systemDiffCode="F" systemCode="04" subSystemCode="1" subSubSystemCode="0" assyCode="0301" disassyCode="00" disassyCodeVariant="A" infoCode="022" infoCodeVariant="A" itemLocationCode="D"/>
+          </dmRefIdent>
+        </dmRef>
+      </brexDmRef>
+      <qualityAssurance>
+        <unverified/>
+      </qualityAssurance>
+    </dmStatus>
+  </identAndStatusSection>
+  <content>
+    <description>
+      <levelledPara>
+        <title>NAME</title>
+        <para>s1kd-highlight - Syntax highlighting for S1000D verbatimText</para>
+      </levelledPara>
+      <levelledPara>
+        <title>SYNOPSIS</title>
+        <para>
+          <verbatimText verbatimStyle="vs24">s1kd-highlight [options] [&lt;dmodule&gt;...]</verbatimText>
+        </para>
+      </levelledPara>
+      <levelledPara>
+        <title>DESCRIPTION</title>
+        <para>The <emphasis>s1kd-highlight</emphasis> tool adds syntax highlighting to program listings in a data module. By default this is accomplished by wrapping detected syntax in XSL-FO inline elements with the proper namespace to allow a stylesheet to pass them through to the final FO processor. The actual elements used can be customized, however.</para>
+      </levelledPara>
+      <levelledPara>
+        <title>OPTIONS</title>
+        <para>
+          <definitionList>
+            <definitionListItem>
+              <listItemTerm>-f</listItemTerm>
+              <listItemDefinition>
+                <para>Overwrite input data module(s) instead of outputting to stdout.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>-h -?</listItemTerm>
+              <listItemDefinition>
+                <para>Show help/usage message.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>-l &lt;language&gt;</listItemTerm>
+              <listItemDefinition>
+                <para>Highlight syntax for &lt;language&gt; only.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>-s &lt;syntax&gt;</listItemTerm>
+              <listItemDefinition>
+                <para>Use a custom syntax definitions file.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>-v &lt;highlight&gt;</listItemTerm>
+              <listItemDefinition>
+                <para>&lt;highlight&gt; is an XML file which associates specific <verbatimText verbatimStyle="vs13">verbatimStyle</verbatimText> values with specific language names as defined in the syntax file.</para>
+              </listItemDefinition>
+            </definitionListItem>
+          </definitionList>
+        </para>
+      </levelledPara>
+      <levelledPara>
+        <title>SYNTAX FILE FORMAT</title>
+        <para>This following describes the format of the custom syntax file specified with -s.</para>
+        <levelledPara>
+          <title>Syntax</title>
+          <para><emphasis>Markup element:</emphasis> &lt;<verbatimText verbatimStyle="vs12">syntax</verbatimText>&gt;</para>
+          <para><emphasis>Attributes:</emphasis></para>
+          <para>
+            <randomList>
+              <listItem>
+                <para>None</para>
+              </listItem>
+            </randomList>
+          </para>
+          <para><emphasis>Child elements:</emphasis></para>
+          <para>
+            <randomList>
+              <listItem>
+                <para><verbatimText verbatimStyle="vs12">class</verbatimText></para>
+              </listItem>
+              <listItem>
+                <para><verbatimText verbatimStyle="vs12">language</verbatimText></para>
+              </listItem>
+            </randomList>
+          </para>
+        </levelledPara>
+        <levelledPara>
+          <title>Class</title>
+          <para>Represents a type of syntax and how it should be highlighted. This element can also occur within a particular <verbatimText verbatimStyle="vs12">language</verbatimText> element, in which case it is specific to that language.</para>
+          <para><emphasis>Markup element:</emphasis> &lt;<verbatimText verbatimStyle="vs12">class</verbatimText>&gt;</para>
+          <para><emphasis>Attributes:</emphasis></para>
+          <para>
+            <randomList>
+              <listItem>
+                <para><verbatimText verbatimStyle="vs13">id</verbatimText>, the identifier of the class.</para>
+              </listItem>
+            </randomList>
+          </para>
+          <para><emphasis>Child elements:</emphasis></para>
+          <para>The element <verbatimText verbatimStyle="vs12">class</verbatimText> contains one child element of any kind, which any matching syntax will be wrapped in to.</para>
+        </levelledPara>
+        <levelledPara>
+          <title>Language</title>
+          <para>Describes the syntax of a particular language.</para>
+          <para><emphasis>Markup element:</emphasis> &lt;<verbatimText verbatimStyle="vs12">language</verbatimText>&gt;</para>
+          <para><emphasis>Attributes:</emphasis></para>
+          <para>
+            <randomList>
+              <listItem>
+                <para><verbatimText verbatimStyle="vs13">name</verbatimText>, the identifier of the language.</para>
+              </listItem>
+            </randomList>
+          </para>
+          <para>
+            <emphasis>Child elements:</emphasis>
+          </para>
+          <para>
+            <randomList>
+              <listItem>
+                <para>&lt;<verbatimText verbatimStyle="vs12">class</verbatimText>&gt;</para>
+              </listItem>
+              <listItem>
+                <para>&lt;<verbatimText verbatimStyle="vs12">area</verbatimText>&gt;</para>
+              </listItem>
+              <listItem>
+                <para>&lt;<verbatimText verbatimStyle="vs12">keyword</verbatimText>&gt;</para>
+              </listItem>
+            </randomList>
+          </para>
+        </levelledPara>
+        <levelledPara>
+          <title>Area</title>
+          <para>Matches a section of delimited text, such as strings, comments, etc.</para>
+          <para><emphasis>Markup element:</emphasis> &lt;<verbatimText verbatimStyle="vs12">area</verbatimText>&gt;</para>
+          <para><emphasis>Attributes:</emphasis></para>
+          <para>
+            <randomList>
+              <listItem>
+                <para><verbatimText verbatimStyle="vs13">start</verbatimText>, the opening delimiter.</para>
+              </listItem>
+              <listItem>
+                <para><verbatimText verbatimStyle="vs13">end</verbatimText>, the closing delimiter.</para>
+              </listItem>
+              <listItem>
+                <para><verbatimText verbatimStyle="vs13">class</verbatimText>, reference to the <verbatimText verbatimStyle="vs12">class</verbatimText> element to use for this area.</para>
+              </listItem>
+            </randomList>
+          </para>
+          <para>
+            <emphasis>Child elements:</emphasis>
+          </para>
+          <para>If attribute <verbatimText verbatimStyle="vs13">class</verbatimText> is not used, this element can contain one element of any kind, in which the text matching the area will be wrapped.</para>
+        </levelledPara>
+        <levelledPara>
+          <title>Keyword</title>
+          <para>Matches a particular keyword.</para>
+          <para><emphasis>Markup element:</emphasis> &lt;<verbatimText verbatimStyle="vs12">keyword</verbatimText>&gt;</para>
+          <para><emphasis>Attributes:</emphasis></para>
+          <para>
+            <randomList>
+              <listItem>
+                <para><verbatimText verbatimStyle="vs13">match</verbatimText>, the keyword to match.</para>
+              </listItem>
+              <listItem>
+                <para><verbatimText verbatimStyle="vs13">class</verbatimText>, reference to the <verbatimText verbatimStyle="vs12">class</verbatimText> element to use for this keyword.</para>
+              </listItem>
+            </randomList>
+          </para>
+          <para>
+            <emphasis>Child elements:</emphasis>
+          </para>
+          <para>If attribute <verbatimText verbatimStyle="vs13">class</verbatimText> is not used, this element can contain one element of any kind, in which the text matching the keyword will be wrapped.</para>
+        </levelledPara>
+        <levelledPara>
+          <title>Example custom syntax file</title>
+          <para>
+            <verbatimText verbatimStyle="vs11"><![CDATA[<syntax xmlns:fo="http://www.w3.org/1999/XSL/Format">
+<class id="type">
+<fo:inline color="green"/>
+</class>
+<class id="control">
+<fo:inline color="blue"/>
+</class>
+<class id="string">
+<fo:inline color="red"/>
+</class>
+<class id="comment">
+<fo:inline color="pink"/>
+</class>
+<language name="c">
+<area start="&quot;" end="&quot;" class="string"/>
+<area start="/*" end="*/" class="comment"/>
+<keyword match="if" class="control"/>
+<keyword match="else" class="control"/>
+<keyword match="int" class="type"/>
+<keyword match="char" class="type"/>
+</language>
+</syntax>]]></verbatimText>
+          </para>
+        </levelledPara>
+      </levelledPara>
+      <levelledPara>
+        <title>HIGHLIGHT FILE FORMAT</title>
+        <para>The following describes the format of the custom highlight file specified with -v.</para>
+        <levelledPara>
+          <title>Highlight</title>
+          <para><emphasis>Markup element:</emphasis> &lt;<verbatimText verbatimStyle="vs12">highlight</verbatimText>&gt;</para>
+          <para><emphasis>Attributes:</emphasis></para>
+          <para>
+            <randomList>
+              <listItem>
+                <para>None</para>
+              </listItem>
+            </randomList>
+          </para>
+          <para><emphasis>Child element:</emphasis></para>
+          <para>
+            <randomList>
+              <listItem>
+                <para>&lt;<verbatimText verbatimStyle="vs12">verbatimText</verbatimText>&gt;</para>
+              </listItem>
+            </randomList>
+          </para>
+        </levelledPara>
+        <levelledPara>
+          <title>Verbatim text</title>
+          <para>Maps a style of verbatim text to a particular language.</para>
+          <para><emphasis>Markup element:</emphasis> &lt;<verbatimText verbatimStyle="vs12">verbatimText</verbatimText>&gt;</para>
+          <para><emphasis>Attributes:</emphasis></para>
+          <para>
+            <randomList>
+              <listItem>
+                <para><verbatimText verbatimStyle="vs13">verbatimStyle</verbatimText>, the style to match.</para>
+              </listItem>
+              <listItem>
+                <para><verbatimText verbatimStyle="vs13">language</verbatimText>, the language to use for this style.</para>
+              </listItem>
+            </randomList>
+          </para>
+        </levelledPara>
+        <levelledPara>
+          <title>Example custom highlight file</title>
+          <para>
+            <verbatimText verbatimStyle="vs11"><![CDATA[<highlight>
+<verbatimText verbatimStyle="vs51" language="c"/>
+<verbatimText verbatimStyle="vs52" language="pascal"/>
+</highlight>]]></verbatimText>
+          </para>
+        </levelledPara>
+      </levelledPara>
+    </description>
+  </content>
+</dmodule>
