@@ -6,6 +6,8 @@
 #include <libxml/xpath.h>
 #include "languages.h"
 
+#define PROG_NAME "s1kd-highlight"
+
 #define PRE_KEYWORD_DELIM " (\n"
 #define POST_KEYWORD_DELIM " .,);\n"
 
@@ -354,6 +356,14 @@ void highlight_syntax_in_file(const char *fname, const char *syntax,
 
 void show_help(void)
 {
+	puts("Usage: " PROG_NAME " [options] [<dmodule>...]");
+	puts("");
+	puts("Options:");
+	puts("  -h -?      Show usage message.");
+	puts("  -f         Overwrite input data modules.");
+	puts("  -l <lang>  Highlight a specific language only.");
+	puts("  -s <XML>   Use a custom syntax definitions XML file.");
+	puts("  -v <XML>   Use a custom highlight definitions XML file.");
 }
 
 int main(int argc, char **argv)
