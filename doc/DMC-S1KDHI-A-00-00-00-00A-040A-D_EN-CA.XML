@@ -6,10 +6,10 @@
       <dmIdent>
         <dmCode modelIdentCode="S1KDHI" systemDiffCode="A" systemCode="00" subSystemCode="0" subSubSystemCode="0" assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="040" infoCodeVariant="A" itemLocationCode="D"/>
         <language languageIsoCode="en" countryIsoCode="CA"/>
-        <issueInfo issueNumber="000" inWork="01"/>
+        <issueInfo issueNumber="001" inWork="00"/>
       </dmIdent>
       <dmAddressItems>
-        <issueDate year="2018" month="04" day="06"/>
+        <issueDate year="2018" month="04" day="10"/>
         <dmTitle>
           <techName>s1kd-highlight(1) | General Commands Manual</techName>
         </dmTitle>
@@ -38,6 +38,9 @@
       <qualityAssurance>
         <unverified/>
       </qualityAssurance>
+      <reasonForUpdate id="rfu-0001" updateReasonType="urt02">
+        <simplePara>Add option to specify classes separately from syntax.</simplePara>
+      </reasonForUpdate>
     </dmStatus>
   </identAndStatusSection>
   <content>
@@ -60,6 +63,12 @@
         <title>OPTIONS</title>
         <para>
           <definitionList>
+            <definitionListItem changeType="add" reasonForUpdateRefIds="rfu-0001">
+              <listItemTerm>-c &lt;classes&gt;</listItemTerm>
+              <listItemDefinition>
+                <para>Use a custom class definitions file.</para>
+              </listItemDefinition>
+            </definitionListItem>
             <definitionListItem>
               <listItemTerm>-f</listItemTerm>
               <listItemDefinition>
@@ -93,13 +102,15 @@
           </definitionList>
         </para>
       </levelledPara>
-      <levelledPara>
-        <title>SYNTAX FILE FORMAT</title>
-        <para>The following describes the format of the custom syntax file specified with -s.</para>
+      <levelledPara changeType="add" reasonForUpdateRefIds="rfu-0001">
+        <title>CLASS FILE FORMAT</title>
+        <para>The following describes the format of the custom class file specified with -c.</para>
         <levelledPara>
-          <title>Syntax</title>
-          <para><emphasis>Markup element:</emphasis> &lt;<verbatimText verbatimStyle="vs12">syntax</verbatimText>&gt;</para>
-          <para><emphasis>Attributes:</emphasis></para>
+          <title>Classes</title>
+          <para><emphasis>Markup element:</emphasis> &lt;<verbatimText verbatimStyle="vs12">classes</verbatimText>&gt;</para>
+          <para>
+            <emphasis>Attributes:</emphasis>
+          </para>
           <para>
             <randomList>
               <listItem>
@@ -107,23 +118,24 @@
               </listItem>
             </randomList>
           </para>
-          <para><emphasis>Child elements:</emphasis></para>
+          <para>
+            <emphasis>Child elements:</emphasis>
+          </para>
           <para>
             <randomList>
               <listItem>
-                <para><verbatimText verbatimStyle="vs12">class</verbatimText></para>
-              </listItem>
-              <listItem>
-                <para><verbatimText verbatimStyle="vs12">language</verbatimText></para>
+                <para>&lt;<verbatimText verbatimStyle="vs12">class</verbatimText>&gt;</para>
               </listItem>
             </randomList>
           </para>
         </levelledPara>
         <levelledPara>
           <title>Class</title>
-          <para>Represents a type of syntax and how it should be highlighted. This element can also occur within a particular <verbatimText verbatimStyle="vs12">language</verbatimText> element, in which case it is specific to that language.</para>
+          <para>Represents a type of syntax and how it should be highlighted. This element can also occur within the <verbatimText verbatimStyle="vs12">syntax</verbatimText> element or within a particular <verbatimText verbatimStyle="vs12">language</verbatimText> element, in which case it is specific to that language.</para>
           <para><emphasis>Markup element:</emphasis> &lt;<verbatimText verbatimStyle="vs12">class</verbatimText>&gt;</para>
-          <para><emphasis>Attributes:</emphasis></para>
+          <para>
+            <emphasis>Attributes:</emphasis>
+          </para>
           <para>
             <randomList>
               <listItem>
@@ -131,14 +143,72 @@
               </listItem>
             </randomList>
           </para>
-          <para><emphasis>Child elements:</emphasis></para>
+          <para>
+            <emphasis>Child elements:</emphasis>
+          </para>
           <para>The element <verbatimText verbatimStyle="vs12">class</verbatimText> contains one child element of any kind, which any matching syntax will be wrapped in to.</para>
+        </levelledPara>
+        <levelledPara>
+          <title>Example custom classes file</title>
+          <para>
+            <verbatimText verbatimStyle="vs11"><![CDATA[<classes xmlns:fo="http://www.w3.org/1999/XSL/Format">
+<class id="type">
+<fo:inline color="green"/>
+</class>
+<class id="control">
+<fo:inline color="blue"/>
+</class>
+<class id="string">
+<fo:inline color="red"/>
+</class>
+<class id="comment">
+<fo:inline color="pink"/>
+</class>
+</classes>]]></verbatimText>
+          </para>
+        </levelledPara>
+      </levelledPara>
+      <levelledPara>
+        <title>SYNTAX FILE FORMAT</title>
+        <para>The following describes the format of the custom syntax file specified with -s.</para>
+        <levelledPara>
+          <title>Syntax</title>
+          <para><emphasis>Markup element:</emphasis> &lt;<verbatimText verbatimStyle="vs12">syntax</verbatimText>&gt;</para>
+          <para>
+            <emphasis>Attributes:</emphasis>
+          </para>
+          <para>
+            <randomList>
+              <listItem>
+                <para>None</para>
+              </listItem>
+            </randomList>
+          </para>
+          <para>
+            <emphasis>Child elements:</emphasis>
+          </para>
+          <para>
+            <randomList>
+              <listItem>
+                <para>
+                  <verbatimText verbatimStyle="vs12">class</verbatimText>
+                </para>
+              </listItem>
+              <listItem>
+                <para>
+                  <verbatimText verbatimStyle="vs12">language</verbatimText>
+                </para>
+              </listItem>
+            </randomList>
+          </para>
         </levelledPara>
         <levelledPara>
           <title>Language</title>
           <para>Describes the syntax of a particular language.</para>
           <para><emphasis>Markup element:</emphasis> &lt;<verbatimText verbatimStyle="vs12">language</verbatimText>&gt;</para>
-          <para><emphasis>Attributes:</emphasis></para>
+          <para>
+            <emphasis>Attributes:</emphasis>
+          </para>
           <para>
             <randomList>
               <listItem>
@@ -167,7 +237,9 @@
           <title>Area</title>
           <para>Matches a section of delimited text, such as strings, comments, etc.</para>
           <para><emphasis>Markup element:</emphasis> &lt;<verbatimText verbatimStyle="vs12">area</verbatimText>&gt;</para>
-          <para><emphasis>Attributes:</emphasis></para>
+          <para>
+            <emphasis>Attributes:</emphasis>
+          </para>
           <para>
             <randomList>
               <listItem>
@@ -190,7 +262,9 @@
           <title>Keyword</title>
           <para>Matches a particular keyword.</para>
           <para><emphasis>Markup element:</emphasis> &lt;<verbatimText verbatimStyle="vs12">keyword</verbatimText>&gt;</para>
-          <para><emphasis>Attributes:</emphasis></para>
+          <para>
+            <emphasis>Attributes:</emphasis>
+          </para>
           <para>
             <randomList>
               <listItem>
@@ -209,19 +283,7 @@
         <levelledPara>
           <title>Example custom syntax file</title>
           <para>
-            <verbatimText verbatimStyle="vs11"><![CDATA[<syntax xmlns:fo="http://www.w3.org/1999/XSL/Format">
-<class id="type">
-<fo:inline color="green"/>
-</class>
-<class id="control">
-<fo:inline color="blue"/>
-</class>
-<class id="string">
-<fo:inline color="red"/>
-</class>
-<class id="comment">
-<fo:inline color="pink"/>
-</class>
+            <verbatimText verbatimStyle="vs11"><![CDATA[<syntax>
 <language name="c">
 <area start="&quot;" end="&quot;" class="string"/>
 <area start="/*" end="*/" class="comment"/>
@@ -240,7 +302,9 @@
         <levelledPara>
           <title>Highlight</title>
           <para><emphasis>Markup element:</emphasis> &lt;<verbatimText verbatimStyle="vs12">highlight</verbatimText>&gt;</para>
-          <para><emphasis>Attributes:</emphasis></para>
+          <para>
+            <emphasis>Attributes:</emphasis>
+          </para>
           <para>
             <randomList>
               <listItem>
@@ -248,7 +312,9 @@
               </listItem>
             </randomList>
           </para>
-          <para><emphasis>Child element:</emphasis></para>
+          <para>
+            <emphasis>Child element:</emphasis>
+          </para>
           <para>
             <randomList>
               <listItem>
@@ -261,7 +327,9 @@
           <title>Verbatim text</title>
           <para>Maps a style of verbatim text to a particular language.</para>
           <para><emphasis>Markup element:</emphasis> &lt;<verbatimText verbatimStyle="vs12">verbatimText</verbatimText>&gt;</para>
-          <para><emphasis>Attributes:</emphasis></para>
+          <para>
+            <emphasis>Attributes:</emphasis>
+          </para>
           <para>
             <randomList>
               <listItem>

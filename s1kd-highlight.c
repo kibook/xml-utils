@@ -189,7 +189,23 @@ void highlight_area_in_doc(xmlDocPtr doc, const xmlChar *vs, const xmlChar *star
 	xmlXPathFreeContext(ctx);
 }
 
-void highlight_keyword_node_in_doc(xmlDocPtr doc, xmlDocPtr syntax, const xmlChar *vs, xmlNodePtr node)
+xmlNodePtr get_class(const xmlChar *class, xmlDocPtr classes, xmlDocPtr syntax)
+{
+	xmlNodePtr node;
+	xmlChar xpath[256];
+
+	xmlStrPrintf(xpath, 256, "//class[@id='%s']", class);
+
+	node = first_xpath_node(classes, NULL, xpath);
+
+	if (!node) {
+		node = first_xpath_node(syntax, NULL, xpath);
+	}
+
+	return node;
+}
+
+void highlight_keyword_node_in_doc(xmlDocPtr doc, xmlDocPtr syntax, xmlDocPtr classes, const xmlChar *vs, xmlNodePtr node)
 {
 	xmlChar *keyword, *class;
 	xmlNodePtr tag;
@@ -198,20 +214,20 @@ void highlight_keyword_node_in_doc(xmlDocPtr doc, xmlDocPtr syntax, const xmlCha
 	class   = xmlGetProp(node, BAD_CAST "class");
 
 	if (class) {
-		xmlChar xpath[256];
-		xmlStrPrintf(xpath, 256, "//class[@id='%s']", class);
-		tag = xmlFirstElementChild(first_xpath_node(syntax, NULL, xpath));
+		tag = xmlFirstElementChild(get_class(class, classes, syntax));
 	} else {
 		tag = xmlFirstElementChild(node);
 	}
 
-	highlight_keyword_in_doc(doc, vs, keyword, tag);
+	if (tag) {
+		highlight_keyword_in_doc(doc, vs, keyword, tag);
+	}
 
 	xmlFree(keyword);
 	xmlFree(class);
 }
 
-void highlight_area_node_in_doc(xmlDocPtr doc, xmlDocPtr syntax, const xmlChar *vs, xmlNodePtr node)
+void highlight_area_node_in_doc(xmlDocPtr doc, xmlDocPtr syntax, xmlDocPtr classes, const xmlChar *vs, xmlNodePtr node)
 {
 	xmlChar *start, *end, *class;
 	xmlNodePtr tag;
@@ -221,14 +237,14 @@ void highlight_area_node_in_doc(xmlDocPtr doc, xmlDocPtr syntax, const xmlChar *
 	class = xmlGetProp(node, BAD_CAST "class");
 
 	if (class) {
-		xmlChar xpath[256];
-		xmlStrPrintf(xpath, 256, "//class[@id='%s']", class);
-		tag = xmlFirstElementChild(first_xpath_node(syntax, NULL, xpath));
+		tag = xmlFirstElementChild(get_class(class, classes, syntax));
 	} else {
 		tag = xmlFirstElementChild(node);
 	}
 
-	highlight_area_in_doc(doc, vs, start, end, tag);
+	if (tag) {
+		highlight_area_in_doc(doc, vs, start, end, tag);
+	}
 
 	xmlFree(start);
 	xmlFree(end);
@@ -236,7 +252,7 @@ void highlight_area_node_in_doc(xmlDocPtr doc, xmlDocPtr syntax, const xmlChar *
 }
 
 void highlight_language_in_doc(xmlDocPtr doc, xmlDocPtr syntax, xmlDocPtr high,
-	xmlNodePtr language)
+	xmlDocPtr classes, xmlNodePtr language)
 {
 	xmlXPathContextPtr ctx;
 	xmlXPathObjectPtr obj;
@@ -271,7 +287,7 @@ void highlight_language_in_doc(xmlDocPtr doc, xmlDocPtr syntax, xmlDocPtr high,
 	if (!xmlXPathNodeSetIsEmpty(obj->nodesetval)) {
 		int i;
 		for (i = 0; i < obj->nodesetval->nodeNr; ++i) {
-			highlight_area_node_in_doc(doc, syntax, vs, obj->nodesetval->nodeTab[i]);
+			highlight_area_node_in_doc(doc, syntax, classes, vs, obj->nodesetval->nodeTab[i]);
 		}
 	}
 
@@ -282,7 +298,7 @@ void highlight_language_in_doc(xmlDocPtr doc, xmlDocPtr syntax, xmlDocPtr high,
 	if (!xmlXPathNodeSetIsEmpty(obj->nodesetval)) {
 		int i;
 		for (i = 0; i < obj->nodesetval->nodeNr; ++i) {
-			highlight_keyword_node_in_doc(doc, syntax, vs, obj->nodesetval->nodeTab[i]);
+			highlight_keyword_node_in_doc(doc, syntax, classes, vs, obj->nodesetval->nodeTab[i]);
 		}
 	}
 
@@ -292,7 +308,7 @@ void highlight_language_in_doc(xmlDocPtr doc, xmlDocPtr syntax, xmlDocPtr high,
 	xmlXPathFreeContext(ctx);
 }
 
-void highlight_syntax_in_doc(xmlDocPtr doc, xmlDocPtr syntax, xmlDocPtr high, const char *lang)
+void highlight_syntax_in_doc(xmlDocPtr doc, xmlDocPtr syntax, xmlDocPtr high, xmlDocPtr classes, const char *lang)
 {
 	xmlXPathContextPtr ctx;
 	xmlXPathObjectPtr obj;
@@ -311,7 +327,7 @@ void highlight_syntax_in_doc(xmlDocPtr doc, xmlDocPtr syntax, xmlDocPtr high, co
 	if (!xmlXPathNodeSetIsEmpty(obj->nodesetval)) {
 		int i;
 		for (i = 0; i < obj->nodesetval->nodeNr; ++i) {
-			highlight_language_in_doc(doc, syntax, high, obj->nodesetval->nodeTab[i]);
+			highlight_language_in_doc(doc, syntax, high, classes, obj->nodesetval->nodeTab[i]);
 		}
 	}
 
@@ -320,11 +336,12 @@ void highlight_syntax_in_doc(xmlDocPtr doc, xmlDocPtr syntax, xmlDocPtr high, co
 }
 
 void highlight_syntax_in_file(const char *fname, const char *syntax,
-	const char *lang, const char *high, bool overwrite)
+	const char *lang, const char *high, const char *classes, bool overwrite)
 {
 	xmlDocPtr doc;
 	xmlDocPtr syndoc;
 	xmlDocPtr highdoc;
+	xmlDocPtr classdoc;
 
 	if (syntax) {
 		syndoc = xmlReadFile(syntax, NULL, 0);
@@ -339,9 +356,16 @@ void highlight_syntax_in_file(const char *fname, const char *syntax,
 			highlight_xml_len, NULL, NULL, 0);
 	}
 
+	if (classes) {
+		classdoc = xmlReadFile(classes, NULL, 0);
+	} else {
+		classdoc = xmlReadMemory((const char *) classes_xml,
+			classes_xml_len, NULL, NULL, 0);
+	}
+
 	doc = xmlReadFile(fname, NULL, 0);
 
-	highlight_syntax_in_doc(doc, syndoc, highdoc, lang);
+	highlight_syntax_in_doc(doc, syndoc, highdoc, classdoc, lang);
 
 	if (overwrite) {
 		xmlSaveFile(fname, doc);
@@ -352,6 +376,7 @@ void highlight_syntax_in_file(const char *fname, const char *syntax,
 	xmlFreeDoc(doc);
 	xmlFreeDoc(syndoc);
 	xmlFreeDoc(highdoc);
+	xmlFreeDoc(classdoc);
 }
 
 void show_help(void)
@@ -360,6 +385,7 @@ void show_help(void)
 	puts("");
 	puts("Options:");
 	puts("  -h -?      Show usage message.");
+	puts("  -c <XML>   Use a custom classes XML file.");
 	puts("  -f         Overwrite input data modules.");
 	puts("  -l <lang>  Highlight a specific language only.");
 	puts("  -s <XML>   Use a custom syntax definitions XML file.");
@@ -373,20 +399,28 @@ int main(int argc, char **argv)
 	char *syntax = NULL;
 	char *lang = NULL;
 	char *high = NULL;
+	char *classes = NULL;
 
-	while ((i = getopt(argc, argv, "fl:s:v:h?")) != -1) {
+	while ((i = getopt(argc, argv, "c:fl:s:v:h?")) != -1) {
 		switch (i) {
+			case 'c':
+				if (!classes)
+					classes = strdup(optarg);
+				break;
 			case 'f':
 				overwrite = true;
 				break;
 			case 'l':
-				if (!lang) lang = strdup(optarg);
+				if (!lang)
+					lang = strdup(optarg);
 				break;
 			case 's':
-				if (!syntax) syntax = strdup(optarg);
+				if (!syntax)
+					syntax = strdup(optarg);
 				break;
 			case 'v':
-				if (!high) high = strdup(optarg);
+				if (!high)
+					high = strdup(optarg);
 				break;
 			case 'h':
 			case '?':
@@ -396,12 +430,17 @@ int main(int argc, char **argv)
 	}
 
 	if (optind >= argc) {
-		highlight_syntax_in_file("-", syntax, lang, high, false);
+		highlight_syntax_in_file("-", syntax, lang, high, classes, false);
 	} else {
 		for (i = optind; i < argc; ++i) {
-			highlight_syntax_in_file(argv[i], syntax, lang, high, overwrite);
+			highlight_syntax_in_file(argv[i], syntax, lang, high, classes, overwrite);
 		}
 	}
+
+	free(syntax);
+	free(lang);
+	free(high);
+	free(classes);
 
 	return 0;
 }

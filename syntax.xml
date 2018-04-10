@@ -1,19 +1,5 @@
-<syntax xmlns:fo="http://www.w3.org/1999/XSL/Format">
-  <class id="type">
-    <fo:inline color="green"/>
-  </class>
-  <class id="modifier">
-    <fo:inline color="teal"/>
-  </class>
-  <class id="control">
-    <fo:inline color="violet"/>
-  </class>
-  <class id="literal">
-    <fo:inline color="red"/>
-  </class>
-  <class id="comment">
-    <fo:inline color="blue"/>
-  </class>
+<?xml version="1.0"?>
+<syntax>
   <language name="c">
     <keyword match="auto" class="modifier"/>
     <keyword match="break" class="control"/>
@@ -50,7 +36,7 @@
     <keyword match="volatile" class="modifier"/>
     <keyword match="while" class="control"/>
     <area start="&quot;" end="&quot;" class="literal"/>
-    <area start="&apos;" end="&apos;" class="literal"/>
+    <area start="'" end="'" class="literal"/>
     <area start="/*" end="*/" class="comment"/>
     <area start="//" end="&#10;" class="comment"/>
   </language>
@@ -119,7 +105,7 @@
     <keyword match="while" class="control"/>
     <keyword match="with" class="control"/>
     <area start="&quot;" end="&quot;" class="literal"/>
-    <area start="&apos;" end="&apos;" class="literal"/>
+    <area start="'" end="'" class="literal"/>
     <area start="/*" end="*/" class="comment"/>
     <area start="//" end="&#10;" class="comment"/>
   </language>
@@ -159,7 +145,7 @@
     <keyword match="var" class="control"/>
     <keyword match="while" class="control"/>
     <keyword match="with" class="control"/>
-    <area start="&apos;" end="&apos;" class="literal"/>
+    <area start="'" end="'" class="literal"/>
     <area start="{" end="}" class="comment"/>
     <area start="(*" end="*)" class="comment"/>
   </language>

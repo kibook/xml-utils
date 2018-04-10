@@ -16,6 +16,9 @@ The *s1kd-highlight* tool adds syntax highlighting to program listings in a data
 OPTIONS
 =======
 
+-c &lt;classes&gt;  
+Use a custom class definitions file.
+
 -f  
 Overwrite input data module(s) instead of outputting to stdout.
 
@@ -30,6 +33,57 @@ Use a custom syntax definitions file.
 
 -v &lt;highlight&gt;  
 &lt;highlight&gt; is an XML file which associates specific `verbatimStyle` values with specific language names as defined in the syntax file.
+
+CLASS FILE FORMAT
+=================
+
+The following describes the format of the custom class file specified with -c.
+
+Classes
+-------
+
+*Markup element:* &lt;`classes`&gt;
+
+*Attributes:*
+
+-   None
+
+*Child elements:*
+
+-   &lt;`class`&gt;
+
+Class
+-----
+
+Represents a type of syntax and how it should be highlighted. This element can also occur within the `syntax` element or within a particular `language` element, in which case it is specific to that language.
+
+*Markup element:* &lt;`class`&gt;
+
+*Attributes:*
+
+-   `id`, the identifier of the class.
+
+*Child elements:*
+
+The element `class` contains one child element of any kind, which any matching syntax will be wrapped in to.
+
+Example custom classes file
+---------------------------
+
+    <classes xmlns:fo="http://www.w3.org/1999/XSL/Format">
+    <class id="type">
+    <fo:inline color="green"/>
+    </class>
+    <class id="control">
+    <fo:inline color="blue"/>
+    </class>
+    <class id="string">
+    <fo:inline color="red"/>
+    </class>
+    <class id="comment">
+    <fo:inline color="pink"/>
+    </class>
+    </classes>
 
 SYNTAX FILE FORMAT
 ==================
@@ -50,21 +104,6 @@ Syntax
 -   `class`
 
 -   `language`
-
-Class
------
-
-Represents a type of syntax and how it should be highlighted. This element can also occur within a particular `language` element, in which case it is specific to that language.
-
-*Markup element:* &lt;`class`&gt;
-
-*Attributes:*
-
--   `id`, the identifier of the class.
-
-*Child elements:*
-
-The element `class` contains one child element of any kind, which any matching syntax will be wrapped in to.
 
 Language
 --------
@@ -124,19 +163,7 @@ If attribute `class` is not used, this element can contain one element of any ki
 Example custom syntax file
 --------------------------
 
-    <syntax xmlns:fo="http://www.w3.org/1999/XSL/Format">
-    <class id="type">
-    <fo:inline color="green"/>
-    </class>
-    <class id="control">
-    <fo:inline color="blue"/>
-    </class>
-    <class id="string">
-    <fo:inline color="red"/>
-    </class>
-    <class id="comment">
-    <fo:inline color="pink"/>
-    </class>
+    <syntax>
     <language name="c">
     <area start="&quot;" end="&quot;" class="string"/>
     <area start="/*" end="*/" class="comment"/>

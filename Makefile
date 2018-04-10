@@ -12,8 +12,9 @@ all: $(OUTPUT)
 $(OUTPUT): $(SOURCE) languages.h
 	$(CC) $(CFLAGS) -o $(OUTPUT) $(SOURCE) $(LDFLAGS)
 
-languages.h: syntax.xml highlight.xml
-	xxd -i syntax.xml > languages.h
+languages.h: syntax.xml highlight.xml classes.xml
+	xxd -i classes.xml > languages.h
+	xxd -i syntax.xml >> languages.h
 	xxd -i highlight.xml >> languages.h
 
 install: $(OUTPUT)
