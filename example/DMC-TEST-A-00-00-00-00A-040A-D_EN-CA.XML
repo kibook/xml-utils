@@ -75,6 +75,14 @@ begin
 end.</verbatimText>
         </para>
       </levelledPara>
+      <levelledPara>
+        <title>XML</title>
+        <para>
+          <verbatimText verbatimStyle="vs11"><?language xml?><![CDATA[<root>
+  <message>Hello, world!</message>
+</root>]]></verbatimText>
+        </para>
+      </levelledPara>
     </description>
   </content>
 </dmodule>
