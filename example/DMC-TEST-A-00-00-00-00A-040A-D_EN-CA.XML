@@ -38,13 +38,33 @@
   </identAndStatusSection>
   <content>
     <description>
-      <para>
-        <verbatimText verbatimStyle="vs24">int main(int argc, char **argv)
+      <levelledPara>
+        <title>C</title>
+        <para>
+          <verbatimText verbatimStyle="vs24"><?language c?>int main(int argc, char **argv)
 {
-  puts("Hello, world!");
-  return 0;
+    puts("Hello, world!");
+    return 0;
 }</verbatimText>
-      </para>
+        </para>
+      </levelledPara>
+      <levelledPara>
+        <title>Javascript</title>
+        <para>
+          <verbatimText verbatimStyle="vs24"><?language javascript?>function hello() {
+    console.log('Hello, world!');
+}</verbatimText>
+        </para>
+      </levelledPara>
+      <levelledPara>
+        <title>Pascal</title>
+        <para>
+          <verbatimText verbatimStyle="vs24"><?language pascal?>program hello;
+begin
+  writeln('Hello, world!')
+end.</verbatimText>
+        </para>
+      </levelledPara>
     </description>
   </content>
 </dmodule>

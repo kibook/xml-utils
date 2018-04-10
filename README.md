@@ -13,6 +13,8 @@ DESCRIPTION
 
 The *s1kd-highlight* tool adds syntax highlighting to program listings in a data module. By default this is accomplished by wrapping detected syntax in XSL-FO inline elements with the proper namespace to allow a stylesheet to pass them through to the final FO processor. The actual elements used can be customized, however.
 
+To enable highlighting on a verbatim text element, include the processing instruction `<?language ...?>` in the element, where `...` is the name of the language.
+
 OPTIONS
 =======
 
@@ -30,9 +32,6 @@ Highlight syntax for &lt;language&gt; only.
 
 -s &lt;syntax&gt;  
 Use a custom syntax definitions file.
-
--v &lt;highlight&gt;  
-&lt;highlight&gt; is an XML file which associates specific `verbatimStyle` values with specific language names as defined in the syntax file.
 
 CLASS FILE FORMAT
 =================
@@ -173,42 +172,3 @@ Example custom syntax file
     <keyword match="char" class="type"/>
     </language>
     </syntax>
-
-HIGHLIGHT FILE FORMAT
-=====================
-
-The following describes the format of the custom highlight file specified with -v.
-
-Highlight
----------
-
-*Markup element:* &lt;`highlight`&gt;
-
-*Attributes:*
-
--   None
-
-*Child element:*
-
--   &lt;`verbatimText`&gt;
-
-Verbatim text
--------------
-
-Maps a style of verbatim text to a particular language.
-
-*Markup element:* &lt;`verbatimText`&gt;
-
-*Attributes:*
-
--   `verbatimStyle`, the style to match.
-
--   `language`, the language to use for this style.
-
-Example custom highlight file
------------------------------
-
-    <highlight>
-    <verbatimText verbatimStyle="vs51" language="c"/>
-    <verbatimText verbatimStyle="vs52" language="pascal"/>
-    </highlight>

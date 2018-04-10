@@ -41,6 +41,9 @@
       <reasonForUpdate id="rfu-0001" updateReasonType="urt02">
         <simplePara>Add option to specify classes separately from syntax.</simplePara>
       </reasonForUpdate>
+      <reasonForUpdate id="rfu-0002" updateReasonType="urt02">
+        <simplePara>Use PI method for specifying syntax.</simplePara>
+      </reasonForUpdate>
     </dmStatus>
   </identAndStatusSection>
   <content>
@@ -58,6 +61,7 @@
       <levelledPara>
         <title>DESCRIPTION</title>
         <para>The <emphasis>s1kd-highlight</emphasis> tool adds syntax highlighting to program listings in a data module. By default this is accomplished by wrapping detected syntax in XSL-FO inline elements with the proper namespace to allow a stylesheet to pass them through to the final FO processor. The actual elements used can be customized, however.</para>
+        <para changeType="add" reasonForUpdateRefIds="rfu-0002">To enable highlighting on a verbatim text element, include the processing instruction <verbatimText>&lt;?language ...?&gt;</verbatimText> in the element, where <verbatimText>...</verbatimText> is the name of the language.</para>
       </levelledPara>
       <levelledPara>
         <title>OPTIONS</title>
@@ -82,21 +86,9 @@
               </listItemDefinition>
             </definitionListItem>
             <definitionListItem>
-              <listItemTerm>-l &lt;language&gt;</listItemTerm>
-              <listItemDefinition>
-                <para>Highlight syntax for &lt;language&gt; only.</para>
-              </listItemDefinition>
-            </definitionListItem>
-            <definitionListItem>
               <listItemTerm>-s &lt;syntax&gt;</listItemTerm>
               <listItemDefinition>
                 <para>Use a custom syntax definitions file.</para>
-              </listItemDefinition>
-            </definitionListItem>
-            <definitionListItem>
-              <listItemTerm>-v &lt;highlight&gt;</listItemTerm>
-              <listItemDefinition>
-                <para>&lt;highlight&gt; is an XML file which associates specific <verbatimText verbatimStyle="vs13">verbatimStyle</verbatimText> values with specific language names as defined in the syntax file.</para>
               </listItemDefinition>
             </definitionListItem>
           </definitionList>
@@ -293,61 +285,6 @@
 <keyword match="char" class="type"/>
 </language>
 </syntax>]]></verbatimText>
-          </para>
-        </levelledPara>
-      </levelledPara>
-      <levelledPara>
-        <title>HIGHLIGHT FILE FORMAT</title>
-        <para>The following describes the format of the custom highlight file specified with -v.</para>
-        <levelledPara>
-          <title>Highlight</title>
-          <para><emphasis>Markup element:</emphasis> &lt;<verbatimText verbatimStyle="vs12">highlight</verbatimText>&gt;</para>
-          <para>
-            <emphasis>Attributes:</emphasis>
-          </para>
-          <para>
-            <randomList>
-              <listItem>
-                <para>None</para>
-              </listItem>
-            </randomList>
-          </para>
-          <para>
-            <emphasis>Child element:</emphasis>
-          </para>
-          <para>
-            <randomList>
-              <listItem>
-                <para>&lt;<verbatimText verbatimStyle="vs12">verbatimText</verbatimText>&gt;</para>
-              </listItem>
-            </randomList>
-          </para>
-        </levelledPara>
-        <levelledPara>
-          <title>Verbatim text</title>
-          <para>Maps a style of verbatim text to a particular language.</para>
-          <para><emphasis>Markup element:</emphasis> &lt;<verbatimText verbatimStyle="vs12">verbatimText</verbatimText>&gt;</para>
-          <para>
-            <emphasis>Attributes:</emphasis>
-          </para>
-          <para>
-            <randomList>
-              <listItem>
-                <para><verbatimText verbatimStyle="vs13">verbatimStyle</verbatimText>, the style to match.</para>
-              </listItem>
-              <listItem>
-                <para><verbatimText verbatimStyle="vs13">language</verbatimText>, the language to use for this style.</para>
-              </listItem>
-            </randomList>
-          </para>
-        </levelledPara>
-        <levelledPara>
-          <title>Example custom highlight file</title>
-          <para>
-            <verbatimText verbatimStyle="vs11"><![CDATA[<highlight>
-<verbatimText verbatimStyle="vs51" language="c"/>
-<verbatimText verbatimStyle="vs52" language="pascal"/>
-</highlight>]]></verbatimText>
           </para>
         </levelledPara>
       </levelledPara>
