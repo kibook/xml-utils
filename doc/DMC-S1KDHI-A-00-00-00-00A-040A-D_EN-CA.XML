@@ -95,7 +95,7 @@
       </levelledPara>
       <levelledPara>
         <title>SYNTAX FILE FORMAT</title>
-        <para>This following describes the format of the custom syntax file specified with -s.</para>
+        <para>The following describes the format of the custom syntax file specified with -s.</para>
         <levelledPara>
           <title>Syntax</title>
           <para><emphasis>Markup element:</emphasis> &lt;<verbatimText verbatimStyle="vs12">syntax</verbatimText>&gt;</para>

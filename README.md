@@ -34,7 +34,7 @@ Use a custom syntax definitions file.
 SYNTAX FILE FORMAT
 ==================
 
-This following describes the format of the custom syntax file specified with -s.
+The following describes the format of the custom syntax file specified with -s.
 
 Syntax
 ------
