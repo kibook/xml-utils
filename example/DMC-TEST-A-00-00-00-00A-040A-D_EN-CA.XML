@@ -83,6 +83,18 @@ end.</verbatimText>
 </root>]]></verbatimText>
         </para>
       </levelledPara>
+      <levelledPara>
+        <title>XSL</title>
+        <para>
+          <verbatimText verbatimStyle="vs11"><?language xsl?><![CDATA[<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+  <xsl:template match="root">
+    <msg>
+      <xsl:value-of select="message"/>
+    </msg>
+  </xsl:template>
+</xsl:stylesheet>]]></verbatimText>
+        </para>
+      </levelledPara>
     </description>
   </content>
 </dmodule>

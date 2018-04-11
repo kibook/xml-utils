@@ -97,13 +97,14 @@ void highlight_keyword_in_node(xmlNodePtr node, const xmlChar *keyword, xmlNodeP
 void highlight_area_in_node(xmlNodePtr node, const xmlChar *start, const xmlChar *end, xmlNodePtr tag)
 {
 	xmlChar *content;
-	int i, n;
+	int i, slen, elen;
 
 	content = xmlNodeGetContent(node);
-	n = xmlStrlen(start);
+	slen = xmlStrlen(start);
+	elen = xmlStrlen(end);
 
 	for (i = 0; content[i]; ++i) {
-		if (xmlStrncmp(content + i, start, n) == 0) {
+		if (xmlStrncmp(content + i, start, slen) == 0) {
 			const xmlChar *e;
 			int len;
 
@@ -111,7 +112,7 @@ void highlight_area_in_node(xmlNodePtr node, const xmlChar *start, const xmlChar
 				xmlChar *s1, *s2, *s3;
 				xmlNodePtr elem;
 
-				len = e - (content + i) + n;
+				len = e - (content + i) + elen;
 
 				s1 = xmlStrndup(content, i);
 				s2 = xmlStrndup(content + i, len);

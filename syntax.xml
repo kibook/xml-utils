@@ -209,7 +209,13 @@
     <keyword match="with" class="control"/>
   </language>
   <language name="xml">
-    <area start="&lt;" end="&gt;" class="modifier"/>
     <area start="&lt;!--" end="--&gt;" class="comment"/>
+    <area start="&lt;" end="&gt;" class="modifier"/>
+  </language>
+  <language name="xsl">
+    <area start="&lt;!--" end="--&gt;" class="comment"/>
+    <area start="&lt;xsl:" end="&gt;" class="control"/>
+    <area start="&lt;/xsl:" end="&gt;" class="control"/>
+    <area start="&lt;" end="&gt;" class="modifier"/>
   </language>
 </syntax>
