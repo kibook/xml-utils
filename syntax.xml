@@ -241,6 +241,46 @@
     <keyword match="try" class="control"/>
     <keyword match="while" class="control"/>
   </language>
+  <language name="rust">
+    <area start="/*" end="*/" class="comment"/>
+    <area start="//" end="&#10;" class="comment"/>
+    <area start="&quot;" end="&quot;" class="literal"/>
+    <area start="&apos;" end="&apos;" class="literal"/>
+    <keyword match="as" class="control"/>
+    <keyword match="break" class="control"/>
+    <keyword match="const" class="modifier"/>
+    <keyword match="continue" class="control"/>
+    <keyword match="crate" class="type"/>
+    <keyword match="else" class="control"/>
+    <keyword match="enum" class="type"/>
+    <keyword match="false" class="literal"/>
+    <keyword match="fn" class="type"/>
+    <keyword match="for" class="control"/>
+    <keyword match="if" class="control"/>
+    <keyword match="impl" class="modifier"/>
+    <keyword match="in" class="control"/>
+    <keyword match="let" class="control"/>
+    <keyword match="loop" class="control"/>
+    <keyword match="match" class="control"/>
+    <keyword match="mod" class="type"/>
+    <keyword match="move" class="control"/>
+    <keyword match="mut" class="modifier"/>
+    <keyword match="pub" class="modifier"/>
+    <keyword match="ref" class="modifier"/>
+    <keyword match="return" class="control"/>
+    <keyword match="Self" class="type"/>
+    <keyword match="self" class="type"/>
+    <keyword match="static" class="modifier"/>
+    <keyword match="struct" class="type"/>
+    <keyword match="super" class="type"/>
+    <keyword match="trait" class="type"/>
+    <keyword match="true" class="literal"/>
+    <keyword match="type" class="type"/>
+    <keyword match="unsafe" class="modifier"/>
+    <keyword match="use" class="control"/>
+    <keyword match="where" class="modifier"/>
+    <keyword match="while" class="control"/>
+  </language>
   <language name="sh">
     <area start="#" end="&#10;" class="comment"/>
     <area start="&quot;" end="&quot;" class="literal"/>
