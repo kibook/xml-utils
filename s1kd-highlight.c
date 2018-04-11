@@ -65,7 +65,7 @@ void highlight_keyword_in_node(xmlNodePtr node, const xmlChar *keyword, xmlNodeP
 	while (i + keyword_len <= content_len) {
 		if (is_keyword(content, content_len, i, keyword, keyword_len, ignorecase)) {
 			xmlChar *s1 = xmlStrndup(content, i);
-			xmlChar *s2 = xmlStrsub(content, i + keyword_len, content_len);
+			xmlChar *s2 = xmlStrsub(content, i + keyword_len, content_len - (i + keyword_len));
 			xmlChar *s3 = xmlStrsub(content, i, keyword_len);
 			xmlNodePtr elem;
 
