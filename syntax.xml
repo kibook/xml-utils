@@ -208,6 +208,39 @@
     <keyword match="while" class="control"/>
     <keyword match="with" class="control"/>
   </language>
+  <language name="python">
+    <area start="#" end="&#10;" class="comment"/>
+    <area start="&quot;" end="&quot;" class="literal"/>
+    <area start="&apos;" end="&apos;" class="literal"/>
+    <keyword match="and" class="control"/>
+    <keyword match="assert" class="control"/>
+    <keyword match="break" class="control"/>
+    <keyword match="class" class="type"/>
+    <keyword match="continue" class="control"/>
+    <keyword match="def" class="control"/>
+    <keyword match="del" class="control"/>
+    <keyword match="elif" class="control"/>
+    <keyword match="else" class="control"/>
+    <keyword match="except" class="control"/>
+    <keyword match="exec" class="control"/>
+    <keyword match="finally" class="control"/>
+    <keyword match="for" class="control"/>
+    <keyword match="from" class="control"/>
+    <keyword match="global" class="modifier"/>
+    <keyword match="if" class="control"/>
+    <keyword match="import" class="control"/>
+    <keyword match="in" class="control"/>
+    <keyword match="is" class="control"/>
+    <keyword match="lambda" class="type"/>
+    <keyword match="not" class="control"/>
+    <keyword match="or" class="control"/>
+    <keyword match="pass" class="control"/>
+    <keyword match="print" class="control"/>
+    <keyword match="raise" class="control"/>
+    <keyword match="return" class="control"/>
+    <keyword match="try" class="control"/>
+    <keyword match="while" class="control"/>
+  </language>
   <language name="sh">
     <area start="#" end="&#10;" class="comment"/>
     <area start="&quot;" end="&quot;" class="literal"/>

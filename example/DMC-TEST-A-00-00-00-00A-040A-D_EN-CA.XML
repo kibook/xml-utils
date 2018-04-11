@@ -78,10 +78,17 @@ end.</verbatimText>
       <levelledPara>
         <title>POSIX shell</title>
         <para>
-          <verbatimText verbatimStyle="vs24"><?language sh?>while true
+          <verbatimText verbatimStyle="vs24"><?language sh?>#!/bin/sh
+if true
 do
     echo "Hello, world!"
 done</verbatimText>
+        </para>
+      </levelledPara>
+      <levelledPara>
+        <title>Python</title>
+        <para>
+          <verbatimText verbatimStyle="vs24"><?language python?>print 'Hello, world!'</verbatimText>
         </para>
       </levelledPara>
       <levelledPara>
