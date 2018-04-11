@@ -108,33 +108,35 @@ void highlight_area_in_node(xmlNodePtr node, const xmlChar *start, const xmlChar
 	for (i = 0; content[i]; ++i) {
 		if (cmp(content + i, start, slen) == 0) {
 			const xmlChar *e;
+			int len;
+			xmlChar *s1, *s2, *s3;
+			xmlNodePtr elem;
 
-			if ((e = sub(content + i + 1, end))) {
-				int len;
-				xmlChar *s1, *s2, *s3;
-				xmlNodePtr elem;
-
-				len = e - (content + i) + elen;
-
-				s1 = xmlStrndup(content, i);
-				s2 = xmlStrndup(content + i, len);
-				s3 = xmlStrdup(content + i + len);
-
-				xmlFree(content);
-
-				xmlNodeSetContent(node, s1);
-				xmlFree(s1);
-
-				elem = xmlAddNextSibling(node, xmlCopyNode(tag, 1));
-				xmlNodeSetContent(elem, s2);
-				xmlFree(s2);
-
-				node = xmlAddNextSibling(elem, xmlNewText(s3));
-
-				content = s3;
-
-				i = 0;
+			e = sub(content + i + 1, end);
+			if (!e) {
+				e = content + (xmlStrlen(content) - 1);
 			}
+
+			len = e - (content + i) + elen;
+
+			s1 = xmlStrndup(content, i);
+			s2 = xmlStrndup(content + i, len);
+			s3 = xmlStrdup(content + i + len);
+
+			xmlFree(content);
+
+			xmlNodeSetContent(node, s1);
+			xmlFree(s1);
+
+			elem = xmlAddNextSibling(node, xmlCopyNode(tag, 1));
+			xmlNodeSetContent(elem, s2);
+			xmlFree(s2);
+
+			node = xmlAddNextSibling(elem, xmlNewText(s3));
+
+			content = s3;
+
+			i = 0;
 		}
 	}
 
