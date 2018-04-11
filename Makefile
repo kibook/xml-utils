@@ -1,7 +1,7 @@
 SOURCE=s1kd-highlight.c
 OUTPUT=s1kd-highlight
 
-CFLAGS=-Wall -pedantic-errors -O3 `pkg-config --cflags libxml-2.0`
+CFLAGS=-Wall -pedantic-errors -g `pkg-config --cflags libxml-2.0`
 LDFLAGS=`pkg-config --libs libxml-2.0`
 
 INSTALL_PREFIX=/usr/local/bin

@@ -168,7 +168,7 @@
     <keyword match="while" class="control"/>
     <keyword match="with" class="control"/>
   </language>
-  <language name="pascal">
+  <language name="pascal" caseInsensitive="yes">
     <area start="'" end="'" class="literal"/>
     <area start="{" end="}" class="comment"/>
     <area start="(*" end="*)" class="comment"/>

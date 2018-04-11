@@ -27,9 +27,6 @@ Overwrite input data module(s) instead of outputting to stdout.
 -h -?  
 Show help/usage message.
 
--l &lt;language&gt;  
-Highlight syntax for &lt;language&gt; only.
-
 -s &lt;syntax&gt;  
 Use a custom syntax definitions file.
 
@@ -114,6 +111,12 @@ Describes the syntax of a particular language.
 *Attributes:*
 
 -   `name`, the identifier of the language.
+
+-   `caseInsensitive`, indicates whether keywords are case-insensitive in this language, with one of the following values:
+
+    -   `"no"` - Keywords are case-sensitive (default)
+
+    -   `"yes"` - Keywords are case-insensitive
 
 *Child elements:*
 

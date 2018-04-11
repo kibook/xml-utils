@@ -6,16 +6,16 @@
       <dmIdent>
         <dmCode modelIdentCode="S1KDHI" systemDiffCode="A" systemCode="00" subSystemCode="0" subSubSystemCode="0" assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="040" infoCodeVariant="A" itemLocationCode="D"/>
         <language languageIsoCode="en" countryIsoCode="CA"/>
-        <issueInfo issueNumber="001" inWork="00"/>
+        <issueInfo issueNumber="002" inWork="00"/>
       </dmIdent>
       <dmAddressItems>
-        <issueDate year="2018" month="04" day="10"/>
+        <issueDate year="2018" month="04" day="11"/>
         <dmTitle>
           <techName>s1kd-highlight(1) | General Commands Manual</techName>
         </dmTitle>
       </dmAddressItems>
     </dmAddress>
-    <dmStatus issueType="new">
+    <dmStatus issueType="changed">
       <security securityClassification="01"/>
       <responsiblePartnerCompany>
         <enterpriseName>khzae.net</enterpriseName>
@@ -39,10 +39,7 @@
         <unverified/>
       </qualityAssurance>
       <reasonForUpdate id="rfu-0001" updateReasonType="urt02">
-        <simplePara>Add option to specify classes separately from syntax.</simplePara>
-      </reasonForUpdate>
-      <reasonForUpdate id="rfu-0002" updateReasonType="urt02">
-        <simplePara>Use PI method for specifying syntax.</simplePara>
+        <simplePara>Add case-insensitive keyword matching.</simplePara>
       </reasonForUpdate>
     </dmStatus>
   </identAndStatusSection>
@@ -61,13 +58,13 @@
       <levelledPara>
         <title>DESCRIPTION</title>
         <para>The <emphasis>s1kd-highlight</emphasis> tool adds syntax highlighting to program listings in a data module. By default this is accomplished by wrapping detected syntax in XSL-FO inline elements with the proper namespace to allow a stylesheet to pass them through to the final FO processor. The actual elements used can be customized, however.</para>
-        <para changeType="add" reasonForUpdateRefIds="rfu-0002">To enable highlighting on a verbatim text element, include the processing instruction <verbatimText>&lt;?language ...?&gt;</verbatimText> in the element, where <verbatimText>...</verbatimText> is the name of the language.</para>
+        <para>To enable highlighting on a verbatim text element, include the processing instruction <verbatimText>&lt;?language ...?&gt;</verbatimText> in the element, where <verbatimText>...</verbatimText> is the name of the language.</para>
       </levelledPara>
       <levelledPara>
         <title>OPTIONS</title>
         <para>
           <definitionList>
-            <definitionListItem changeType="add" reasonForUpdateRefIds="rfu-0001">
+            <definitionListItem>
               <listItemTerm>-c &lt;classes&gt;</listItemTerm>
               <listItemDefinition>
                 <para>Use a custom class definitions file.</para>
@@ -94,7 +91,7 @@
           </definitionList>
         </para>
       </levelledPara>
-      <levelledPara changeType="add" reasonForUpdateRefIds="rfu-0001">
+      <levelledPara>
         <title>CLASS FILE FORMAT</title>
         <para>The following describes the format of the custom class file specified with -c.</para>
         <levelledPara>
@@ -205,6 +202,19 @@
             <randomList>
               <listItem>
                 <para><verbatimText verbatimStyle="vs13">name</verbatimText>, the identifier of the language.</para>
+              </listItem>
+              <listItem changeType="add" reasonForUpdateRefIds="rfu-0001">
+                <para><verbatimText verbatimStyle="vs13">caseInsensitive</verbatimText>, indicates whether keywords are case-insensitive in this language, with one of the following values:</para>
+                <para>
+                  <randomList>
+                    <listItem>
+                      <para><verbatimText verbatimStyle="vs14">"no"</verbatimText> - Keywords are case-sensitive (default)</para>
+                    </listItem>
+                    <listItem>
+                      <para><verbatimText verbatimStyle="vs14">"yes"</verbatimText> - Keywords are case-insensitive</para>
+                    </listItem>
+                  </randomList>
+                </para>
               </listItem>
             </randomList>
           </para>
