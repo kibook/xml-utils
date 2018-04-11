@@ -17,8 +17,12 @@
     </dmAddress>
     <dmStatus issueType="new">
       <security securityClassification="01"/>
-      <responsiblePartnerCompany/>
-      <originator/>
+      <responsiblePartnerCompany>
+        <enterpriseName>khzae.net</enterpriseName>
+      </responsiblePartnerCompany>
+      <originator>
+        <enterpriseName>khzae.net</enterpriseName>
+      </originator>
       <applic>
         <displayText>
           <simplePara>All</simplePara>
@@ -97,6 +101,14 @@ done</verbatimText>
           <verbatimText verbatimStyle="vs24"><?language rust?>fn main() {
     println!("Hello, world!");
 }</verbatimText>
+        </para>
+      </levelledPara>
+      <levelledPara>
+        <title>SQL</title>
+        <para>
+          <verbatimText verbatimStyle="vs24"><?language sql?>SELECT *
+FROM messages
+WHERE text = 'Hello, world!';</verbatimText>
         </para>
       </levelledPara>
       <levelledPara>
