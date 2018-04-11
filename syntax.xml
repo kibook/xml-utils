@@ -208,6 +208,24 @@
     <keyword match="while" class="control"/>
     <keyword match="with" class="control"/>
   </language>
+  <language name="sh">
+    <area start="#" end="&#10;" class="comment"/>
+    <area start="&quot;" end="&quot;" class="literal"/>
+    <area start="&apos;" end="&apos;" class="literal"/>
+    <keyword match="case" class="control"/>
+    <keyword match="do" class="control"/>
+    <keyword match="done" class="control"/>
+    <keyword match="elif" class="control"/>
+    <keyword match="else" class="control"/>
+    <keyword match="esac" class="control"/>
+    <keyword match="fi" class="control"/>
+    <keyword match="for" class="control"/>
+    <keyword match="if" class="control"/>
+    <keyword match="in" class="control"/>
+    <keyword match="then" class="control"/>
+    <keyword match="until" class="control"/>
+    <keyword match="while" class="control"/>
+  </language>
   <language name="xml">
     <area start="&lt;!--" end="--&gt;" class="comment"/>
     <area start="&lt;" end="&gt;" class="modifier"/>

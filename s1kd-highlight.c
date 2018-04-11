@@ -8,8 +8,8 @@
 
 #define PROG_NAME "s1kd-highlight"
 
-#define PRE_KEYWORD_DELIM " (\n"
-#define POST_KEYWORD_DELIM " .,);\n"
+#define PRE_KEYWORD_DELIM BAD_CAST " (\n"
+#define POST_KEYWORD_DELIM BAD_CAST " .,);\n"
 
 #define VERBATIM_TEXT_XPATH "//verbatimText[processing-instruction('language')='%s']/text()"
 
@@ -32,22 +32,17 @@ xmlNodePtr first_xpath_node(xmlDocPtr doc, xmlNodePtr node, const xmlChar *expr)
 	return first;
 }
 
-bool is_keyword(xmlChar *content, int content_len, int i, xmlChar *keyword, int keyword_len)
+bool is_keyword(xmlChar *content, int content_len, int i, const xmlChar *keyword, int keyword_len)
 {
-	xmlChar *sub;
 	bool is;
-	char s, e;
+	xmlChar s, e;
 
-	sub = xmlStrsub(content, i, keyword_len);
+	s = i == 0 ? ' ' : content[i - 1];
+	e = i + keyword_len >= content_len - 1 ? ' ' : content[i + keyword_len];
 
-	s = i == 0 ? ' ' : (char) content[i - 1];
-	e = i + keyword_len == content_len - 1 ? ' ' : (char) content[i + keyword_len];
-
-	is = strchr(PRE_KEYWORD_DELIM, s) &&
-	     xmlStrcmp(sub, keyword) == 0 &&
-	     strchr(POST_KEYWORD_DELIM, e);
-
-	xmlFree(sub);
+	is = xmlStrchr(PRE_KEYWORD_DELIM, s) &&
+	     xmlStrncmp(content + i, keyword, keyword_len) == 0 &&
+	     xmlStrchr(POST_KEYWORD_DELIM, e);
 
 	return is;
 }
@@ -55,21 +50,19 @@ bool is_keyword(xmlChar *content, int content_len, int i, xmlChar *keyword, int 
 void highlight_keyword_in_node(xmlNodePtr node, const xmlChar *keyword, xmlNodePtr tag)
 {
 	xmlChar *content;
-	xmlChar *term;
-	int term_len, content_len;
+	int keyword_len, content_len;
 	int i;
 
 	content = xmlNodeGetContent(node);
 	content_len = xmlStrlen(content);
 
-	term = xmlStrdup(BAD_CAST keyword);
-	term_len = xmlStrlen(term);
+	keyword_len = xmlStrlen(keyword);
 
 	i = 0;
-	while (i + term_len < content_len) {
-		if (is_keyword(content, content_len, i, term, term_len)) {
+	while (i + keyword_len <= content_len) {
+		if (is_keyword(content, content_len, i, keyword, keyword_len)) {
 			xmlChar *s1 = xmlStrndup(content, i);
-			xmlChar *s2 = xmlStrsub(content, i + term_len, xmlStrlen(content));
+			xmlChar *s2 = xmlStrsub(content, i + keyword_len, content_len);
 			xmlNodePtr elem;
 
 			xmlFree(content);
@@ -78,7 +71,7 @@ void highlight_keyword_in_node(xmlNodePtr node, const xmlChar *keyword, xmlNodeP
 			xmlFree(s1);
 
 			elem = xmlAddNextSibling(node, xmlCopyNode(tag, 1));
-			xmlNodeSetContent(elem, term);
+			xmlNodeSetContent(elem, keyword);
 
 			node = xmlAddNextSibling(elem, xmlNewText(s2));
 
@@ -90,7 +83,6 @@ void highlight_keyword_in_node(xmlNodePtr node, const xmlChar *keyword, xmlNodeP
 		}
 	}
 
-	xmlFree(term);
 	xmlFree(content);
 }
 
