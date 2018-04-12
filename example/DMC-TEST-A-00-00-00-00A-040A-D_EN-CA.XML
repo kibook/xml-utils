@@ -53,6 +53,22 @@
         </para>
       </levelledPara>
       <levelledPara>
+        <title>C#</title>
+        <para>
+          <verbatimText verbatimStyle="vs24"><?language csharp?>using System;
+namespace Hello
+{
+    class HelloWorld
+    {
+        static void Main()
+        {
+            Console.WriteLine("Hello, world!");
+        }
+    }
+}</verbatimText>
+        </para>
+      </levelledPara>
+      <levelledPara>
         <title>Java</title>
         <para>
           <verbatimText verbatimStyle="vs24"><?language java?>public class Hello {
