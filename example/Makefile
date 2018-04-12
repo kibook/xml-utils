@@ -1,7 +1,7 @@
-S1KD_HIGHLIGHT=s1kd-highlight
+XML_HIGHLIGHT=xml-highlight
 
 DMC-TEST-A-00-00-00-00A-040A-D_EN-CA.pdf: DMC-TEST-A-00-00-00-00A-040A-D_EN-CA.XML
-	$(S1KD_HIGHLIGHT) $< | s1kd2pdf --out $@ -
+	$(XML_HIGHLIGHT) $< | s1kd2pdf --out $@ -
 
 clean:
 	rm -f DMC-TEST-A-00-00-00-00A-040A-D_EN-CA.pdf
