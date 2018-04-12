@@ -1,7 +1,14 @@
 XML_HIGHLIGHT=xml-highlight
+XSLTPROC=xsltproc
+S1KD2PDF=s1kd2pdf
 
-DMC-TEST-A-00-00-00-00A-040A-D_EN-CA.pdf: DMC-TEST-A-00-00-00-00A-040A-D_EN-CA.XML
-	$(XML_HIGHLIGHT) $< | s1kd2pdf --out $@ -
+all: s1000d.pdf docbook.pdf
+
+s1000d.pdf: s1000d.xml
+	$(XML_HIGHLIGHT) s1000d.xml | $(S1KD2PDF) --out s1000d.pdf -
+
+docbook.pdf: docbook.xml docbook.xsl
+	$(XML_HIGHLIGHT) docbook.xml | $(XSLTPROC) docbook.xsl - | fop - docbook.pdf
 
 clean:
-	rm -f DMC-TEST-A-00-00-00-00A-040A-D_EN-CA.pdf
+	rm -f s1000d.pdf docbook.pdf
