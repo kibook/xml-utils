@@ -15,4 +15,7 @@
   <class id="comment">
     <fo:inline color="blue"/>
   </class>
+  <class id="variable">
+    <fo:inline color="orange"/>
+  </class>
 </classes>

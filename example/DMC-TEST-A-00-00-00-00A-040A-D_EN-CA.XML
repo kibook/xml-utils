@@ -92,7 +92,16 @@ done</verbatimText>
       <levelledPara>
         <title>Python</title>
         <para>
-          <verbatimText verbatimStyle="vs24"><?language python?>print 'Hello, world!'</verbatimText>
+          <verbatimText verbatimStyle="vs24"><?language python?>def hello():
+    print 'Hello, world!'</verbatimText>
+        </para>
+      </levelledPara>
+      <levelledPara>
+        <title>Ruby</title>
+        <para>
+          <verbatimText verbatimStyle="vs24"><?language ruby?>def hello
+    print "Hello, world!\n"
+end</verbatimText>
         </para>
       </levelledPara>
       <levelledPara>

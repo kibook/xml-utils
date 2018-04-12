@@ -89,7 +89,7 @@
     <keyword match="super" class="control"/>
     <keyword match="switch" class="control"/>
     <keyword match="synchronized" class="modifier"/>
-    <keyword match="this" class="control"/>
+    <keyword match="this" class="variable"/>
     <keyword match="throw" class="control"/>
     <keyword match="throws" class="modifier"/>
     <keyword match="transient" class="modifier"/>
@@ -155,7 +155,7 @@
     <keyword match="super" class="control"/>
     <keyword match="switch" class="control"/>
     <keyword match="synchronized" class="modifier"/>
-    <keyword match="this" class="type"/>
+    <keyword match="this" class="variable"/>
     <keyword match="throw" class="control"/>
     <keyword match="throws" class="modifier"/>
     <keyword match="transient" class="modifier"/>
@@ -241,6 +241,48 @@
     <keyword match="try" class="control"/>
     <keyword match="while" class="control"/>
   </language>
+  <language name="ruby">
+    <area start="=begin" end="=end" class="comment"/>
+    <area start="#" end="&#10;" class="comment"/>
+    <area start="&quot;" end="&quot;" class="literal"/>
+    <area start="&apos;" end="&apos;" class="literal"/>
+    <keyword match="alias" class="control"/>
+    <keyword match="and" class="control"/>
+    <keyword match="begin" class="control"/>
+    <keyword match="break" class="control"/>
+    <keyword match="case" class="control"/>
+    <keyword match="class" class="type"/>
+    <keyword match="def" class="control"/>
+    <keyword match="defined?" class="control"/>
+    <keyword match="do" class="control"/>
+    <keyword match="else" class="control"/>
+    <keyword match="elsif" class="control"/>
+    <keyword match="end" class="control"/>
+    <keyword match="ensure" class="control"/>
+    <keyword match="false" class="literal"/>
+    <keyword match="for" class="control"/>
+    <keyword match="if" class="control"/>
+    <keyword match="in" class="control"/>
+    <keyword match="module" class="type"/>
+    <keyword match="next" class="control"/>
+    <keyword match="nil" class="literal"/>
+    <keyword match="not" class="control"/>
+    <keyword match="or" class="control"/>
+    <keyword match="redo" class="control"/>
+    <keyword match="rescue" class="control"/>
+    <keyword match="retry" class="control"/>
+    <keyword match="return" class="control"/>
+    <keyword match="self" class="variable"/>
+    <keyword match="super" class="variable"/>
+    <keyword match="then" class="control"/>
+    <keyword match="true" class="literal"/>
+    <keyword match="undef" class="control"/>
+    <keyword match="unless" class="control"/>
+    <keyword match="until" class="control"/>
+    <keyword match="when" class="control"/>
+    <keyword match="while" class="control"/>
+    <keyword match="yield" class="control"/>
+  </language>
   <language name="rust">
     <area start="/*" end="*/" class="comment"/>
     <area start="//" end="&#10;" class="comment"/>
@@ -268,11 +310,11 @@
     <keyword match="pub" class="modifier"/>
     <keyword match="ref" class="modifier"/>
     <keyword match="return" class="control"/>
-    <keyword match="Self" class="type"/>
-    <keyword match="self" class="type"/>
+    <keyword match="Self" class="variable"/>
+    <keyword match="self" class="variable"/>
     <keyword match="static" class="modifier"/>
     <keyword match="struct" class="type"/>
-    <keyword match="super" class="type"/>
+    <keyword match="super" class="variable"/>
     <keyword match="trait" class="type"/>
     <keyword match="true" class="literal"/>
     <keyword match="type" class="type"/>
