@@ -6,12 +6,12 @@
 #include <libxml/xpath.h>
 #include "languages.h"
 
-#define PROG_NAME "s1kd-highlight"
+#define PROG_NAME "xml-highlight"
 
 #define PRE_KEYWORD_DELIM BAD_CAST " (\n"
 #define POST_KEYWORD_DELIM BAD_CAST " .,);\n"
 
-#define VERBATIM_TEXT_XPATH "//verbatimText[processing-instruction('language')='%s']/text()"
+#define ELEM_XPATH "//*[processing-instruction('language')='%s']/text()"
 
 xmlNodePtr first_xpath_node(xmlDocPtr doc, xmlNodePtr node, const xmlChar *expr)
 {
@@ -166,7 +166,7 @@ void highlight_keyword_in_doc(xmlDocPtr doc, const xmlChar *lang, const xmlChar 
 	
 	xmlChar xpath[256];
 
-	xmlStrPrintf(xpath, 256, VERBATIM_TEXT_XPATH, lang);
+	xmlStrPrintf(xpath, 256, ELEM_XPATH, lang);
 
 	ctx = xmlXPathNewContext(doc);
 	obj = xmlXPathEvalExpression(xpath, ctx);
@@ -186,7 +186,7 @@ void highlight_area_in_doc(xmlDocPtr doc, const xmlChar *lang, const xmlChar *st
 
 	xmlChar xpath[256];
 
-	xmlStrPrintf(xpath, 256, VERBATIM_TEXT_XPATH, lang);
+	xmlStrPrintf(xpath, 256, ELEM_XPATH, lang);
 
 	ctx = xmlXPathNewContext(doc);
 	obj = xmlXPathEvalExpression(xpath, ctx);

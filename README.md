@@ -1,19 +1,19 @@
 NAME
 ====
 
-s1kd-highlight - Syntax highlighting for S1000D verbatimText
+xml-highlight - Highlight syntax in XML documents
 
 SYNOPSIS
 ========
 
-    s1kd-highlight [options] [<dmodule>...]
+    xml-highlight [options] [<dmodule>...]
 
 DESCRIPTION
 ===========
 
-The *s1kd-highlight* tool adds syntax highlighting to program listings in a data module. By default this is accomplished by wrapping detected syntax in XSL-FO inline elements with the proper namespace to allow a stylesheet to pass them through to the final FO processor. The actual elements used can be customized, however.
+The *xml-highlight* tool adds syntax highlighting to program listings in an XML document. By default this is accomplished by wrapping detected syntax in XSL-FO inline elements with the proper namespace to allow a stylesheet to pass them through to the final FO processor. The actual elements used can be customized, however.
 
-To enable highlighting on a verbatim text element, include the processing instruction `<?language ...?>` in the element, where `...` is the name of the language.
+To enable highlighting on text in an element, include the processing instruction `<?language ...?>` in the element, where `...` is the name of the language.
 
 OPTIONS
 =======

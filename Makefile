@@ -1,5 +1,5 @@
-SOURCE=s1kd-highlight.c
-OUTPUT=s1kd-highlight
+SOURCE=xml-highlight.c
+OUTPUT=xml-highlight
 
 CFLAGS=-Wall -pedantic-errors -O3 `pkg-config --cflags libxml-2.0`
 LDFLAGS=`pkg-config --libs libxml-2.0`
