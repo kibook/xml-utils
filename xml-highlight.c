@@ -363,7 +363,7 @@ void highlight_syntax_in_file(const char *fname, const char *syntax, const char 
 
 void show_help(void)
 {
-	puts("Usage: " PROG_NAME " [options] [<dmodule>...]");
+	puts("Usage: " PROG_NAME " [options] [<document>...]");
 	puts("");
 	puts("Options:");
 	puts("  -h -?      Show usage message.");
