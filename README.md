@@ -6,7 +6,7 @@ xml-highlight - Highlight syntax in XML documents
 SYNOPSIS
 ========
 
-    xml-highlight [options] [<dmodule>...]
+    xml-highlight [options] [<document>...]
 
 DESCRIPTION
 ===========

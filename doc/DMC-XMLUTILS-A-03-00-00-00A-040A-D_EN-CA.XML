@@ -49,7 +49,7 @@
       <levelledPara>
         <title>SYNOPSIS</title>
         <para>
-          <verbatimText verbatimStyle="vs24">xml-highlight [options] [&lt;dmodule&gt;...]</verbatimText>
+          <verbatimText verbatimStyle="vs24">xml-highlight [options] [&lt;document&gt;...]</verbatimText>
         </para>
       </levelledPara>
       <levelledPara>
