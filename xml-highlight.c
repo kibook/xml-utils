@@ -368,7 +368,7 @@ void show_help(void)
 	puts("Options:");
 	puts("  -h -?      Show usage message.");
 	puts("  -c <XML>   Use a custom classes XML file.");
-	puts("  -f         Overwrite input data modules.");
+	puts("  -f         Overwrite input documents.");
 	puts("  -s <XML>   Use a custom syntax definitions XML file.");
 }
 
