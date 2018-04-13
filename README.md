@@ -175,3 +175,34 @@ Example custom syntax file
     <keyword match="char" class="type"/>
     </language>
     </syntax>
+
+BUILT-IN LANGUAGES
+==================
+
+The following is a list of language syntaxes currently built-in to the tool:
+
+-   c
+
+-   csharp
+
+-   go
+
+-   java
+
+-   javascript
+
+-   pascal
+
+-   python
+
+-   ruby
+
+-   rust
+
+-   sh
+
+-   sql
+
+-   xml
+
+-   xsl

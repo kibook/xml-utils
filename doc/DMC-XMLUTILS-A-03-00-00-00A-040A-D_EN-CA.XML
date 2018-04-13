@@ -6,10 +6,10 @@
       <dmIdent>
         <dmCode modelIdentCode="XMLUTILS" systemDiffCode="A" systemCode="03" subSystemCode="0" subSubSystemCode="0" assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="040" infoCodeVariant="A" itemLocationCode="D"/>
         <language languageIsoCode="en" countryIsoCode="CA"/>
-        <issueInfo issueNumber="001" inWork="00"/>
+        <issueInfo issueNumber="002" inWork="00"/>
       </dmIdent>
       <dmAddressItems>
-        <issueDate year="2018" month="04" day="12"/>
+        <issueDate year="2018" month="04" day="13"/>
         <dmTitle>
           <techName>xml-highlight(1) | xml-utils</techName>
         </dmTitle>
@@ -38,6 +38,9 @@
       <qualityAssurance>
         <unverified/>
       </qualityAssurance>
+      <reasonForUpdate id="rfu-0001" updateReasonType="urt01">
+        <simplePara>Add list of built-in languages.</simplePara>
+      </reasonForUpdate>
     </dmStatus>
   </identAndStatusSection>
   <content>
@@ -294,6 +297,53 @@
 </syntax>]]></verbatimText>
           </para>
         </levelledPara>
+      </levelledPara>
+      <levelledPara>
+        <title>BUILT-IN LANGUAGES</title>
+        <para>The following is a list of language syntaxes currently built-in to the tool:</para>
+        <para>
+          <randomList>
+            <listItem>
+              <para>c</para>
+            </listItem>
+            <listItem>
+              <para>csharp</para>
+            </listItem>
+            <listItem>
+              <para>go</para>
+            </listItem>
+            <listItem>
+              <para>java</para>
+            </listItem>
+            <listItem>
+              <para>javascript</para>
+            </listItem>
+            <listItem>
+              <para>pascal</para>
+            </listItem>
+            <listItem>
+              <para>python</para>
+            </listItem>
+            <listItem>
+              <para>ruby</para>
+            </listItem>
+            <listItem>
+              <para>rust</para>
+            </listItem>
+            <listItem>
+              <para>sh</para>
+            </listItem>
+            <listItem>
+              <para>sql</para>
+            </listItem>
+            <listItem>
+              <para>xml</para>
+            </listItem>
+            <listItem>
+              <para>xsl</para>
+            </listItem>
+          </randomList>
+        </para>
       </levelledPara>
     </description>
   </content>
