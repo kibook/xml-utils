@@ -69,6 +69,16 @@ namespace Hello
         </para>
       </levelledPara>
       <levelledPara>
+        <title>Go</title>
+        <para>
+          <verbatimText verbatimStyle="vs24"><?language go?>package main
+import "fmt"
+func main() {
+    fmt.Println("Hello, world!")
+}</verbatimText>
+        </para>
+      </levelledPara>
+      <levelledPara>
         <title>Java</title>
         <para>
           <verbatimText verbatimStyle="vs24"><?language java?>public class Hello {

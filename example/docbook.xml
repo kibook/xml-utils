@@ -23,6 +23,14 @@ namespace Hello
 }</programlisting>
   </section>
   <section>
+    <title>Go</title>
+    <programlisting><?language go?>package main
+import "fmt"
+func main() {
+    fmt.Println("Hello, world!")
+}</programlisting>
+  </section>
+  <section>
     <title>Java</title>
     <programlisting><?language java?>public class Hello {
     public static void main(String[] args) {

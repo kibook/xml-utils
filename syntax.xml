@@ -123,6 +123,37 @@
     <keyword match="volatile" class="modifier"/>
     <keyword match="while" class="control"/>
   </language>
+  <language name="go">
+    <area start="/*" end="*/" class="comment"/>
+    <area start="//" end="&#10;" class="comment"/>
+    <area start="&quot;" end="&quot;" class="literal"/>
+    <area start="&apos;" end="&apos;" class="literal"/>
+    <keyword match="break" class="control"/>
+    <keyword match="case" class="control"/>
+    <keyword match="chan" class="type"/>
+    <keyword match="const" class="modifier"/>
+    <keyword match="continue" class="control"/>
+    <keyword match="default" class="control"/>
+    <keyword match="defer" class="control"/>
+    <keyword match="else" class="control"/>
+    <keyword match="fallthrough" class="control"/>
+    <keyword match="for" class="control"/>
+    <keyword match="func" class="type"/>
+    <keyword match="go" class="control"/>
+    <keyword match="goto" class="control"/>
+    <keyword match="if" class="control"/>
+    <keyword match="import" class="control"/>
+    <keyword match="interface" class="type"/>
+    <keyword match="map" class="type"/>
+    <keyword match="package" class="type"/>
+    <keyword match="range" class="type"/>
+    <keyword match="return" class="control"/>
+    <keyword match="select" class="control"/>
+    <keyword match="struct" class="type"/>
+    <keyword match="switch" class="control"/>
+    <keyword match="type" class="type"/>
+    <keyword match="var" class="type"/>
+  </language>
   <language name="java">
     <area start="/*" end="*/" class="comment"/>
     <area start="//" end="&#10;" class="comment"/>
