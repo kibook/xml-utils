@@ -4,7 +4,7 @@ OUTPUT=xml-trimspace
 CFLAGS=-Wall -Werror -pedantic-errors -g `pkg-config --cflags libxml-2.0 libxslt`
 LDFLAGS=`pkg-config --libs libxml-2.0 libxslt`
 
-INSTALL_PREFIX=/usr/bin
+INSTALL_PREFIX=/usr/local/bin
 
 all: $(OUTPUT)
 	$(MAKE) -C doc
