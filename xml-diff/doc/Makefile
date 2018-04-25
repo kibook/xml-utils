@@ -1,6 +1,7 @@
 SOURCE=DMC-XMLUTILS-A-04-00-00-00A-040A-D_EN-CA.XML
 
-MAN_PREFIX=/usr/local/share/man/man1
+PREFIX=/usr/local
+MAN_PREFIX=$(PREFIX)/share/man/man1
 
 all: xml-diff.1
 

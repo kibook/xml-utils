@@ -1,7 +1,8 @@
 SOURCE=DMC-XMLUTILS-A-02-00-00-00A-040A-D_EN-CA.XML
 OUTPUT=xml-trimspace.1
 
-MAN_PREFIX=/usr/local/share/man/man1
+PREFIX=/usr/local
+MAN_PREFIX=$(PREFIX)/share/man/man1
 
 all: $(OUTPUT) ../README.md
 
