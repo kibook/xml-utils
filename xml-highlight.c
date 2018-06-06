@@ -1,12 +1,14 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <unistd.h>
+#include <getopt.h>
 #include <string.h>
 #include <libxml/tree.h>
 #include <libxml/xpath.h>
 #include "languages.h"
 
 #define PROG_NAME "xml-highlight"
+#define VERSION "1.0.0"
 
 #define PRE_KEYWORD_DELIM BAD_CAST " (\n"
 #define POST_KEYWORD_DELIM BAD_CAST " .,);\n"
@@ -370,6 +372,12 @@ void show_help(void)
 	puts("  -c <XML>   Use a custom classes XML file.");
 	puts("  -f         Overwrite input documents.");
 	puts("  -s <XML>   Use a custom syntax definitions XML file.");
+	puts("  --version  Show version information.");
+}
+
+void show_version(void)
+{
+	printf("%s %s\n", PROG_NAME, VERSION);
 }
 
 int main(int argc, char **argv)
@@ -379,8 +387,21 @@ int main(int argc, char **argv)
 	char *syntax = NULL;
 	char *classes = NULL;
 
-	while ((i = getopt(argc, argv, "c:fs:h?")) != -1) {
+	const char *sopts = "c:fs:h?";
+	struct option lopts[] = {
+		{"version", no_argument, 0, 0},
+		{0, 0, 0, 0}
+	};
+	int loptind = 0;
+
+	while ((i = getopt_long(argc, argv, sopts, lopts, &loptind)) != -1) {
 		switch (i) {
+			case 0:
+				if (strcmp(lopts[loptind].name, "version") == 0) {
+					show_version();
+					return 0;
+				}
+				break;
 			case 'c':
 				if (!classes)
 					classes = strdup(optarg);
@@ -395,7 +416,7 @@ int main(int argc, char **argv)
 			case 'h':
 			case '?':
 				show_help();
-				exit(0);
+				return 0;
 		}
 	}
 

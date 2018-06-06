@@ -30,6 +30,9 @@ Show help/usage message.
 -s &lt;syntax&gt;  
 Use a custom syntax definitions file.
 
+--version  
+Show version information.
+
 CLASS FILE FORMAT
 =================
 
