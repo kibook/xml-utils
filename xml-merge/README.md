@@ -6,10 +6,16 @@ The *xml-merge* utility merges two XML files together, based on a common element
 Usage
 =====
 
-    xml-merge <dst> <src>
+    xml-merge [-h?] <dst> <src>
 
 Options
 =======
+
+-h -?  
+Show usage message.
+
+--version  
+Show version information.
 
 &lt;dst&gt;  
 The XML file which &lt;src&gt; will be merged in to.

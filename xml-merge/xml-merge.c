@@ -1,16 +1,27 @@
 #include <stdio.h>
 #include <unistd.h>
+#include <getopt.h>
+#include <string.h>
 #include <libxml/tree.h>
 #include <libxml/xpath.h>
 
+#define PROG_NAME "xml-merge"
+#define VERSION "1.0.0"
+
 void showHelp(void)
 {
-	puts("Usage: xml-merge <dst> <src>");
+	puts("Usage: " PROG_NAME "[-h?] <dst> <src>");
 	puts("");
 	puts("Options:");
-	puts("  dst      XML file to <src> in to");
-	puts("  src      XML file to merge in to <dst>");
-	puts("  -h -?    Show help/usage message");
+	puts("  -h -?      Show help/usage message");
+	puts("  --version  Show version information");
+	puts("  dst        XML file to <src> in to");
+	puts("  src        XML file to merge in to <dst>");
+}
+
+void show_version(void)
+{
+	printf("%s (xml-utils) %s\n", PROG_NAME, VERSION);
 }
 
 xmlNodePtr firstXPathNode(char *xpath, xmlDocPtr doc)
@@ -48,12 +59,25 @@ int main(int argc, char **argv)
 
 	int c;
 
-	while ((c = getopt(argc, argv, "h?")) != -1) {
+	const char *sopts = "h?";
+	struct option lopts[] = {
+		{"version", no_argument, 0, 0},
+		{0, 0, 0, 0}
+	};
+	int loptind = 0;
+
+	while ((c = getopt_long(argc, argv, sopts, lopts, &loptind)) != -1) {
 		switch (c) {
+			case 0:
+				if (strcmp(lopts[loptind].name, "version") == 0) {
+					show_version();
+					return 0;
+				}
+				break;
 			case 'h':
 			case '?':
 				showHelp();
-				exit(0);
+				return 0;
 		}
 	}
 

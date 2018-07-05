@@ -2,12 +2,16 @@
 #include <string.h>
 #include <ctype.h>
 #include <unistd.h>
+#include <getopt.h>
 #include <stdbool.h>
 #include <libxml/tree.h>
 #include <libxml/xpath.h>
 #include <libxml/xpathInternals.h>
 #include <libxslt/transform.h>
 #include "normalize.h"
+
+#define PROG_NAME "xml-trimspace"
+#define VERSION "1.0.0"
 
 char *strltrm(char *dst, const char *src)
 {
@@ -97,6 +101,24 @@ xmlDocPtr normalizeElem(xmlDocPtr doc, const char *name)
 	return res;
 }
 
+void show_help(void)
+{
+	puts("Usage: " PROG_NAME " [-Nh?] [-n <ns=URL>] < <src> > <dst>");
+	puts("");
+	puts("Options:");
+	puts("  -h -?        Show usage message.");
+	puts("  -N           Normalize space as well as trim.");
+	puts("  -n <ns=URL>  Register a namespace.");
+	puts("  <elem>...    Elements to trim space on.");
+	puts("  <src>        Source XML file.");
+	puts("  <dst>        The output file.");
+}
+
+void show_version(void)
+{
+	printf("%s (xml-utils) %s\n", PROG_NAME, VERSION);
+}
+
 int main(int argc, char **argv)
 {
 	int i;
@@ -105,17 +127,46 @@ int main(int argc, char **argv)
 	xmlDocPtr doc;
 	xmlXPathContextPtr ctx = NULL;
 
-	doc = xmlReadFile("-", NULL, 0);
+	xmlNodePtr ns, cur;
 
-	while ((i = getopt(argc, argv, "n:N")) != -1)
+	const char *sopts = "n:Nh?";
+	struct option lopts[] = {
+		{"version", no_argument, 0, 0},
+		{0, 0, 0, 0}
+	};
+	int loptind = 0;
+
+	ns = xmlNewNode(NULL, BAD_CAST "namespaces");
+
+	while ((i = getopt_long(argc, argv, sopts, lopts, &loptind)) != -1)
 		switch (i) {
+			case 0:
+				if (strcmp(lopts[loptind].name, "version") == 0) {
+					show_version();
+					return 0;
+				}
+				break;
 			case 'n':
-				registerNs(ctx, optarg);
+				xmlNewChild(ns, NULL, BAD_CAST "ns", BAD_CAST optarg);
 				break;
 			case 'N':
 				normalize = true;
 				break;
+			case 'h':
+			case '?':
+				show_help();
+				return 0;
 		}
+
+	doc = xmlReadFile("-", NULL, 0);
+	ctx = xmlXPathNewContext(doc);
+
+	for (cur = ns->children; cur; cur = cur->next) {
+		xmlChar *n;
+		n = xmlNodeGetContent(cur);
+		registerNs(ctx, (char *) n);
+		xmlFree(n);
+	}
 	
 	for (i = optind; i < argc; ++i) {
 		char xpath[256];
@@ -123,7 +174,6 @@ int main(int argc, char **argv)
 
 		snprintf(xpath, 256, "//%s", argv[i]);
 
-		ctx = xmlXPathNewContext(doc);
 		obj = xmlXPathEvalExpression(BAD_CAST xpath, ctx);
 
 		if (!xmlXPathNodeSetIsEmpty(obj->nodesetval)) {
@@ -131,13 +181,13 @@ int main(int argc, char **argv)
 		}
 		
 		xmlXPathFreeObject(obj);
-		xmlXPathFreeContext(ctx);
 
 		if (normalize) {
 			doc = normalizeElem(doc, argv[i]);
 		}
 	}
 
+	xmlXPathFreeContext(ctx);
 
 	xmlSaveFile("-", doc);
 

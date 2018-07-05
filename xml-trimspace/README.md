@@ -6,16 +6,22 @@ The *xml-trimspace* utility trims whitespace around the text contents of specifi
 Usage
 =====
 
-    xml-trimspace [-N] [-n <ns=URL>] <elem>... < <src> > <dst>
+    xml-trimspace [-Nh?] [-n <ns=URL>] <elem>... < <src> > <dst>
 
 Options
 =======
+
+-h -?  
+Show usage message.
 
 -n &lt;ns=URL&gt;  
 Registers an XML namespace handle for URL, which can then be used when specifying element names as options. Multiple namespaces can be registered by specifying this option multiple times.
 
 -N  
 Normalize space in the specified elements in addition to trimming whitespace.
+
+--version  
+Show version information.
 
 &lt;elem&gt;  
 Elements to trim space on. May include a namespace prefix if the namespace was registered with -n.

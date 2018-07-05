@@ -6,17 +6,17 @@
       <dmIdent>
         <dmCode modelIdentCode="XMLUTILS" systemDiffCode="A" systemCode="02" subSystemCode="0" subSubSystemCode="0" assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="040" infoCodeVariant="A" itemLocationCode="D"/>
         <language languageIsoCode="en" countryIsoCode="CA"/>
-        <issueInfo issueNumber="001" inWork="00"/>
+        <issueInfo issueNumber="002" inWork="00"/>
       </dmIdent>
       <dmAddressItems>
-        <issueDate year="2018" month="03" day="26"/>
+        <issueDate year="2018" month="07" day="05"/>
         <dmTitle>
           <techName>xml-trimspace(1)</techName>
           <infoName>Description</infoName>
         </dmTitle>
       </dmAddressItems>
     </dmAddress>
-    <dmStatus issueType="new">
+    <dmStatus issueType="changed">
       <security securityClassification="01"/>
       <responsiblePartnerCompany>
         <enterpriseName>khzae.net</enterpriseName>
@@ -39,8 +39,11 @@
       <qualityAssurance>
         <unverified/>
       </qualityAssurance>
-      <reasonForUpdate id="rfu-0001" updateReasonType="urt01">
-        <simplePara>Remove erroneous options.</simplePara>
+      <reasonForUpdate id="rfu-0001" updateReasonType="urt02">
+        <simplePara>Add -h option.</simplePara>
+      </reasonForUpdate>
+      <reasonForUpdate id="rfu-0002" updateReasonType="urt02">
+        <simplePara>Add --version option.</simplePara>
       </reasonForUpdate>
     </dmStatus>
   </identAndStatusSection>
@@ -53,13 +56,19 @@
       <levelledPara>
         <title>Usage</title>
         <para>
-          <verbatimText verbatimStyle="vs24">xml-trimspace [-N] [-n &lt;ns=URL&gt;] &lt;elem&gt;... &lt; &lt;src&gt; &gt; &lt;dst&gt;</verbatimText>
+          <verbatimText verbatimStyle="vs24" changeType="modify" reasonForUpdateRefIds="rfu-0001">xml-trimspace [-Nh?] [-n &lt;ns=URL&gt;] &lt;elem&gt;... &lt; &lt;src&gt; &gt; &lt;dst&gt;</verbatimText>
         </para>
       </levelledPara>
       <levelledPara>
         <title>Options</title>
         <para>
           <definitionList>
+            <definitionListItem changeType="add" reasonForUpdateRefIds="rfu-0001">
+              <listItemTerm>-h -?</listItemTerm>
+              <listItemDefinition>
+                <para>Show usage message.</para>
+              </listItemDefinition>
+            </definitionListItem>
             <definitionListItem>
               <listItemTerm>-n &lt;ns=URL&gt;</listItemTerm>
               <listItemDefinition>
@@ -70,6 +79,12 @@
               <listItemTerm>-N</listItemTerm>
               <listItemDefinition>
                 <para>Normalize space in the specified elements in addition to trimming whitespace.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem changeType="add" reasonForUpdateRefIds="rfu-0002">
+              <listItemTerm>--version</listItemTerm>
+              <listItemDefinition>
+                <para>Show version information.</para>
               </listItemDefinition>
             </definitionListItem>
             <definitionListItem>

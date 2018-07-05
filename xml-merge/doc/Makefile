@@ -1,19 +1,26 @@
 SOURCE=DMC-XMLUTILS-A-01-00-00-00A-040A-D_EN-CA.XML
 OUTPUT=xml-merge.1
+README=../README.md
 
 PREFIX=/usr/local
 MAN_PREFIX=$(PREFIX)/share/man/man1
+INSTALL=install
 
-all: $(OUTPUT) ../README.md
+all: $(OUTPUT) $(README)
 
 $(OUTPUT): $(SOURCE)
 	s1kd2db $(SOURCE) | pandoc -f docbook -t man -s > $(OUTPUT)
 
-../README.md: $(SOURCE)
+$(README): $(SOURCE)
 	s1kd2db $(SOURCE) | pandoc -f docbook -t markdown_github > ../README.md
 
-install: $(OUTPUT)
-	cp $(OUTPUT) $(MAN_PREFIX)/
+.PHONY: clean install uninstall
 
 clean:
-	rm -f $(OUTPUT)
+	rm -f $(OUTPUT) $(README)
+
+install: $(OUTPUT)
+	$(INSTALL) $(OUTPUT) $(MAN_PREFIX)
+
+uninstall:
+	rm -f $(MAN_PREFIX)/$(OUTPUT)
