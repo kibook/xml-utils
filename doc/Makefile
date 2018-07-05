@@ -1,17 +1,26 @@
 SOURCE=DMC-XMLUTILS-A-03-00-00-00A-040A-D_EN-CA.XML
+OUTPUT=xml-highlight.1
+README=../README.md
 
-MAN_PREFIX=/usr/local/share/man/man1
+PREFIX=/usr/local
+MAN_PREFIX=$(PREFIX)/share/man/man1
+INSTALL=install
 
-all: xml-highlight.1
+all: $(OUTPUT) $(README)
 
-../README.md: $(SOURCE)
-	s1kd2db $(SOURCE) | pandoc -f docbook -t markdown_github -s -o ../README.md
+$(README): $(SOURCE)
+	s1kd2db $^ | pandoc -f docbook -t markdown_github -s -o $@
 
-xml-highlight.1: $(SOURCE)
-	s1kd2db $(SOURCE) | pandoc -f docbook -t man -s -o xml-highlight.1
+$(OUTPUT): $(SOURCE)
+	s1kd2db $^ | pandoc -f docbook -t man -s -o $@
 
-install: xml-highlight.1
-	cp xml-highlight.1 $(MAN_PREFIX)/
+.PHONY: clean install uninstall
 
 clean:
-	rm -f xml-highlight.1
+	rm -f $(OUTPUT) $(README)
+
+install: $(OUTPUT)
+	$(INSTALL) $(OUTPUT) $(MAN_PREFIX)
+
+uninstall:
+	rm -f $(MAN_PREFIX)/$(OUTPUT)
