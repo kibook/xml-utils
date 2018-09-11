@@ -14,10 +14,15 @@ all: $(OUTPUT)
 $(OUTPUT): $(SOURCE)
 	$(CC) $(CFLAGS) -o $(OUTPUT) $(SOURCE) $(LDFLAGS)
 
-.PHONY: clean install uninstall
+.PHONY: docs clean maintainer-clean install uninstall
+
+docs:
+	$(MAKE) -C doc
 
 clean:
 	rm -f $(OUTPUT)
+
+maintainer-clean: clean
 	$(MAKE) -C doc clean
 
 install: $(OUTPUT)

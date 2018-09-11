@@ -19,7 +19,7 @@ $(README): $(SOURCE)
 clean:
 	rm -f $(OUTPUT)
 
-install: $(OUTPUT)
+install:
 	$(INSTALL) $(OUTPUT) $(MAN_PREFIX)
 
 uninstall:
