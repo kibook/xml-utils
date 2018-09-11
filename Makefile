@@ -9,7 +9,6 @@ INSTALL_PREFIX=$(PREFIX)/bin
 INSTALL=install -s
 
 all: $(OUTPUT)
-	$(MAKE) -C doc
 
 $(OUTPUT): $(SOURCE) languages.h
 	$(CC) $(CFLAGS) -o $(OUTPUT) $(SOURCE) $(LDFLAGS)
@@ -18,10 +17,15 @@ languages.h: syntax.xml classes.xml
 	xxd -i classes.xml > languages.h
 	xxd -i syntax.xml >> languages.h
 
-.PHONY: clean install uninstall
+.PHONY: docs clean maintainer-clean install uninstall
+
+docs:
+	$(MAKE) -C doc
 
 clean:
 	rm -f $(OUTPUT) languages.h
+
+maintainer-clean: clean
 	$(MAKE) -C doc clean
 
 install: $(OUTPUT)
