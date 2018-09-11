@@ -2,17 +2,19 @@
 #include <unistd.h>
 #include <getopt.h>
 #include <string.h>
+#include <stdbool.h>
 #include <libxml/tree.h>
 #include <libxml/xpath.h>
 
 #define PROG_NAME "xml-merge"
-#define VERSION "1.0.0"
+#define VERSION "1.1.0"
 
 void showHelp(void)
 {
-	puts("Usage: " PROG_NAME "[-h?] <dst> <src>");
+	puts("Usage: " PROG_NAME "[-fh?] <dst> <src>");
 	puts("");
 	puts("Options:");
+	puts("  -f         Overwrite <dst> file.");
 	puts("  -h -?      Show help/usage message");
 	puts("  --version  Show version information");
 	puts("  dst        XML file to <src> in to");
@@ -59,12 +61,14 @@ int main(int argc, char **argv)
 
 	int c;
 
-	const char *sopts = "h?";
+	const char *sopts = "fh?";
 	struct option lopts[] = {
 		{"version", no_argument, 0, 0},
 		{0, 0, 0, 0}
 	};
 	int loptind = 0;
+
+	bool overwrite = false;
 
 	while ((c = getopt_long(argc, argv, sopts, lopts, &loptind)) != -1) {
 		switch (c) {
@@ -73,6 +77,9 @@ int main(int argc, char **argv)
 					show_version();
 					return 0;
 				}
+				break;
+			case 'f':
+				overwrite = true;
 				break;
 			case 'h':
 			case '?':
@@ -101,7 +108,11 @@ int main(int argc, char **argv)
 		fprintf(stderr, "xml-merge: ERROR: No element %s to merge on.\n", target2->name);
 	}
 
-	xmlSaveFile("-", doc1);
+	if (overwrite) {
+		xmlSaveFile(fname1, doc1);
+	} else {
+		xmlSaveFile("-", doc1);
+	}
 
 	xmlFreeDoc(doc1);
 	xmlFreeDoc(doc2);

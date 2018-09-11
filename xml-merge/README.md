@@ -6,10 +6,13 @@ The *xml-merge* utility merges two XML files together, based on a common element
 Usage
 =====
 
-    xml-merge [-h?] <dst> <src>
+    xml-merge [-fh?] <dst> <src>
 
 Options
 =======
+
+-f  
+Overwrite the &lt;dst&gt; file with the merged result, instead of writing to stdout.
 
 -h -?  
 Show usage message.
