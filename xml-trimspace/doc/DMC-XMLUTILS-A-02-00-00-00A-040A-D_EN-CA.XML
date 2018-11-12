@@ -6,13 +6,12 @@
       <dmIdent>
         <dmCode modelIdentCode="XMLUTILS" systemDiffCode="A" systemCode="02" subSystemCode="0" subSubSystemCode="0" assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="040" infoCodeVariant="A" itemLocationCode="D"/>
         <language languageIsoCode="en" countryIsoCode="CA"/>
-        <issueInfo issueNumber="002" inWork="00"/>
+        <issueInfo issueNumber="002" inWork="01"/>
       </dmIdent>
       <dmAddressItems>
-        <issueDate year="2018" month="07" day="05"/>
+        <issueDate year="2018" month="11" day="11"/>
         <dmTitle>
           <techName>xml-trimspace(1)</techName>
-          <infoName>Description</infoName>
         </dmTitle>
       </dmAddressItems>
     </dmAddress>
@@ -39,11 +38,11 @@
       <qualityAssurance>
         <unverified/>
       </qualityAssurance>
-      <reasonForUpdate id="rfu-0001" updateReasonType="urt02">
-        <simplePara>Add -h option.</simplePara>
+      <reasonForUpdate id="rfu-0001" updateReasonType="urt02" updateHighlight="1">
+        <simplePara>Swap -n and -N options.</simplePara>
       </reasonForUpdate>
-      <reasonForUpdate id="rfu-0002" updateReasonType="urt02">
-        <simplePara>Add --version option.</simplePara>
+      <reasonForUpdate id="rfu-0002" updateReasonType="urt01">
+        <simplePara>Improve description.</simplePara>
       </reasonForUpdate>
     </dmStatus>
   </identAndStatusSection>
@@ -52,36 +51,50 @@
       <levelledPara>
         <title>General</title>
         <para>The <emphasis>xml-trimspace</emphasis> utility trims whitespace around the text contents of specified elements.</para>
+        <para>Whitespace is trimmed according to the following rules:</para>
+        <para>
+          <randomList>
+            <listItem>
+              <para>Whitespace characters at the beginning of the first text node child of the specified elements are removed.</para>
+            </listItem>
+            <listItem>
+              <para>Whitespace characters at the end of the last text node child of the specified elements are removed.</para>
+            </listItem>
+            <listItem>
+              <para>If the -n option is given, sequences of whitespace characters in all text node children of the specified elements are converted to a single space.</para>
+            </listItem>
+          </randomList>
+        </para>
       </levelledPara>
       <levelledPara>
         <title>Usage</title>
         <para>
-          <verbatimText verbatimStyle="vs24" changeType="modify" reasonForUpdateRefIds="rfu-0001">xml-trimspace [-Nh?] [-n &lt;ns=URL&gt;] &lt;elem&gt;... &lt; &lt;src&gt; &gt; &lt;dst&gt;</verbatimText>
+          <verbatimText verbatimStyle="vs24">xml-trimspace [-nh?] [-N &lt;ns=URL&gt;] &lt;elem&gt;... &lt; &lt;src&gt; &gt; &lt;dst&gt;</verbatimText>
         </para>
       </levelledPara>
       <levelledPara>
         <title>Options</title>
         <para>
           <definitionList>
-            <definitionListItem changeType="add" reasonForUpdateRefIds="rfu-0001">
+            <definitionListItem>
               <listItemTerm>-h -?</listItemTerm>
               <listItemDefinition>
                 <para>Show usage message.</para>
               </listItemDefinition>
             </definitionListItem>
             <definitionListItem>
-              <listItemTerm>-n &lt;ns=URL&gt;</listItemTerm>
+              <listItemTerm>-N &lt;ns=URL&gt;</listItemTerm>
               <listItemDefinition>
                 <para>Registers an XML namespace handle for URL, which can then be used when specifying element names as options. Multiple namespaces can be registered by specifying this option multiple times.</para>
               </listItemDefinition>
             </definitionListItem>
             <definitionListItem>
-              <listItemTerm>-N</listItemTerm>
+              <listItemTerm>-n</listItemTerm>
               <listItemDefinition>
                 <para>Normalize space in the specified elements in addition to trimming whitespace.</para>
               </listItemDefinition>
             </definitionListItem>
-            <definitionListItem changeType="add" reasonForUpdateRefIds="rfu-0002">
+            <definitionListItem>
               <listItemTerm>--version</listItemTerm>
               <listItemDefinition>
                 <para>Show version information.</para>
@@ -124,7 +137,7 @@
 </section>]]></verbatimText>
           </para>
         </levelledPara>
-        <levelledPara>
+        <levelledPara changeMark="1" changeType="modify" reasonForUpdateRefIds="rfu-0001">
           <title>With namespace</title>
           <para>
             <verbatimText verbatimStyle="vs11"><![CDATA[<d:section>
@@ -132,26 +145,27 @@
     Hello world.
   </d:para>
 </d:section>]]></verbatimText>
-            <verbatimText verbatimStyle="vs24">$ xml-trimspace -n d=http://docbook.org/ns/docbook d:para &lt; example.xml</verbatimText>
+            <verbatimText verbatimStyle="vs24">$ xml-trimspace -N d=http://docbook.org/ns/docbook d:para &lt; example.xml</verbatimText>
             <verbatimText verbatimStyle="vs11"><![CDATA[<d:section>
   <d:para>Hello world.</d:para>
 </d:section>]]></verbatimText>
           </para>
         </levelledPara>
-        <levelledPara>
+        <levelledPara changeMark="1" changeType="modify" reasonForUpdateRefIds="rfu-0001">
           <title>Normalizing space</title>
           <para>
             <verbatimText verbatimStyle="vs11"><![CDATA[<section>
   <para>
-    This is a long paragraph with both
-    extra whitespace before and after
-    the text, and line breaks entered
-    by the author to wrap the text on
-    a certain column.
-  </para>]]></verbatimText>
-            <verbatimText verbatimStyle="vs24">$ xml-trimspace -N para &lt; example.xml</verbatimText>
+    This is a <emphasis>long</emphasis>
+    paragraph with both extra whitespace
+    before and after the text, and line
+    breaks entered by the author to wrap
+    the text on a certain column.
+  </para>
+</section>]]></verbatimText>
+            <verbatimText verbatimStyle="vs24">$ xml-trimspace -n para &lt; example.xml</verbatimText>
             <verbatimText verbatimStyle="vs11"><![CDATA[<section>
-  <para>This is a long paragraph with both extra whitespace before
+  <para>This is a <emphasis>long</emphasis> paragraph with both extra whitespace before
 and after the text, and line breaks entered by the author to wrap the
 text on a certain column.</para>
 </section>]]></verbatimText>

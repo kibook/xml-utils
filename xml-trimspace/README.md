@@ -1,12 +1,25 @@
 General
 =======
 
-The *xml-trimspace* utility trims whitespace around the text contents of specified elements.
+The *xml-trimspace* utility trims whitespace around the text contents of
+specified elements.
+
+Whitespace is trimmed according to the following rules:
+
+-   Whitespace characters at the beginning of the first text node child
+    of the specified elements are removed.
+
+-   Whitespace characters at the end of the last text node child of the
+    specified elements are removed.
+
+-   If the -n option is given, sequences of whitespace characters in all
+    text node children of the specified elements are converted to a
+    single space.
 
 Usage
 =====
 
-    xml-trimspace [-Nh?] [-n <ns=URL>] <elem>... < <src> > <dst>
+    xml-trimspace [-nh?] [-N <ns=URL>] <elem>... < <src> > <dst>
 
 Options
 =======
@@ -14,17 +27,21 @@ Options
 -h -?  
 Show usage message.
 
--n &lt;ns=URL&gt;  
-Registers an XML namespace handle for URL, which can then be used when specifying element names as options. Multiple namespaces can be registered by specifying this option multiple times.
+-N &lt;ns=URL&gt;  
+Registers an XML namespace handle for URL, which can then be used when
+specifying element names as options. Multiple namespaces can be
+registered by specifying this option multiple times.
 
--N  
-Normalize space in the specified elements in addition to trimming whitespace.
+-n  
+Normalize space in the specified elements in addition to trimming
+whitespace.
 
 --version  
 Show version information.
 
 &lt;elem&gt;  
-Elements to trim space on. May include a namespace prefix if the namespace was registered with -n.
+Elements to trim space on. May include a namespace prefix if the
+namespace was registered with -n.
 
 &lt;src&gt;  
 The source XML file containing the elements to trim.
@@ -59,7 +76,7 @@ With namespace
       </d:para>
     </d:section>
 
-    $ xml-trimspace -n d=http://docbook.org/ns/docbook d:para < example.xml
+    $ xml-trimspace -N d=http://docbook.org/ns/docbook d:para < example.xml
 
     <d:section>
       <d:para>Hello world.</d:para>
@@ -70,17 +87,18 @@ Normalizing space
 
     <section>
       <para>
-        This is a long paragraph with both
-        extra whitespace before and after
-        the text, and line breaks entered
-        by the author to wrap the text on
-        a certain column.
+        This is a <emphasis>long</emphasis>
+        paragraph with both extra whitespace
+        before and after the text, and line
+        breaks entered by the author to wrap
+        the text on a certain column.
       </para>
+    </section>
 
-    $ xml-trimspace -N para < example.xml
+    $ xml-trimspace -n para < example.xml
 
     <section>
-      <para>This is a long paragraph with both extra whitespace before
+      <para>This is a <emphasis>long</emphasis> paragraph with both extra whitespace before
     and after the text, and line breaks entered by the author to wrap the
     text on a certain column.</para>
     </section>

@@ -8,11 +8,11 @@
 #include <libxml/xpath.h>
 #include <libxml/xpathInternals.h>
 #include <libxslt/transform.h>
-#include "normalize.h"
 
 #define PROG_NAME "xml-trimspace"
-#define VERSION "1.0.0"
+#define VERSION "2.0.0"
 
+/* Remove whitespace on left end of string. */
 char *strltrm(char *dst, const char *src)
 {
 	int start;
@@ -21,6 +21,7 @@ char *strltrm(char *dst, const char *src)
 	return dst;
 }
 
+/* Remove whitespace on right end of string. */
 char *strrtrm(char *dst, const char *src)
 {
 	int len, end;
@@ -30,7 +31,29 @@ char *strrtrm(char *dst, const char *src)
 	return dst;
 }
 
-void registerNs(xmlXPathContextPtr ctx, char *optarg)
+/* Normalize space by replacing all sequences of whitespace characters with a
+ * single space.
+ */
+char *strnorm(char *dst, const char *src)
+{
+	int i, j;
+	j = 0;
+	for (i = 0; src[i]; ++i) {
+		if (isspace(src[i])) {
+			dst[j] = ' ';
+			while (isspace(src[i + 1])) {
+				++i;
+			}
+		} else {
+			dst[j] = src[i];
+		}
+		++j;
+	}
+	return dst;
+}
+
+/* Register an XML namespace with the XPath context. */
+void register_ns(xmlXPathContextPtr ctx, char *optarg)
 {
 	char *prefix, *uri;
 
@@ -40,6 +63,7 @@ void registerNs(xmlXPathContextPtr ctx, char *optarg)
 	xmlXPathRegisterNs(ctx, BAD_CAST prefix, BAD_CAST uri);
 }
 
+/* Trim space in a text node. */
 void trim(xmlNodePtr node, char *(*f)(char *, const char *)) {
 	char *content, *trimmed;
 
@@ -47,14 +71,14 @@ void trim(xmlNodePtr node, char *(*f)(char *, const char *)) {
 	trimmed = calloc(strlen(content) + 1, 1);
 	f(trimmed, content);
 	xmlFree(content);
-	content = (char *) xmlEncodeEntitiesReentrant(node->doc, BAD_CAST trimmed);
 	content = strdup(trimmed);
 	xmlFree(trimmed);
 	xmlNodeSetContent(node, BAD_CAST content);
 	xmlFree(content);
 }
 
-void trimNodes(xmlNodeSetPtr nodes)
+/* Trim all text nodes in a given set of elements. */
+void trim_nodes(xmlNodeSetPtr nodes, bool normalize)
 {
 	int i;
 
@@ -68,52 +92,32 @@ void trimNodes(xmlNodeSetPtr nodes)
 		if ((last = xmlGetLastChild(nodes->nodeTab[i]))->type == XML_TEXT_NODE) {
 			trim(last, strrtrm);
 		}
+
+		if (normalize) {
+			for (first = nodes->nodeTab[i]->children; first; first = first->next) {
+				if (first->type == XML_TEXT_NODE) {
+					trim(first, strnorm);
+				}
+			}
+		}
 	}
 }
 
-xmlDocPtr normalizeElem(xmlDocPtr doc, const char *name)
-{
-	xmlDocPtr styledoc;
-	xsltStylesheetPtr style;
-	const char *params[3];
-	char *namestr;
-	xmlDocPtr res;
-
-	styledoc = xmlReadMemory((const char *) normalize_xsl, normalize_xsl_len, NULL, NULL, 0);
-
-	style = xsltParseStylesheetDoc(styledoc);
-
-	namestr = malloc(strlen(name) + 3);
-	sprintf(namestr, "\"%s\"", name);
-
-	params[0] = "name";
-	params[1] = namestr;
-	params[2] = NULL;
-
-	res = xsltApplyStylesheet(style, doc, params);
-
-	free(namestr);
-
-	xmlFreeDoc(doc);
-
-	xsltFreeStylesheet(style);
-
-	return res;
-}
-
+/* Show usage message. */
 void show_help(void)
 {
 	puts("Usage: " PROG_NAME " [-Nh?] [-n <ns=URL>] < <src> > <dst>");
 	puts("");
 	puts("Options:");
 	puts("  -h -?        Show usage message.");
-	puts("  -N           Normalize space as well as trim.");
-	puts("  -n <ns=URL>  Register a namespace.");
+	puts("  -N <ns=URL>  Register a namespace.");
+	puts("  -n           Normalize space as well as trim.");
 	puts("  <elem>...    Elements to trim space on.");
 	puts("  <src>        Source XML file.");
 	puts("  <dst>        The output file.");
 }
 
+/* Show version information. */
 void show_version(void)
 {
 	printf("%s (xml-utils) %s\n", PROG_NAME, VERSION);
@@ -129,7 +133,7 @@ int main(int argc, char **argv)
 
 	xmlNodePtr ns, cur;
 
-	const char *sopts = "n:Nh?";
+	const char *sopts = "N:nh?";
 	struct option lopts[] = {
 		{"version", no_argument, 0, 0},
 		{0, 0, 0, 0}
@@ -146,10 +150,10 @@ int main(int argc, char **argv)
 					return 0;
 				}
 				break;
-			case 'n':
+			case 'N':
 				xmlNewChild(ns, NULL, BAD_CAST "ns", BAD_CAST optarg);
 				break;
-			case 'N':
+			case 'n':
 				normalize = true;
 				break;
 			case 'h':
@@ -164,7 +168,7 @@ int main(int argc, char **argv)
 	for (cur = ns->children; cur; cur = cur->next) {
 		xmlChar *n;
 		n = xmlNodeGetContent(cur);
-		registerNs(ctx, (char *) n);
+		register_ns(ctx, (char *) n);
 		xmlFree(n);
 	}
 	
@@ -177,14 +181,10 @@ int main(int argc, char **argv)
 		obj = xmlXPathEvalExpression(BAD_CAST xpath, ctx);
 
 		if (!xmlXPathNodeSetIsEmpty(obj->nodesetval)) {
-			trimNodes(obj->nodesetval);
+			trim_nodes(obj->nodesetval, normalize);
 		}
 		
 		xmlXPathFreeObject(obj);
-
-		if (normalize) {
-			doc = normalizeElem(doc, argv[i]);
-		}
 	}
 
 	xmlXPathFreeContext(ctx);

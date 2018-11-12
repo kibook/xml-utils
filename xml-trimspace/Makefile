@@ -10,11 +10,8 @@ INSTALL=install -s
 
 all: $(OUTPUT)
 
-$(OUTPUT): $(SOURCE) normalize.h
+$(OUTPUT): $(SOURCE)
 	$(CC) $(CFLAGS) -o $(OUTPUT) $(SOURCE) $(LDFLAGS)
-
-normalize.h: normalize.xsl
-	xxd -i normalize.xsl > normalize.h
 
 .PHONY: docs clean maintainer-clean install uninstall
 
@@ -23,7 +20,6 @@ docs:
 
 clean:
 	rm -f $(OUTPUT)
-	rm -f normalize.h
 
 maintainer-clean: clean
 	$(MAKE) -C doc clean
