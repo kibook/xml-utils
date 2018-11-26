@@ -10,7 +10,7 @@
 #include <libxslt/transform.h>
 
 #define PROG_NAME "xml-trimspace"
-#define VERSION "2.1.0"
+#define VERSION "2.1.1"
 
 /* Remove whitespace on left end of string. */
 char *strltrm(char *dst, const char *src)
@@ -68,11 +68,14 @@ void trim(xmlNodePtr node, char *(*f)(char *, const char *)) {
 	char *content, *trimmed;
 
 	content = (char *) xmlNodeGetContent(node);
+
 	trimmed = calloc(strlen(content) + 1, 1);
 	f(trimmed, content);
 	xmlFree(content);
+
 	content = strdup(trimmed);
 	xmlFree(trimmed);
+
 	xmlNodeSetContent(node, BAD_CAST content);
 	xmlFree(content);
 }
@@ -84,6 +87,11 @@ void trim_nodes(xmlNodeSetPtr nodes, bool normalize)
 
 	for (i = 0; i < nodes->nodeNr; ++i) {
 		xmlNodePtr first, last;
+
+		/* If node has no children, no trimming is necessary. */
+		if (!nodes->nodeTab[i]->children) {
+			continue;
+		}
 
 		if ((first = nodes->nodeTab[i]->children)->type == XML_TEXT_NODE) {
 			trim(first, strltrm);
@@ -191,6 +199,8 @@ int main(int argc, char **argv)
 
 		obj = xmlXPathEvalExpression(xpath, ctx);
 
+		xmlFree(xpath);
+
 		if (!xmlXPathNodeSetIsEmpty(obj->nodesetval)) {
 			trim_nodes(obj->nodesetval, normalize);
 		}
@@ -203,6 +213,8 @@ int main(int argc, char **argv)
 	xmlSaveFile("-", doc);
 
 	xmlFreeDoc(doc);
+
+	xmlFreeNode(ns);
 
 	xmlCleanupParser();
 
