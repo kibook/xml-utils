@@ -41,7 +41,10 @@ Show version information.
 
 &lt;elem&gt;  
 Elements to trim space on. May include a namespace prefix if the
-namespace was registered with -n.
+namespace was registered with -N. &lt;elem&gt; may be either a simple
+element name (e.g., "para") which matches all elements with the same
+name at any position, or an XPath expression (e.g., "//section/para")
+for finer control.
 
 &lt;src&gt;  
 The source XML file containing the elements to trim.

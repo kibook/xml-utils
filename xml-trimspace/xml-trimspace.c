@@ -10,7 +10,7 @@
 #include <libxslt/transform.h>
 
 #define PROG_NAME "xml-trimspace"
-#define VERSION "2.0.0"
+#define VERSION "2.1.0"
 
 /* Remove whitespace on left end of string. */
 char *strltrm(char *dst, const char *src)
@@ -106,7 +106,7 @@ void trim_nodes(xmlNodeSetPtr nodes, bool normalize)
 /* Show usage message. */
 void show_help(void)
 {
-	puts("Usage: " PROG_NAME " [-Nh?] [-n <ns=URL>] < <src> > <dst>");
+	puts("Usage: " PROG_NAME " [-Nh?] [-n <ns=URL>] <elem>... < <src> > <dst>");
 	puts("");
 	puts("Options:");
 	puts("  -h -?        Show usage message.");
@@ -173,12 +173,23 @@ int main(int argc, char **argv)
 	}
 	
 	for (i = optind; i < argc; ++i) {
-		char xpath[256];
+		xmlChar *xpath;
 		xmlXPathObjectPtr obj;
 
-		snprintf(xpath, 256, "//%s", argv[i]);
+		/* If the element specifier contains a /, treat it like a
+		 * literal XPath expression.
+		 *
+		 * Otherwise, match all elements with the same name at any
+		 * position.
+		 */
+		if (strchr(argv[i], '/')) {
+			xpath = xmlStrdup(BAD_CAST argv[i]);
+		} else {
+			xpath = xmlStrdup(BAD_CAST "//");
+			xpath = xmlStrcat(xpath, BAD_CAST argv[i]);
+		}
 
-		obj = xmlXPathEvalExpression(BAD_CAST xpath, ctx);
+		obj = xmlXPathEvalExpression(xpath, ctx);
 
 		if (!xmlXPathNodeSetIsEmpty(obj->nodesetval)) {
 			trim_nodes(obj->nodesetval, normalize);
