@@ -1,7 +1,14 @@
 SOURCE=xml-trimspace.c
 OUTPUT=xml-trimspace
 
-CFLAGS=-Wall -Werror -pedantic-errors -O3 `pkg-config --cflags libxml-2.0 libxslt`
+CFLAGS=-Wall -Werror -pedantic-errors `pkg-config --cflags libxml-2.0 libxslt`
+
+ifeq ($(DEBUG),1)
+	CFLAGS+=-g
+else
+	CFLAGS+=-O3
+endif
+
 LDFLAGS=`pkg-config --libs libxml-2.0 libxslt`
 
 PREFIX=/usr/local
