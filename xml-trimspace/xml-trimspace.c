@@ -7,10 +7,9 @@
 #include <libxml/tree.h>
 #include <libxml/xpath.h>
 #include <libxml/xpathInternals.h>
-#include <libxslt/transform.h>
 
 #define PROG_NAME "xml-trimspace"
-#define VERSION "2.1.1"
+#define VERSION "2.1.2"
 
 /* Remove whitespace on left end of string. */
 char *strltrm(char *dst, const char *src)
