@@ -11,7 +11,7 @@
       <dmAddressItems>
         <issueDate year="2018" month="11" day="26"/>
         <dmTitle>
-          <techName>xml-trimspace(1)</techName>
+          <techName>xml-trimspace(1) | xml-utils</techName>
         </dmTitle>
       </dmAddressItems>
     </dmAddress>
