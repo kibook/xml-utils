@@ -12,7 +12,6 @@
         <issueDate year="2018" month="09" day="11"/>
         <dmTitle>
           <techName>xml-merge(1)</techName>
-          <infoName>Description</infoName>
         </dmTitle>
       </dmAddressItems>
     </dmAddress>
@@ -47,17 +46,21 @@
   <content>
     <description>
       <levelledPara>
-        <title>General</title>
-        <para>The <emphasis>xml-merge</emphasis> utility merges two XML files together, based on a common element.</para>
+        <title>NAME</title>
+        <para>xml-merge - Merge XML files on a common element</para>
       </levelledPara>
       <levelledPara>
-        <title>Usage</title>
+        <title>SYNOPSIS</title>
         <para>
           <verbatimText verbatimStyle="vs24" changeMark="1" changeType="modify" reasonForUpdateRefIds="rfu-0001">xml-merge [-fh?] &lt;dst&gt; &lt;src&gt;</verbatimText>
         </para>
       </levelledPara>
       <levelledPara>
-        <title>Options</title>
+        <title>DESCRIPTION</title>
+        <para>The <emphasis>xml-merge</emphasis> utility merges two XML files together, based on a common element.</para>
+      </levelledPara>
+      <levelledPara>
+        <title>OPTIONS</title>
         <para>
           <definitionList>
             <definitionListItem changeMark="1" changeType="add" reasonForUpdateRefIds="rfu-0001">
@@ -94,7 +97,7 @@
         </para>
       </levelledPara>
       <levelledPara>
-        <title>Example</title>
+        <title>EXAMPLE</title>
         <para>Given the following two XML files:</para>
         <para>
           <emphasis><verbatimText verbatimStyle="vs02">file1.xml</verbatimText>:</emphasis>
