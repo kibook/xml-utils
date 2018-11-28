@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dmodule>
+<dmodule xmlns:dc="http://www.purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.s1000d.org/S1000D_4-2/xml_schema_flat/descript.xsd">
+  <identAndStatusSection>
+    <dmAddress>
+      <dmIdent>
+        <dmCode modelIdentCode="TEST" systemDiffCode="A" systemCode="00" subSystemCode="0" subSubSystemCode="0" assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="040" infoCodeVariant="A" itemLocationCode="D"/>
+        <language languageIsoCode="en" countryIsoCode="CA"/>
+        <issueInfo issueNumber="000" inWork="01"/>
+      </dmIdent>
+      <dmAddressItems>
+        <issueDate year="2018" month="04" day="04"/>
+        <dmTitle>
+          <techName>Syntax highlighting example</techName>
+        </dmTitle>
+      </dmAddressItems>
+    </dmAddress>
+    <dmStatus issueType="new">
+      <security securityClassification="01"/>
+      <responsiblePartnerCompany>
+        <enterpriseName>khzae.net</enterpriseName>
+      </responsiblePartnerCompany>
+      <originator>
+        <enterpriseName>khzae.net</enterpriseName>
+      </originator>
+      <applic>
+        <displayText>
+          <simplePara>All</simplePara>
+        </displayText>
+      </applic>
+      <brexDmRef>
+        <dmRef>
+          <dmRefIdent>
+            <dmCode modelIdentCode="S1000D" systemDiffCode="F" systemCode="04" subSystemCode="1" subSubSystemCode="0" assyCode="0301" disassyCode="00" disassyCodeVariant="A" infoCode="022" infoCodeVariant="A" itemLocationCode="D"/>
+          </dmRefIdent>
+        </dmRef>
+      </brexDmRef>
+      <qualityAssurance>
+        <unverified/>
+      </qualityAssurance>
+    </dmStatus>
+  </identAndStatusSection>
+  <content>
+    <description>
+      <levelledPara>
+        <title>C</title>
+        <para>
+          <verbatimText verbatimStyle="vs24"><?language c?>int main(int argc, char **argv)
+{
+    puts("Hello, world!");
+    return 0;
+}</verbatimText>
+        </para>
+      </levelledPara>
+      <levelledPara>
+        <title>C#</title>
+        <para>
+          <verbatimText verbatimStyle="vs24"><?language csharp?>using System;
+namespace Hello
+{
+    class HelloWorld
+    {
+        static void Main()
+        {
+            Console.WriteLine("Hello, world!");
+        }
+    }
+}</verbatimText>
+        </para>
+      </levelledPara>
+      <levelledPara>
+        <title>Go</title>
+        <para>
+          <verbatimText verbatimStyle="vs24"><?language go?>package main
+import "fmt"
+func main() {
+    fmt.Println("Hello, world!")
+}</verbatimText>
+        </para>
+      </levelledPara>
+      <levelledPara>
+        <title>Java</title>
+        <para>
+          <verbatimText verbatimStyle="vs24"><?language java?>public class Hello {
+    public static void main(String[] args) {
+        System.out.println("Hello, world!");
+    }
+}</verbatimText>
+        </para>
+      </levelledPara>
+      <levelledPara>
+        <title>Javascript</title>
+        <para>
+          <verbatimText verbatimStyle="vs24"><?language javascript?>function hello() {
+    console.log('Hello, world!');
+}</verbatimText>
+        </para>
+      </levelledPara>
+      <levelledPara>
+        <title>Pascal</title>
+        <para>
+          <verbatimText verbatimStyle="vs24"><?language pascal?>program hello;
+begin
+  writeln('Hello, world!')
+end.</verbatimText>
+        </para>
+      </levelledPara>
+      <levelledPara>
+        <title>POSIX shell</title>
+        <para>
+          <verbatimText verbatimStyle="vs24"><?language sh?>#!/bin/sh
+if true
+do
+    echo "Hello, world!"
+done</verbatimText>
+        </para>
+      </levelledPara>
+      <levelledPara>
+        <title>Python</title>
+        <para>
+          <verbatimText verbatimStyle="vs24"><?language python?>def hello():
+    print 'Hello, world!'</verbatimText>
+        </para>
+      </levelledPara>
+      <levelledPara>
+        <title>Ruby</title>
+        <para>
+          <verbatimText verbatimStyle="vs24"><?language ruby?>def hello
+    print "Hello, world!\n"
+end</verbatimText>
+        </para>
+      </levelledPara>
+      <levelledPara>
+        <title>Rust</title>
+        <para>
+          <verbatimText verbatimStyle="vs24"><?language rust?>fn main() {
+    println!("Hello, world!");
+}</verbatimText>
+        </para>
+      </levelledPara>
+      <levelledPara>
+        <title>SQL</title>
+        <para>
+          <verbatimText verbatimStyle="vs24"><?language sql?>SELECT *
+FROM messages
+WHERE text = 'Hello, world!';</verbatimText>
+        </para>
+      </levelledPara>
+      <levelledPara>
+        <title>XML</title>
+        <para>
+          <verbatimText verbatimStyle="vs11"><?language xml?><![CDATA[<root>
+  <message>Hello, world!</message>
+</root>]]></verbatimText>
+        </para>
+      </levelledPara>
+      <levelledPara>
+        <title>XSL</title>
+        <para>
+          <verbatimText verbatimStyle="vs11"><?language xsl?><![CDATA[<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+  <xsl:template match="root">
+    <msg>
+      <xsl:value-of select="message"/>
+    </msg>
+  </xsl:template>
+</xsl:stylesheet>]]></verbatimText>
+        </para>
+      </levelledPara>
+    </description>
+  </content>
+</dmodule>

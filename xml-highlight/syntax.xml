@@ -1,0 +1,590 @@
+<?xml version="1.0"?>
+<syntax>
+  <language name="c">
+    <area start="&quot;" end="&quot;" class="literal"/>
+    <area start="&apos;" end="&apos;" class="literal"/>
+    <area start="/*" end="*/" class="comment"/>
+    <area start="//" end="&#10;" class="comment"/>
+    <keyword match="auto" class="modifier"/>
+    <keyword match="break" class="control"/>
+    <keyword match="case" class="control"/>
+    <keyword match="char" class="type"/>
+    <keyword match="const" class="modifier"/>
+    <keyword match="continue" class="control"/>
+    <keyword match="default" class="control"/>
+    <keyword match="do" class="control"/>
+    <keyword match="double" class="type"/>
+    <keyword match="else" class="control"/>
+    <keyword match="enum" class="type"/>
+    <keyword match="extern" class="modifier"/>
+    <keyword match="float" class="type"/>
+    <keyword match="for" class="control"/>
+    <keyword match="goto" class="control"/>
+    <keyword match="if" class="control"/>
+    <keyword match="inline" class="modifier"/>
+    <keyword match="int" class="type"/>
+    <keyword match="long" class="type"/>
+    <keyword match="register" class="modifier"/>
+    <keyword match="restrict" class="modifier"/>
+    <keyword match="return" class="control"/>
+    <keyword match="short" class="type"/>
+    <keyword match="signed" class="type"/>
+    <keyword match="sizeof" class="control"/>
+    <keyword match="static" class="modifier"/>
+    <keyword match="struct" class="type"/>
+    <keyword match="switch" class="control"/>
+    <keyword match="typedef" class="type"/>
+    <keyword match="union" class="type"/>
+    <keyword match="unsigned" class="type"/>
+    <keyword match="void" class="type"/>
+    <keyword match="volatile" class="modifier"/>
+    <keyword match="while" class="control"/>
+  </language>
+  <language name="csharp">
+    <area start="/*" end="*/" class="comment"/>
+    <area start="//" end="&#10;" class="comment"/>
+    <area start="&quot;" end="&quot;" class="literal"/>
+    <area start="&apos;" end="&apos;" class="literal"/>
+    <keyword match="abstract" class="modifier"/>
+    <keyword match="as" class="control"/>
+    <keyword match="base" class="variable"/>
+    <keyword match="bool" class="type"/>
+    <keyword match="break" class="control"/>
+    <keyword match="byte" class="type"/>
+    <keyword match="case" class="control"/>
+    <keyword match="catch" class="control"/>
+    <keyword match="char" class="type"/>
+    <keyword match="checked" class="modifier"/>
+    <keyword match="class" class="type"/>
+    <keyword match="const" class="modifier"/>
+    <keyword match="continue" class="control"/>
+    <keyword match="decimal" class="type"/>
+    <keyword match="default" class="control"/>
+    <keyword match="delegate" class="type"/>
+    <keyword match="do" class="control"/>
+    <keyword match="double" class="type"/>
+    <keyword match="else" class="control"/>
+    <keyword match="enum" class="type"/>
+    <keyword match="event" class="type"/>
+    <keyword match="explicit" class="modifier"/>
+    <keyword match="extern" class="modifier"/>
+    <keyword match="false" class="literal"/>
+    <keyword match="finally" class="control"/>
+    <keyword match="fixed" class="modifier"/>
+    <keyword match="float" class="type"/>
+    <keyword match="for" class="control"/>
+    <keyword match="foreach" class="control"/>
+    <keyword match="goto" class="control"/>
+    <keyword match="if" class="control"/>
+    <keyword match="implicit" class="modifier"/>
+    <keyword match="in" class="control"/>
+    <keyword match="int" class="type"/>
+    <keyword match="interface" class="type"/>
+    <keyword match="internal" class="modifier"/>
+    <keyword match="is" class="control"/>
+    <keyword match="lock" class="control"/>
+    <keyword match="long" class="type"/>
+    <keyword match="namespace" class="type"/>
+    <keyword match="new" class="control"/>
+    <keyword match="null" class="literal"/>
+    <keyword match="object" class="type"/>
+    <keyword match="operator" class="type"/>
+    <keyword match="out" class="modifier"/>
+    <keyword match="override" class="modifier"/>
+    <keyword match="params" class="modifier"/>
+    <keyword match="private" class="modifier"/>
+    <keyword match="protected" class="modifier"/>
+    <keyword match="public" class="modifier"/>
+    <keyword match="readonly" class="modifier"/>
+    <keyword match="ref" class="modifier"/>
+    <keyword match="return" class="control"/>
+    <keyword match="sbyte" class="type"/>
+    <keyword match="sealed" class="modifier"/>
+    <keyword match="short" class="type"/>
+    <keyword match="sizeof" class="control"/>
+    <keyword match="stackalloc" class="modifier"/>
+    <keyword match="static" class="modifier"/>
+    <keyword match="string" class="type"/>
+    <keyword match="struct" class="type"/>
+    <keyword match="switch" class="control"/>
+    <keyword match="this" class="variable"/>
+    <keyword match="throw" class="control"/>
+    <keyword match="true" class="literal"/>
+    <keyword match="try" class="control"/>
+    <keyword match="typeof" class="control"/>
+    <keyword match="uint" class="type"/>
+    <keyword match="ulong" class="type"/>
+    <keyword match="unchecked" class="modifier"/>
+    <keyword match="unsafe" class="modifier"/>
+    <keyword match="ushort" class="type"/>
+    <keyword match="using" class="control"/>
+    <keyword match="virtual" class="modifier"/>
+    <keyword match="void" class="type"/>
+    <keyword match="volatile" class="modifier"/>
+    <keyword match="while" class="control"/>
+  </language>
+  <language name="go">
+    <area start="/*" end="*/" class="comment"/>
+    <area start="//" end="&#10;" class="comment"/>
+    <area start="&quot;" end="&quot;" class="literal"/>
+    <area start="&apos;" end="&apos;" class="literal"/>
+    <keyword match="break" class="control"/>
+    <keyword match="case" class="control"/>
+    <keyword match="chan" class="type"/>
+    <keyword match="const" class="modifier"/>
+    <keyword match="continue" class="control"/>
+    <keyword match="default" class="control"/>
+    <keyword match="defer" class="control"/>
+    <keyword match="else" class="control"/>
+    <keyword match="fallthrough" class="control"/>
+    <keyword match="for" class="control"/>
+    <keyword match="func" class="type"/>
+    <keyword match="go" class="control"/>
+    <keyword match="goto" class="control"/>
+    <keyword match="if" class="control"/>
+    <keyword match="import" class="control"/>
+    <keyword match="interface" class="type"/>
+    <keyword match="map" class="type"/>
+    <keyword match="package" class="type"/>
+    <keyword match="range" class="type"/>
+    <keyword match="return" class="control"/>
+    <keyword match="select" class="control"/>
+    <keyword match="struct" class="type"/>
+    <keyword match="switch" class="control"/>
+    <keyword match="type" class="type"/>
+    <keyword match="var" class="type"/>
+  </language>
+  <language name="java">
+    <area start="/*" end="*/" class="comment"/>
+    <area start="//" end="&#10;" class="comment"/>
+    <area start="&quot;" end="&quot;" class="literal"/>
+    <area start="&apos;" end="&apos;" class="literal"/>
+    <keyword match="abstract" class="modifier"/>
+    <keyword match="assert" class="control"/>
+    <keyword match="boolean" class="type"/>
+    <keyword match="break" class="control"/>
+    <keyword match="byte" class="type"/>
+    <keyword match="case" class="control"/>
+    <keyword match="catch" class="control"/>
+    <keyword match="char" class="type"/>
+    <keyword match="class" class="type"/>
+    <keyword match="const" class="modifier"/>
+    <keyword match="continue" class="control"/>
+    <keyword match="default" class="control"/>
+    <keyword match="double" class="type"/>
+    <keyword match="do" class="control"/>
+    <keyword match="else" class="control"/>
+    <keyword match="enum" class="type"/>
+    <keyword match="extends" class="modifier"/>
+    <keyword match="false" class="literal"/>
+    <keyword match="final" class="modifier"/>
+    <keyword match="finally" class="control"/>
+    <keyword match="float" class="type"/>
+    <keyword match="for" class="control"/>
+    <keyword match="goto" class="control"/>
+    <keyword match="if" class="control"/>
+    <keyword match="implements" class="modifier"/>
+    <keyword match="import" class="control"/>
+    <keyword match="instanceof" class="control"/>
+    <keyword match="int" class="type"/>
+    <keyword match="interface" class="type"/>
+    <keyword match="long" class="type"/>
+    <keyword match="native" class="modifier"/>
+    <keyword match="new" class="control"/>
+    <keyword match="null" class="literal"/>
+    <keyword match="package" class="type"/>
+    <keyword match="private" class="modifier"/>
+    <keyword match="protected" class="modifier"/>
+    <keyword match="public" class="modifier"/>
+    <keyword match="return" class="control"/>
+    <keyword match="short" class="type"/>
+    <keyword match="static" class="modifier"/>
+    <keyword match="strictfp" class="modifier"/>
+    <keyword match="super" class="control"/>
+    <keyword match="switch" class="control"/>
+    <keyword match="synchronized" class="modifier"/>
+    <keyword match="this" class="variable"/>
+    <keyword match="throw" class="control"/>
+    <keyword match="throws" class="modifier"/>
+    <keyword match="transient" class="modifier"/>
+    <keyword match="true" class="literal"/>
+    <keyword match="try" class="control"/>
+    <keyword match="void" class="type"/>
+    <keyword match="volatile" class="modifier"/>
+    <keyword match="while" class="control"/>
+  </language>
+  <language name="javascript">
+    <area start="&quot;" end="&quot;" class="literal"/>
+    <area start="&apos;" end="&apos;" class="literal"/>
+    <area start="/*" end="*/" class="comment"/>
+    <area start="//" end="&#10;" class="comment"/>
+    <keyword match="abstract" class="modifier"/>
+    <keyword match="arguments" class="control"/>
+    <keyword match="await" class="control"/>
+    <keyword match="boolean" class="type"/>
+    <keyword match="break" class="control"/>
+    <keyword match="byte" class="type"/>
+    <keyword match="case" class="control"/>
+    <keyword match="catch" class="control"/>
+    <keyword match="char" class="type"/>
+    <keyword match="class" class="type"/>
+    <keyword match="const" class="modifier"/>
+    <keyword match="continue" class="control"/>
+    <keyword match="debugger" class="control"/>
+    <keyword match="default" class="control"/>
+    <keyword match="delete" class="control"/>
+    <keyword match="do" class="control"/>
+    <keyword match="double" class="type"/>
+    <keyword match="else" class="control"/>
+    <keyword match="enum" class="type"/>
+    <keyword match="eval" class="control"/>
+    <keyword match="export" class="control"/>
+    <keyword match="extends" class="modifier"/>
+    <keyword match="false" class="literal"/>
+    <keyword match="final" class="modifier"/>
+    <keyword match="finally" class="control"/>
+    <keyword match="float" class="type"/>
+    <keyword match="for" class="control"/>
+    <keyword match="function" class="type"/>
+    <keyword match="goto" class="control"/>
+    <keyword match="if" class="control"/>
+    <keyword match="implements" class="modifier"/>
+    <keyword match="import" class="control"/>
+    <keyword match="in" class="control"/>
+    <keyword match="instanceof" class="control"/>
+    <keyword match="int" class="type"/>
+    <keyword match="interface" class="type"/>
+    <keyword match="let" class="control"/>
+    <keyword match="long" class="type"/>
+    <keyword match="native" class="modifier"/>
+    <keyword match="new" class="control"/>
+    <keyword match="null" class="literal"/>
+    <keyword match="package" class="control"/>
+    <keyword match="private" class="modifier"/>
+    <keyword match="protected" class="modifier"/>
+    <keyword match="public" class="modifier"/>
+    <keyword match="return" class="control"/>
+    <keyword match="short" class="type"/>
+    <keyword match="static" class="modifier"/>
+    <keyword match="super" class="control"/>
+    <keyword match="switch" class="control"/>
+    <keyword match="synchronized" class="modifier"/>
+    <keyword match="this" class="variable"/>
+    <keyword match="throw" class="control"/>
+    <keyword match="throws" class="modifier"/>
+    <keyword match="transient" class="modifier"/>
+    <keyword match="true" class="literal"/>
+    <keyword match="try" class="control"/>
+    <keyword match="typeof" class="type"/>
+    <keyword match="var" class="type"/>
+    <keyword match="void" class="type"/>
+    <keyword match="volatile" class="modifier"/>
+    <keyword match="while" class="control"/>
+    <keyword match="with" class="control"/>
+  </language>
+  <language name="pascal" caseInsensitive="yes">
+    <area start="&apos;" end="&apos;" class="literal"/>
+    <area start="{" end="}" class="comment"/>
+    <area start="(*" end="*)" class="comment"/>
+    <keyword match="and" class="control"/>
+    <keyword match="array" class="type"/>
+    <keyword match="begin" class="control"/>
+    <keyword match="case" class="control"/>
+    <keyword match="const" class="control"/>
+    <keyword match="div" class="control"/>
+    <keyword match="do" class="control"/>
+    <keyword match="downto" class="control"/>
+    <keyword match="else" class="control"/>
+    <keyword match="end" class="control"/>
+    <keyword match="false" class="literal"/>
+    <keyword match="file" class="type"/>
+    <keyword match="for" class="control"/>
+    <keyword match="function" class="control"/>
+    <keyword match="goto" class="control"/>
+    <keyword match="if" class="control"/>
+    <keyword match="label" class="control"/>
+    <keyword match="mod" class="control"/>
+    <keyword match="nil" class="literal"/>
+    <keyword match="not" class="control"/>
+    <keyword match="or" class="control"/>
+    <keyword match="packed" class="modifier"/>
+    <keyword match="procedure" class="control"/>
+    <keyword match="program" class="control"/>
+    <keyword match="record" class="type"/>
+    <keyword match="repeat" class="control"/>
+    <keyword match="set" class="type"/>
+    <keyword match="then" class="control"/>
+    <keyword match="to" class="control"/>
+    <keyword match="true" class="literal"/>
+    <keyword match="type" class="control"/>
+    <keyword match="until" class="control"/>
+    <keyword match="var" class="control"/>
+    <keyword match="while" class="control"/>
+    <keyword match="with" class="control"/>
+  </language>
+  <language name="python">
+    <area start="#" end="&#10;" class="comment"/>
+    <area start="&quot;" end="&quot;" class="literal"/>
+    <area start="&apos;" end="&apos;" class="literal"/>
+    <keyword match="and" class="control"/>
+    <keyword match="assert" class="control"/>
+    <keyword match="break" class="control"/>
+    <keyword match="class" class="type"/>
+    <keyword match="continue" class="control"/>
+    <keyword match="def" class="control"/>
+    <keyword match="del" class="control"/>
+    <keyword match="elif" class="control"/>
+    <keyword match="else" class="control"/>
+    <keyword match="except" class="control"/>
+    <keyword match="exec" class="control"/>
+    <keyword match="finally" class="control"/>
+    <keyword match="for" class="control"/>
+    <keyword match="from" class="control"/>
+    <keyword match="global" class="modifier"/>
+    <keyword match="if" class="control"/>
+    <keyword match="import" class="control"/>
+    <keyword match="in" class="control"/>
+    <keyword match="is" class="control"/>
+    <keyword match="lambda" class="type"/>
+    <keyword match="not" class="control"/>
+    <keyword match="or" class="control"/>
+    <keyword match="pass" class="control"/>
+    <keyword match="print" class="control"/>
+    <keyword match="raise" class="control"/>
+    <keyword match="return" class="control"/>
+    <keyword match="try" class="control"/>
+    <keyword match="while" class="control"/>
+  </language>
+  <language name="ruby">
+    <area start="=begin" end="=end" class="comment"/>
+    <area start="#" end="&#10;" class="comment"/>
+    <area start="&quot;" end="&quot;" class="literal"/>
+    <area start="&apos;" end="&apos;" class="literal"/>
+    <keyword match="alias" class="control"/>
+    <keyword match="and" class="control"/>
+    <keyword match="begin" class="control"/>
+    <keyword match="break" class="control"/>
+    <keyword match="case" class="control"/>
+    <keyword match="class" class="type"/>
+    <keyword match="def" class="control"/>
+    <keyword match="defined?" class="control"/>
+    <keyword match="do" class="control"/>
+    <keyword match="else" class="control"/>
+    <keyword match="elsif" class="control"/>
+    <keyword match="end" class="control"/>
+    <keyword match="ensure" class="control"/>
+    <keyword match="false" class="literal"/>
+    <keyword match="for" class="control"/>
+    <keyword match="if" class="control"/>
+    <keyword match="in" class="control"/>
+    <keyword match="module" class="type"/>
+    <keyword match="next" class="control"/>
+    <keyword match="nil" class="literal"/>
+    <keyword match="not" class="control"/>
+    <keyword match="or" class="control"/>
+    <keyword match="redo" class="control"/>
+    <keyword match="rescue" class="control"/>
+    <keyword match="retry" class="control"/>
+    <keyword match="return" class="control"/>
+    <keyword match="self" class="variable"/>
+    <keyword match="super" class="variable"/>
+    <keyword match="then" class="control"/>
+    <keyword match="true" class="literal"/>
+    <keyword match="undef" class="control"/>
+    <keyword match="unless" class="control"/>
+    <keyword match="until" class="control"/>
+    <keyword match="when" class="control"/>
+    <keyword match="while" class="control"/>
+    <keyword match="yield" class="control"/>
+  </language>
+  <language name="rust">
+    <area start="/*" end="*/" class="comment"/>
+    <area start="//" end="&#10;" class="comment"/>
+    <area start="&quot;" end="&quot;" class="literal"/>
+    <area start="&apos;" end="&apos;" class="literal"/>
+    <keyword match="as" class="control"/>
+    <keyword match="break" class="control"/>
+    <keyword match="const" class="modifier"/>
+    <keyword match="continue" class="control"/>
+    <keyword match="crate" class="type"/>
+    <keyword match="else" class="control"/>
+    <keyword match="enum" class="type"/>
+    <keyword match="false" class="literal"/>
+    <keyword match="fn" class="type"/>
+    <keyword match="for" class="control"/>
+    <keyword match="if" class="control"/>
+    <keyword match="impl" class="modifier"/>
+    <keyword match="in" class="control"/>
+    <keyword match="let" class="control"/>
+    <keyword match="loop" class="control"/>
+    <keyword match="match" class="control"/>
+    <keyword match="mod" class="type"/>
+    <keyword match="move" class="control"/>
+    <keyword match="mut" class="modifier"/>
+    <keyword match="pub" class="modifier"/>
+    <keyword match="ref" class="modifier"/>
+    <keyword match="return" class="control"/>
+    <keyword match="Self" class="variable"/>
+    <keyword match="self" class="variable"/>
+    <keyword match="static" class="modifier"/>
+    <keyword match="struct" class="type"/>
+    <keyword match="super" class="variable"/>
+    <keyword match="trait" class="type"/>
+    <keyword match="true" class="literal"/>
+    <keyword match="type" class="type"/>
+    <keyword match="unsafe" class="modifier"/>
+    <keyword match="use" class="control"/>
+    <keyword match="where" class="modifier"/>
+    <keyword match="while" class="control"/>
+  </language>
+  <language name="sh">
+    <area start="#" end="&#10;" class="comment"/>
+    <area start="&quot;" end="&quot;" class="literal"/>
+    <area start="&apos;" end="&apos;" class="literal"/>
+    <keyword match="case" class="control"/>
+    <keyword match="do" class="control"/>
+    <keyword match="done" class="control"/>
+    <keyword match="elif" class="control"/>
+    <keyword match="else" class="control"/>
+    <keyword match="esac" class="control"/>
+    <keyword match="fi" class="control"/>
+    <keyword match="for" class="control"/>
+    <keyword match="if" class="control"/>
+    <keyword match="in" class="control"/>
+    <keyword match="then" class="control"/>
+    <keyword match="until" class="control"/>
+    <keyword match="while" class="control"/>
+  </language>
+  <language name="sql" caseInsensitive="yes">
+    <area start="--" end="&#10;" class="comment"/>
+    <area start="&apos;" end="&apos;" class="literal"/>
+    <keyword match="ABSOLUTE" class="modifier"/>
+    <keyword match="ACTION" class="type"/>
+    <keyword match="ADD" class="control"/>
+    <keyword match="ALL" class="control"/>
+    <keyword match="ALTER" class="control"/>
+    <keyword match="AND" class="control"/>
+    <keyword match="ANY" class="control"/>
+    <keyword match="AS" class="control"/>
+    <keyword match="ASC" class="modifier"/>
+    <keyword match="AT" class="control"/>
+    <keyword match="AVG" class="control"/>
+    <keyword match="BEGIN" class="control"/>
+    <keyword match="BETWEEN" class="control"/>
+    <keyword match="BOTH" class="control"/>
+    <keyword match="BY" class="control"/>
+    <keyword match="CASCADE" class="control"/>
+    <keyword match="CASCADED" class="control"/>
+    <keyword match="CASE" class="control"/>
+    <keyword match="CAST" class="control"/>
+    <keyword match="CATALOG" class="type"/>
+    <keyword match="CHAR" class="type"/>
+    <keyword match="CHARACTER" class="type"/>
+    <keyword match="CHECK" class="control"/>
+    <keyword match="CLOSE" class="control"/>
+    <keyword match="COALESCE" class="control"/>
+    <keyword match="COLLATE" class="control"/>
+    <keyword match="COLLATION" class="type"/>
+    <keyword match="COLUMN" class="type"/>
+    <keyword match="COMMIT" class="control"/>
+    <keyword match="CONNECT" class="control"/>
+    <keyword match="CONNECTION" class="type"/>
+    <keyword match="CONSTRAINT" class="type"/>
+    <keyword match="CONSTRAINTS" class="type"/>
+    <keyword match="CONTINUE" class="control"/>
+    <keyword match="CONVERT" class="control"/>
+    <keyword match="CREATE" class="control"/>
+    <keyword match="CROSS" class="modifier"/>
+    <keyword match="CURRENT" class="type"/>
+    <keyword match="CURSOR" class="type"/>
+    <keyword match="DATABASE" class="type"/>
+    <keyword match="DATE" class="type"/>
+    <keyword match="DAY" class="type"/>
+    <keyword match="DEC" class="type"/>
+    <keyword match="DECIMAL" class="type"/>
+    <keyword match="DECLARE" class="control"/>
+    <keyword match="DEFAULT" class="modifier"/>
+    <keyword match="DELETE" class="control"/>
+    <keyword match="DESC" class="modifier"/>
+    <keyword match="DISCONNECT" class="control"/>
+    <keyword match="DISTINCT" class="modifier"/>
+    <keyword match="DO" class="control"/>
+    <keyword match="DROP" class="control"/>
+    <keyword match="EACH" class="control"/>
+    <keyword match="ELSE" class="control"/>
+    <keyword match="END" class="control"/>
+    <keyword match="EXCEPT" class="control"/>
+    <keyword match="EXEC" class="control"/>
+    <keyword match="EXECUTE" class="control"/>
+    <keyword match="EXISTS" class="control"/>
+    <keyword match="FALSE" class="literal"/>
+    <keyword match="FETCH" class="control"/>
+    <keyword match="FIRST" class="type"/>
+    <keyword match="FLOAT" class="type"/>
+    <keyword match="FOR" class="control"/>
+    <keyword match="FOREIGN" class="modifier"/>
+    <keyword match="FROM" class="control"/>
+    <keyword match="GRANT" class="control"/>
+    <keyword match="GROUP" class="control"/>
+    <keyword match="HAVING" class="control"/>
+    <keyword match="HOUR" class="type"/>
+    <keyword match="IDENTITY" class="control"/>
+    <keyword match="IF" class="control"/>
+    <keyword match="IN" class="control"/>
+    <keyword match="INDEX" class="type"/>
+    <keyword match="INNER" class="modifier"/>
+    <keyword match="INSERT" class="control"/>
+    <keyword match="INT" class="type"/>
+    <keyword match="INTEGER" class="type"/>
+    <keyword match="INTERSECT" class="control"/>
+    <keyword match="INTO" class="control"/>
+    <keyword match="JOIN" class="control"/>
+    <keyword match="KEY" class="type"/>
+    <keyword match="LAST" class="type"/>
+    <keyword match="LEFT" class="modifier"/>
+    <keyword match="LIKE" class="control"/>
+    <keyword match="NULL" class="literal"/>
+    <keyword match="NUMERIC" class="modifier"/>
+    <keyword match="OR" class="control"/>
+    <keyword match="ORDER" class="control"/>
+    <keyword match="OUTER" class="modifier"/>
+    <keyword match="OVERLAPS" class="modifier"/>
+    <keyword match="PRIMARY" class="modifier"/>
+    <keyword match="PROCEDURE" class="type"/>
+    <keyword match="REFERENCES" class="modifier"/>
+    <keyword match="RIGHT" class="modifier"/>
+    <keyword match="ROLLBACK" class="control"/>
+    <keyword match="SELECT" class="control"/>
+    <keyword match="SOME" class="control"/>
+    <keyword match="TABLE" class="type"/>
+    <keyword match="THEN" class="control"/>
+    <keyword match="TIME" class="type"/>
+    <keyword match="TIMESTAMP" class="type"/>
+    <keyword match="TO" class="control"/>
+    <keyword match="TRAILING" class="modifier"/>
+    <keyword match="TRANSACTION" class="type"/>
+    <keyword match="TRUE" class="literal"/>
+    <keyword match="UNION" class="control"/>
+    <keyword match="UNIQUE" class="modifier"/>
+    <keyword match="UPDATE" class="control"/>
+    <keyword match="USER" class="type"/>
+    <keyword match="USING" class="modifier"/>
+    <keyword match="VALUES" class="control"/>
+    <keyword match="VARCHAR" class="type"/>
+    <keyword match="VIEW" class="type"/>
+    <keyword match="WHEN" class="control"/>
+    <keyword match="WHERE" class="control"/>
+    <keyword match="WINDOW" class="type"/>
+    <keyword match="WITH" class="control"/>
+  </language>
+  <language name="xml">
+    <area start="&lt;!--" end="--&gt;" class="comment"/>
+    <area start="&lt;" end="&gt;" class="modifier"/>
+  </language>
+  <language name="xsl">
+    <area start="&lt;!--" end="--&gt;" class="comment"/>
+    <area start="&lt;xsl:" end="&gt;" class="control"/>
+    <area start="&lt;/xsl:" end="&gt;" class="control"/>
+    <area start="&lt;" end="&gt;" class="modifier"/>
+  </language>
+</syntax>

@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+<article xmlns="http://docbook.org/ns/docbook">
+  <section>
+    <title>C</title>
+    <programlisting><?language c?>int main(int argc, char **argv)
+{
+    puts("Hello, world!");
+    return 0;
+}</programlisting>
+  </section>
+  <section>
+    <title>C#</title>
+    <programlisting><?language csharp?>using System;
+namespace Hello
+{
+    class HelloWorld
+    {
+        static void Main()
+        {
+            Console.WriteLine("Hello, world!");
+        }
+    }
+}</programlisting>
+  </section>
+  <section>
+    <title>Go</title>
+    <programlisting><?language go?>package main
+import "fmt"
+func main() {
+    fmt.Println("Hello, world!")
+}</programlisting>
+  </section>
+  <section>
+    <title>Java</title>
+    <programlisting><?language java?>public class Hello {
+    public static void main(String[] args) {
+        System.out.println("Hello, world!");
+    }
+}</programlisting>
+  </section>
+  <section>
+    <title>Javascript</title>
+    <programlisting><?language javascript?>function hello() {
+    console.log("Hello, world!");
+}</programlisting>
+  </section>
+  <section>
+    <title>Pascal</title>
+    <programlisting><?language pascal?>program hello;
+begin
+  writeln('Hello, world!')
+end.</programlisting>
+  </section>
+  <section>
+    <title>POSIX shell</title>
+    <programlisting><?language sh?>#!/bin/sh
+if true
+do
+    echo "Hello, world!"
+done</programlisting>
+  </section>
+  <section>
+    <title>Python</title>
+    <programlisting><?language python?>def hello():
+    print 'Hello, world!'</programlisting>
+  </section>
+  <section>
+    <title>Ruby</title>
+    <programlisting><?language ruby?>def hello
+    print "Hello, world!\n"
+end</programlisting>
+  </section>
+  <section>
+    <title>Rust</title>
+    <programlisting><?language rust?>fn main() {
+    println!("Hello, world!");
+}</programlisting>
+  </section>
+  <section>
+    <title>SQL</title>
+    <programlisting><?language sql?>SELECT *
+FROM messages
+WHERE text = 'Hello, world!';</programlisting>
+  </section>
+  <section>
+    <title>XML</title>
+    <programlisting><?language xml?><![CDATA[<root>
+  <message>Hello, world!</message>
+</root>]]></programlisting>
+  </section>
+  <section>
+    <title>XSL</title>
+    <programlisting><?language xsl?><![CDATA[<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+  <xsl:template match="root">
+    <msg>
+      <xsl:value-of select="message"/>
+    </msg>
+  </xsl:template>
+</xsl:stylesheet>]]></programlisting>
+  </section>
+</article>

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<classes xmlns:fo="http://www.w3.org/1999/XSL/Format">
+  <class id="type">
+    <fo:inline color="green"/>
+  </class>
+  <class id="modifier">
+    <fo:inline color="teal"/>
+  </class>
+  <class id="control">
+    <fo:inline color="violet"/>
+  </class>
+  <class id="literal">
+    <fo:inline color="red"/>
+  </class>
+  <class id="comment">
+    <fo:inline color="blue"/>
+  </class>
+  <class id="variable">
+    <fo:inline color="orange"/>
+  </class>
+</classes>
