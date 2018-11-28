@@ -11,9 +11,15 @@ SYNOPSIS
 DESCRIPTION
 ===========
 
-The *xml-highlight* tool adds syntax highlighting to program listings in an XML document. By default this is accomplished by wrapping detected syntax in XSL-FO inline elements with the proper namespace to allow a stylesheet to pass them through to the final FO processor. The actual elements used can be customized, however.
+The *xml-highlight* tool adds syntax highlighting to program listings in
+an XML document. By default this is accomplished by wrapping detected
+syntax in XSL-FO inline elements with the proper namespace to allow a
+stylesheet to pass them through to the final FO processor. The actual
+elements used can be customized, however.
 
-To enable highlighting on text in an element, include the processing instruction `<?language ...?>` in the element, where `...` is the name of the language.
+To enable highlighting on text in an element, include the processing
+instruction `<?language ...?>` in the element, where `...` is the name
+of the language.
 
 OPTIONS
 =======
@@ -36,7 +42,8 @@ Show version information.
 CLASS FILE FORMAT
 =================
 
-The following describes the format of the custom class file specified with -c.
+The following describes the format of the custom class file specified
+with -c.
 
 Classes
 -------
@@ -54,7 +61,10 @@ Classes
 Class
 -----
 
-Represents a type of syntax and how it should be highlighted. This element can also occur within the `syntax` element or within a particular `language` element, in which case it is specific to that language.
+Represents a type of syntax and how it should be highlighted. This
+element can also occur within the `syntax` element or within a
+particular `language` element, in which case it is specific to that
+language.
 
 *Markup element:* &lt;`class`&gt;
 
@@ -64,7 +74,8 @@ Represents a type of syntax and how it should be highlighted. This element can a
 
 *Child elements:*
 
-The element `class` contains one child element of any kind, which any matching syntax will be wrapped in to.
+The element `class` contains one child element of any kind, which any
+matching syntax will be wrapped in to.
 
 Example custom classes file
 ---------------------------
@@ -87,7 +98,8 @@ Example custom classes file
 SYNTAX FILE FORMAT
 ==================
 
-The following describes the format of the custom syntax file specified with -s.
+The following describes the format of the custom syntax file specified
+with -s.
 
 Syntax
 ------
@@ -115,7 +127,8 @@ Describes the syntax of a particular language.
 
 -   `name`, the identifier of the language.
 
--   `caseInsensitive`, indicates whether keywords are case-insensitive in this language, with one of the following values:
+-   `caseInsensitive`, indicates whether keywords are case-insensitive
+    in this language, with one of the following values:
 
     -   `"no"` - Keywords are case-sensitive (default)
 
@@ -146,7 +159,8 @@ Matches a section of delimited text, such as strings, comments, etc.
 
 *Child elements:*
 
-If attribute `class` is not used, this element can contain one element of any kind, in which the text matching the area will be wrapped.
+If attribute `class` is not used, this element can contain one element
+of any kind, in which the text matching the area will be wrapped.
 
 Keyword
 -------
@@ -163,7 +177,8 @@ Matches a particular keyword.
 
 *Child elements:*
 
-If attribute `class` is not used, this element can contain one element of any kind, in which the text matching the keyword will be wrapped.
+If attribute `class` is not used, this element can contain one element
+of any kind, in which the text matching the keyword will be wrapped.
 
 Example custom syntax file
 --------------------------
@@ -182,7 +197,8 @@ Example custom syntax file
 BUILT-IN LANGUAGES
 ==================
 
-The following is a list of language syntaxes currently built-in to the tool:
+The following is a list of language syntaxes currently built-in to the
+tool:
 
 -   c
 
