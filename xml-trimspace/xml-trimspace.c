@@ -114,12 +114,13 @@ void trim_nodes(xmlNodeSetPtr nodes, bool normalize)
 /* Show usage message. */
 void show_help(void)
 {
-	puts("Usage: " PROG_NAME " [-Nh?] [-n <ns=URL>] <elem>... < <src> > <dst>");
+	puts("Usage: " PROG_NAME " [-N <ns=URL>] [-nh?] <elem>... < <src> > <dst>");
 	puts("");
 	puts("Options:");
 	puts("  -h -?        Show usage message.");
 	puts("  -N <ns=URL>  Register a namespace.");
 	puts("  -n           Normalize space as well as trim.");
+	puts("  --version    Show version information.");
 	puts("  <elem>...    Elements to trim space on.");
 	puts("  <src>        Source XML file.");
 	puts("  <dst>        The output file.");

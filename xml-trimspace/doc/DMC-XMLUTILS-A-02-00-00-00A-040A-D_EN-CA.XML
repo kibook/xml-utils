@@ -56,7 +56,7 @@
         <para>The <emphasis>xml-trimspace</emphasis> utility trims whitespace around the text contents of specified elements.</para>
         <para>Whitespace is trimmed according to the following rules:</para>
         <para>
-          <randomList>
+          <sequentialList>
             <listItem>
               <para>Whitespace characters at the beginning of the first text node child of the specified elements are removed.</para>
             </listItem>
@@ -66,13 +66,13 @@
             <listItem>
               <para>If the -n option is given, sequences of whitespace characters in all text node children of the specified elements are converted to a single space.</para>
             </listItem>
-          </randomList>
+          </sequentialList>
         </para>
       </levelledPara>
       <levelledPara>
         <title>Usage</title>
         <para>
-          <verbatimText verbatimStyle="vs24">xml-trimspace [-nh?] [-N &lt;ns=URL&gt;] &lt;elem&gt;... &lt; &lt;src&gt; &gt; &lt;dst&gt;</verbatimText>
+          <verbatimText verbatimStyle="vs24">xml-trimspace [-N &lt;ns=URL&gt;] [-nh?] &lt;elem&gt;... &lt; &lt;src&gt; &gt; &lt;dst&gt;</verbatimText>
         </para>
       </levelledPara>
       <levelledPara>
@@ -104,7 +104,7 @@
               </listItemDefinition>
             </definitionListItem>
             <definitionListItem>
-              <listItemTerm>&lt;elem&gt;</listItemTerm>
+              <listItemTerm>&lt;elem&gt;...</listItemTerm>
               <listItemDefinition>
                 <para changeMark="1" changeType="modify" reasonForUpdateRefIds="rfu-0001 rfu-0003">Elements to trim space on. May include a namespace prefix if the namespace was registered with -N. &lt;elem&gt; may be either a simple element name (e.g., "para") which matches all elements with the same name at any position, or an XPath expression (e.g., "//section/para") for finer control.</para>
               </listItemDefinition>

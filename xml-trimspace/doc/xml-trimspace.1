@@ -8,13 +8,13 @@ The \f[I]xml\-trimspace\f[] utility trims whitespace around the text
 contents of specified elements.
 .PP
 Whitespace is trimmed according to the following rules:
-.IP \[bu] 2
+.IP "1." 3
 Whitespace characters at the beginning of the first text node child of
 the specified elements are removed.
-.IP \[bu] 2
+.IP "2." 3
 Whitespace characters at the end of the last text node child of the
 specified elements are removed.
-.IP \[bu] 2
+.IP "3." 3
 If the \-n option is given, sequences of whitespace characters in all
 text node children of the specified elements are converted to a single
 space.
@@ -22,7 +22,7 @@ space.
 .IP
 .nf
 \f[C]
-xml\-trimspace\ [\-nh?]\ [\-N\ <ns=URL>]\ <elem>...\ <\ <src>\ >\ <dst>
+xml\-trimspace\ [\-N\ <ns=URL>]\ [\-nh?]\ <elem>...\ <\ <src>\ >\ <dst>
 \f[]
 .fi
 .SH Options
@@ -51,7 +51,7 @@ Show version information.
 .RS
 .RE
 .TP
-.B <elem>
+.B <elem>...
 Elements to trim space on.
 May include a namespace prefix if the namespace was registered with \-N.
 <elem> may be either a simple element name (e.g., "para") which matches

@@ -6,20 +6,20 @@ specified elements.
 
 Whitespace is trimmed according to the following rules:
 
--   Whitespace characters at the beginning of the first text node child
+1.  Whitespace characters at the beginning of the first text node child
     of the specified elements are removed.
 
--   Whitespace characters at the end of the last text node child of the
+2.  Whitespace characters at the end of the last text node child of the
     specified elements are removed.
 
--   If the -n option is given, sequences of whitespace characters in all
+3.  If the -n option is given, sequences of whitespace characters in all
     text node children of the specified elements are converted to a
     single space.
 
 Usage
 =====
 
-    xml-trimspace [-nh?] [-N <ns=URL>] <elem>... < <src> > <dst>
+    xml-trimspace [-N <ns=URL>] [-nh?] <elem>... < <src> > <dst>
 
 Options
 =======
@@ -39,7 +39,7 @@ whitespace.
 --version  
 Show version information.
 
-&lt;elem&gt;  
+&lt;elem&gt;...  
 Elements to trim space on. May include a namespace prefix if the
 namespace was registered with -N. &lt;elem&gt; may be either a simple
 element name (e.g., "para") which matches all elements with the same
