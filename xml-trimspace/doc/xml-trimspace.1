@@ -2,7 +2,17 @@
 .\"
 .TH "xml\-trimspace" "1" "2018\-11\-26" "" ""
 .hy
-.SH General
+.SH NAME
+.PP
+xml\-trimspace \- Trim whitespace in XML elements
+.SH SYNOPSIS
+.IP
+.nf
+\f[C]
+xml\-trimspace\ [\-N\ <ns=URL>]\ [\-nh?]\ <elem>...\ <\ <src>\ >\ <dst>
+\f[]
+.fi
+.SH DESCRIPTION
 .PP
 The \f[I]xml\-trimspace\f[] utility trims whitespace around the text
 contents of specified elements.
@@ -18,14 +28,7 @@ specified elements are removed.
 If the \-n option is given, sequences of whitespace characters in all
 text node children of the specified elements are converted to a single
 space.
-.SH Usage
-.IP
-.nf
-\f[C]
-xml\-trimspace\ [\-N\ <ns=URL>]\ [\-nh?]\ <elem>...\ <\ <src>\ >\ <dst>
-\f[]
-.fi
-.SH Options
+.SH OPTIONS
 .TP
 .B \-h \-?
 Show usage message.
@@ -69,7 +72,7 @@ The source XML file containing the elements to trim.
 The output file.
 .RS
 .RE
-.SH Example
+.SH EXAMPLES
 .SS Without namespace
 .IP
 .nf

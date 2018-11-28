@@ -1,5 +1,15 @@
-General
-=======
+NAME
+====
+
+xml-trimspace - Trim whitespace in XML elements
+
+SYNOPSIS
+========
+
+    xml-trimspace [-N <ns=URL>] [-nh?] <elem>... < <src> > <dst>
+
+DESCRIPTION
+===========
 
 The *xml-trimspace* utility trims whitespace around the text contents of
 specified elements.
@@ -16,12 +26,7 @@ Whitespace is trimmed according to the following rules:
     text node children of the specified elements are converted to a
     single space.
 
-Usage
-=====
-
-    xml-trimspace [-N <ns=URL>] [-nh?] <elem>... < <src> > <dst>
-
-Options
+OPTIONS
 =======
 
 -h -?  
@@ -52,8 +57,8 @@ The source XML file containing the elements to trim.
 &lt;dst&gt;  
 The output file.
 
-Example
-=======
+EXAMPLES
+========
 
 Without namespace
 -----------------

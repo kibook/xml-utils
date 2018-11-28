@@ -52,7 +52,17 @@
   <content>
     <description>
       <levelledPara>
-        <title>General</title>
+        <title>NAME</title>
+        <para>xml-trimspace - Trim whitespace in XML elements</para>
+      </levelledPara>
+      <levelledPara>
+        <title>SYNOPSIS</title>
+        <para>
+          <verbatimText verbatimStyle="vs24">xml-trimspace [-N &lt;ns=URL&gt;] [-nh?] &lt;elem&gt;... &lt; &lt;src&gt; &gt; &lt;dst&gt;</verbatimText>
+        </para>
+      </levelledPara>
+      <levelledPara>
+        <title>DESCRIPTION</title>
         <para>The <emphasis>xml-trimspace</emphasis> utility trims whitespace around the text contents of specified elements.</para>
         <para>Whitespace is trimmed according to the following rules:</para>
         <para>
@@ -70,13 +80,7 @@
         </para>
       </levelledPara>
       <levelledPara>
-        <title>Usage</title>
-        <para>
-          <verbatimText verbatimStyle="vs24">xml-trimspace [-N &lt;ns=URL&gt;] [-nh?] &lt;elem&gt;... &lt; &lt;src&gt; &gt; &lt;dst&gt;</verbatimText>
-        </para>
-      </levelledPara>
-      <levelledPara>
-        <title>Options</title>
+        <title>OPTIONS</title>
         <para>
           <definitionList>
             <definitionListItem>
@@ -125,7 +129,7 @@
         </para>
       </levelledPara>
       <levelledPara>
-        <title>Example</title>
+        <title>EXAMPLES</title>
         <levelledPara>
           <title>Without namespace</title>
           <para>
