@@ -1,7 +1,14 @@
 SOURCE=xml-highlight.c
 OUTPUT=xml-highlight
 
-CFLAGS=-Wall -pedantic-errors -O3 `pkg-config --cflags libxml-2.0`
+CFLAGS=-Wall -pedantic-errors `pkg-config --cflags libxml-2.0`
+
+ifeq ($(DEBUG),1)
+	CFLAGS+=-g
+else
+	CFLAGS+=-O3
+endif
+
 LDFLAGS=`pkg-config --libs libxml-2.0`
 
 PREFIX=/usr/local
