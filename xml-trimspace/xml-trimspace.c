@@ -9,7 +9,7 @@
 #include <libxml/xpathInternals.h>
 
 #define PROG_NAME "xml-trimspace"
-#define VERSION "2.1.2"
+#define VERSION "2.1.3"
 
 /* Remove whitespace on left end of string. */
 char *strltrm(char *dst, const char *src)
@@ -129,6 +129,7 @@ void show_help(void)
 void show_version(void)
 {
 	printf("%s (xml-utils) %s\n", PROG_NAME, VERSION);
+	printf("Using libxml %s\n", xmlParserVersion);
 }
 
 int main(int argc, char **argv)

@@ -7,7 +7,7 @@
 #include <libxml/xpath.h>
 
 #define PROG_NAME "xml-merge"
-#define VERSION "1.1.0"
+#define VERSION "1.1.1"
 
 void showHelp(void)
 {
@@ -24,6 +24,7 @@ void showHelp(void)
 void show_version(void)
 {
 	printf("%s (xml-utils) %s\n", PROG_NAME, VERSION);
+	printf("Using libxml %s\n", xmlParserVersion);
 }
 
 xmlNodePtr firstXPathNode(char *xpath, xmlDocPtr doc)

@@ -8,7 +8,7 @@
 #include "languages.h"
 
 #define PROG_NAME "xml-highlight"
-#define VERSION "1.0.0"
+#define VERSION "1.0.1"
 
 #define PRE_KEYWORD_DELIM BAD_CAST " (\n"
 #define POST_KEYWORD_DELIM BAD_CAST " .,);\n"
@@ -377,7 +377,8 @@ void show_help(void)
 
 void show_version(void)
 {
-	printf("%s %s\n", PROG_NAME, VERSION);
+	printf("%s (xml-utils) %s\n", PROG_NAME, VERSION);
+	printf("Using libxml %s\n", xmlParserVersion);
 }
 
 int main(int argc, char **argv)
