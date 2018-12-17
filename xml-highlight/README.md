@@ -28,7 +28,7 @@ OPTIONS
 Use a custom class definitions file.
 
 -f  
-Overwrite input data module(s) instead of outputting to stdout.
+Overwrite input XML file(s) instead of outputting to stdout.
 
 -h -?  
 Show help/usage message.
