@@ -1,4 +1,4 @@
-TARGETS=xml-merge xml-trimspace xml-highlight
+TARGETS=xml-format xml-highlight xml-merge xml-trimspace
 
 all docs clean maintainer-clean install uninstall: $(TARGETS)
 
