@@ -16,6 +16,14 @@ $\ xml\-format\ [\-fh?]\ [\-i\ <str>]\ [<file>...]
 .PP
 The \f[I]xml\-format\f[] utility pretty prints an XML document by
 removing ignorable blank nodes and indenting the XML tree.
+.PP
+A text node is considered ignorable if:
+.IP \[bu] 2
+its contents are entirely whitespace
+.IP \[bu] 2
+all its sibling text nodes are also ignorable
+.IP \[bu] 2
+it has at least one sibling node of any kind
 .SH OPTIONS
 .TP
 .B \-f
@@ -49,11 +57,11 @@ If none are specified, the utility will read from stdin.
 .nf
 \f[C]
 $\ cat\ doc.xml
-<section>
+<section>\ \ \ \ \ <title>Example</title>
 
-\ \ <title>Example</title>
+<para><emphasis>A</emphasis>\ <emphasis>B</emphasis>\ C</para>
 
-\ \ <para><emphasis>A</emphasis>\ <emphasis>B</emphasis>\ C</para>
+<empty>\ \ \ \ </empty>
 
 </section>
 
@@ -61,6 +69,7 @@ $\ xml\-format\ test.xml
 <section>
 \ \ <title>Example</title>
 \ \ <para><emphasis>A</emphasis>\ <emphasis>B</emphasis>\ C</para>
+\ \ <empty>\ \ \ \ </empty>
 </section>
 \f[]
 .fi

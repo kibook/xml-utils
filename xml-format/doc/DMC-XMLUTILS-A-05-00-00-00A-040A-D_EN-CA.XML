@@ -6,7 +6,7 @@
       <dmIdent>
         <dmCode modelIdentCode="XMLUTILS" systemDiffCode="A" systemCode="05" subSystemCode="0" subSubSystemCode="0" assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="040" infoCodeVariant="A" itemLocationCode="D"/>
         <language languageIsoCode="en" countryIsoCode="CA"/>
-        <issueInfo issueNumber="000" inWork="01"/>
+        <issueInfo issueNumber="000" inWork="02"/>
       </dmIdent>
       <dmAddressItems>
         <issueDate year="2019" month="02" day="20"/>
@@ -38,6 +38,9 @@
       <qualityAssurance>
         <unverified/>
       </qualityAssurance>
+      <reasonForUpdate updateHighlight="1">
+        <simplePara>New XML formatting tool.</simplePara>
+      </reasonForUpdate>
     </dmStatus>
   </identAndStatusSection>
   <content>
@@ -55,6 +58,20 @@
       <levelledPara>
         <title>DESCRIPTION</title>
         <para>The <emphasis>xml-format</emphasis> utility pretty prints an XML document by removing ignorable blank nodes and indenting the XML tree.</para>
+        <para>A text node is considered ignorable if:</para>
+        <para>
+          <randomList>
+            <listItem>
+              <para>its contents are entirely whitespace</para>
+            </listItem>
+            <listItem>
+              <para>all its sibling text nodes are also ignorable</para>
+            </listItem>
+            <listItem>
+              <para>it has at least one sibling node of any kind</para>
+            </listItem>
+          </randomList>
+        </para>
       </levelledPara>
       <levelledPara>
         <title>OPTIONS</title>
@@ -97,11 +114,11 @@
         <title>EXAMPLE</title>
         <para>
           <verbatimText verbatimStyle="vs24"><![CDATA[$ cat doc.xml
-<section>
+<section>     <title>Example</title>
 
-  <title>Example</title>
+<para><emphasis>A</emphasis> <emphasis>B</emphasis> C</para>
 
-  <para><emphasis>A</emphasis> <emphasis>B</emphasis> C</para>
+<empty>    </empty>
 
 </section>
 
@@ -109,6 +126,7 @@ $ xml-format test.xml
 <section>
   <title>Example</title>
   <para><emphasis>A</emphasis> <emphasis>B</emphasis> C</para>
+  <empty>    </empty>
 </section>]]></verbatimText>
         </para>
       </levelledPara>

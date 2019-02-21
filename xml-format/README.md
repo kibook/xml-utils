@@ -14,6 +14,14 @@ DESCRIPTION
 The *xml-format* utility pretty prints an XML document by removing
 ignorable blank nodes and indenting the XML tree.
 
+A text node is considered ignorable if:
+
+-   its contents are entirely whitespace
+
+-   all its sibling text nodes are also ignorable
+
+-   it has at least one sibling node of any kind
+
 OPTIONS
 =======
 
@@ -38,11 +46,11 @@ EXAMPLE
 =======
 
     $ cat doc.xml
-    <section>
+    <section>     <title>Example</title>
 
-      <title>Example</title>
+    <para><emphasis>A</emphasis> <emphasis>B</emphasis> C</para>
 
-      <para><emphasis>A</emphasis> <emphasis>B</emphasis> C</para>
+    <empty>    </empty>
 
     </section>
 
@@ -50,4 +58,5 @@ EXAMPLE
     <section>
       <title>Example</title>
       <para><emphasis>A</emphasis> <emphasis>B</emphasis> C</para>
+      <empty>    </empty>
     </section>
