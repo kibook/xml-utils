@@ -6,7 +6,7 @@
 #include <libxml/tree.h>
 
 #define PROG_NAME "xml-format"
-#define VERSION "1.0.0"
+#define VERSION "1.0.1"
 
 /* Returns true if: 
  * - The node contains a mix of text and non-text children
@@ -16,6 +16,10 @@ bool blanks_are_removable(xmlNodePtr node)
 {
 	xmlNodePtr cur;
 	int i;
+
+	if (xmlNodeGetSpacePreserve(node) == 1) {
+		return false;
+	}
 
 	for (cur = node->children, i = 0; cur; cur = cur->next, ++i) {
 		if (cur->type == XML_TEXT_NODE && !xmlIsBlankNode(cur)) {

@@ -6,7 +6,7 @@
       <dmIdent>
         <dmCode modelIdentCode="XMLUTILS" systemDiffCode="A" systemCode="05" subSystemCode="0" subSubSystemCode="0" assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="040" infoCodeVariant="A" itemLocationCode="D"/>
         <language languageIsoCode="en" countryIsoCode="CA"/>
-        <issueInfo issueNumber="000" inWork="02"/>
+        <issueInfo issueNumber="000" inWork="03"/>
       </dmIdent>
       <dmAddressItems>
         <issueDate year="2019" month="02" day="20"/>
@@ -61,6 +61,9 @@
         <para>A text node is considered ignorable if:</para>
         <para>
           <randomList>
+            <listItem>
+              <para>its parent does not set or inherit xml:space as "preserve"</para>
+            </listItem>
             <listItem>
               <para>its contents are entirely whitespace</para>
             </listItem>
@@ -120,6 +123,9 @@
 
 <empty>    </empty>
 
+<p><b>A</b> <b>B</b> <b>C</b></p>
+<p xml:space="preserve"><b>A</b> <b>B</b> <b>C</b></p>
+
 </section>
 
 $ xml-format test.xml
@@ -127,6 +133,12 @@ $ xml-format test.xml
   <title>Example</title>
   <para><emphasis>A</emphasis> <emphasis>B</emphasis> C</para>
   <empty>    </empty>
+  <p>
+    <b>A</b>
+    <b>B</b>
+    <b>C</b>
+  </p>
+  <p xml:space="preserve"><b>A</b> <b>B</b> <b>C</b></p>
 </section>]]></verbatimText>
         </para>
       </levelledPara>

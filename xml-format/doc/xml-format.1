@@ -19,6 +19,8 @@ removing ignorable blank nodes and indenting the XML tree.
 .PP
 A text node is considered ignorable if:
 .IP \[bu] 2
+its parent does not set or inherit xml:space as "preserve"
+.IP \[bu] 2
 its contents are entirely whitespace
 .IP \[bu] 2
 all its sibling text nodes are also ignorable
@@ -63,6 +65,9 @@ $\ cat\ doc.xml
 
 <empty>\ \ \ \ </empty>
 
+<p><b>A</b>\ <b>B</b>\ <b>C</b></p>
+<p\ xml:space="preserve"><b>A</b>\ <b>B</b>\ <b>C</b></p>
+
 </section>
 
 $\ xml\-format\ test.xml
@@ -70,6 +75,12 @@ $\ xml\-format\ test.xml
 \ \ <title>Example</title>
 \ \ <para><emphasis>A</emphasis>\ <emphasis>B</emphasis>\ C</para>
 \ \ <empty>\ \ \ \ </empty>
+\ \ <p>
+\ \ \ \ <b>A</b>
+\ \ \ \ <b>B</b>
+\ \ \ \ <b>C</b>
+\ \ </p>
+\ \ <p\ xml:space="preserve"><b>A</b>\ <b>B</b>\ <b>C</b></p>
 </section>
 \f[]
 .fi

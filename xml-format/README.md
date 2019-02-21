@@ -16,6 +16,8 @@ ignorable blank nodes and indenting the XML tree.
 
 A text node is considered ignorable if:
 
+-   its parent does not set or inherit xml:space as "preserve"
+
 -   its contents are entirely whitespace
 
 -   all its sibling text nodes are also ignorable
@@ -52,6 +54,9 @@ EXAMPLE
 
     <empty>    </empty>
 
+    <p><b>A</b> <b>B</b> <b>C</b></p>
+    <p xml:space="preserve"><b>A</b> <b>B</b> <b>C</b></p>
+
     </section>
 
     $ xml-format test.xml
@@ -59,4 +64,10 @@ EXAMPLE
       <title>Example</title>
       <para><emphasis>A</emphasis> <emphasis>B</emphasis> C</para>
       <empty>    </empty>
+      <p>
+        <b>A</b>
+        <b>B</b>
+        <b>C</b>
+      </p>
+      <p xml:space="preserve"><b>A</b> <b>B</b> <b>C</b></p>
     </section>
