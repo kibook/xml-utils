@@ -6,7 +6,7 @@
 #include <libxml/tree.h>
 
 #define PROG_NAME "xml-format"
-#define VERSION "1.0.1"
+#define VERSION "1.0.2"
 
 /* Returns true if: 
  * - The node contains a mix of text and non-text children
@@ -69,7 +69,9 @@ void format_file(const char *path, bool overwrite)
 {
 	xmlDocPtr doc;
 
-	doc = xmlReadFile(path, NULL, 0);
+	if (!(doc = xmlReadFile(path, NULL, 0))) {
+		return;
+	}
 
 	format(xmlDocGetRootElement(doc));
 
