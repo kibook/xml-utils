@@ -6,7 +6,7 @@
 #include <libxml/tree.h>
 
 #define PROG_NAME "xml-format"
-#define VERSION "1.0.2"
+#define VERSION "1.1.0"
 
 /* Returns true if: 
  * - The node contains a mix of text and non-text children
@@ -65,7 +65,7 @@ void format(xmlNodePtr node)
 }
 
 /* Format an XML file. */
-void format_file(const char *path, bool overwrite)
+void format_file(const char *path, const char *out, bool overwrite)
 {
 	xmlDocPtr doc;
 
@@ -75,7 +75,9 @@ void format_file(const char *path, bool overwrite)
 
 	format(xmlDocGetRootElement(doc));
 
-	if (overwrite) {
+	if (out) {
+		xmlSaveFormatFile(out, doc, 1);
+	} else if (overwrite) {
 		xmlSaveFormatFile(path, doc, 1);
 	} else {
 		xmlSaveFormatFile("-", doc, 1);
@@ -87,14 +89,15 @@ void format_file(const char *path, bool overwrite)
 /* Show usage message. */
 void show_help(void)
 {
-	puts("Usage: " PROG_NAME " [-fh?] [-i <str>] [<file>...]");
+	puts("Usage: " PROG_NAME " [-fh?] [-i <str>] [-o <path>] [<file>...]");
 	puts("");
 	puts("Options:");
-	puts("  -f        Overwrite input XML files.");
-	puts("  -h -?     Show usage message.");
-	puts("  -i <str>  Set the indentation string.");
-	puts(" --version  Show version information.");
-	puts("  <file>    XML file(s) to format. Otherwise, read from stdin.");
+	puts("  -f         Overwrite input XML files.");
+	puts("  -h -?      Show usage message.");
+	puts("  -i <str>   Set the indentation string.");
+	puts("  -o <path>  Output to <path> instead of stdout.");
+	puts(" --version   Show version information.");
+	puts("  <file>     XML file(s) to format. Otherwise, read from stdin.");
 }
 
 /* Show version information. */
@@ -107,7 +110,7 @@ void show_version(void)
 int main(int argc, char **argv)
 {
 	int i;
-	const char *sopts = "fi:h?";
+	const char *sopts = "fi:o:h?";
 	struct option lopts[] = {
 		{"version", no_argument, 0, 0},
 		{0, 0, 0, 0}
@@ -116,6 +119,7 @@ int main(int argc, char **argv)
 
 	bool overwrite = false;
 	char *indent = NULL;
+	char *out = NULL;
 
 	while ((i = getopt_long(argc, argv, sopts, lopts, &loptind)) != -1) {
 		switch (i) {
@@ -131,6 +135,9 @@ int main(int argc, char **argv)
 			case 'i':
 				indent = strdup(optarg);
 				break;
+			case 'o':
+				out = strdup(optarg);
+				break;
 			case 'h':
 			case '?':
 				show_help();
@@ -144,13 +151,14 @@ int main(int argc, char **argv)
 
 	if (optind < argc) {
 		for (i = optind; i < argc; ++i) {
-			format_file(argv[i], overwrite);
+			format_file(argv[i], out, overwrite);
 		}
 	} else {
-		format_file("-", false);
+		format_file("-", out, false);
 	}
 
 	free(indent);
+	free(out);
 
 	return 0;
 }

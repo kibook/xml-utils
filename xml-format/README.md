@@ -6,7 +6,7 @@ xml-format - Format XML files
 SYNOPSIS
 ========
 
-    $ xml-format [-fh?] [-i <str>] [<file>...]
+    $ xml-format [-fh?] [-i <str>] [-o &lt;path&gt;] [<file>...]
 
 DESCRIPTION
 ===========
@@ -36,6 +36,9 @@ Show usage message.
 -i &lt;str&gt;  
 Use &lt;str&gt; to indent each level of the XML tree. The default is two
 spaces.
+
+-o &lt;path&gt;  
+Output formatted XML to &lt;path&gt; instead of stdout.
 
 --version  
 Show version information.
