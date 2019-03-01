@@ -6,13 +6,25 @@
 #include <libxml/tree.h>
 
 #define PROG_NAME "xml-format"
-#define VERSION "1.1.0"
+#define VERSION "1.2.0"
 
-/* Returns true if: 
- * - The node contains a mix of text and non-text children
- * - ALL the text nodes are empty text nodes
+/* Formatter options */
+#define FORMAT_OVERWRITE	0x01
+#define FORMAT_KEEPWSONLY	0x02
+
+/* Determine if an option is set. */
+bool optset(int opts, int opt)
+{
+	return ((opts & opt) == opt);
+}
+
+/* The blank text node children in an element are considered removable only if
+ * ALL the text node children of that element are blank (no mixed content).
+ *
+ * If FORMAT_KEEPWSONLY is set, an element with a single blank text node child
+ * will not be convereted to an empty element.
  */
-bool blanks_are_removable(xmlNodePtr node)
+bool blanks_are_removable(xmlNodePtr node, int opts)
 {
 	xmlNodePtr cur;
 	int i;
@@ -27,7 +39,7 @@ bool blanks_are_removable(xmlNodePtr node)
 		}
 	}
 
-	return i > 1;
+	return i > 1 || !optset(opts, FORMAT_KEEPWSONLY);
 }
 
 /* Remove blank children. */
@@ -51,21 +63,21 @@ void remove_blanks(xmlNodePtr node)
 }
 
 /* Format XML nodes. */
-void format(xmlNodePtr node)
+void format(xmlNodePtr node, int opts)
 {
 	xmlNodePtr cur;
 
-	if (blanks_are_removable(node)) {
+	if (blanks_are_removable(node, opts)) {
 		remove_blanks(node);
 	}
 
 	for (cur = node->children; cur; cur = cur->next) {
-		format(cur);
+		format(cur, opts);
 	}
 }
 
 /* Format an XML file. */
-void format_file(const char *path, const char *out, bool overwrite)
+void format_file(const char *path, const char *out, int opts)
 {
 	xmlDocPtr doc;
 
@@ -73,11 +85,11 @@ void format_file(const char *path, const char *out, bool overwrite)
 		return;
 	}
 
-	format(xmlDocGetRootElement(doc));
+	format(xmlDocGetRootElement(doc), opts);
 
 	if (out) {
 		xmlSaveFormatFile(out, doc, 1);
-	} else if (overwrite) {
+	} else if (optset(opts, FORMAT_OVERWRITE)) {
 		xmlSaveFormatFile(path, doc, 1);
 	} else {
 		xmlSaveFormatFile("-", doc, 1);
@@ -89,13 +101,14 @@ void format_file(const char *path, const char *out, bool overwrite)
 /* Show usage message. */
 void show_help(void)
 {
-	puts("Usage: " PROG_NAME " [-fh?] [-i <str>] [-o <path>] [<file>...]");
+	puts("Usage: " PROG_NAME " [-fwh?] [-i <str>] [-o <path>] [<file>...]");
 	puts("");
 	puts("Options:");
 	puts("  -f         Overwrite input XML files.");
 	puts("  -h -?      Show usage message.");
 	puts("  -i <str>   Set the indentation string.");
 	puts("  -o <path>  Output to <path> instead of stdout.");
+	puts("  -w         Preserve elements containing only whitespace.");
 	puts(" --version   Show version information.");
 	puts("  <file>     XML file(s) to format. Otherwise, read from stdin.");
 }
@@ -110,14 +123,14 @@ void show_version(void)
 int main(int argc, char **argv)
 {
 	int i;
-	const char *sopts = "fi:o:h?";
+	const char *sopts = "fi:o:wh?";
 	struct option lopts[] = {
 		{"version", no_argument, 0, 0},
 		{0, 0, 0, 0}
 	};
 	int loptind = 0;
 
-	bool overwrite = false;
+	int opts = 0;
 	char *indent = NULL;
 	char *out = NULL;
 
@@ -130,13 +143,16 @@ int main(int argc, char **argv)
 				}
 				break;
 			case 'f':
-				overwrite = true;
+				opts |= FORMAT_OVERWRITE;
 				break;
 			case 'i':
 				indent = strdup(optarg);
 				break;
 			case 'o':
 				out = strdup(optarg);
+				break;
+			case 'w':
+				opts |= FORMAT_KEEPWSONLY;
 				break;
 			case 'h':
 			case '?':
@@ -151,10 +167,10 @@ int main(int argc, char **argv)
 
 	if (optind < argc) {
 		for (i = optind; i < argc; ++i) {
-			format_file(argv[i], out, overwrite);
+			format_file(argv[i], out, opts);
 		}
 	} else {
-		format_file("-", out, false);
+		format_file("-", out, opts);
 	}
 
 	free(indent);

@@ -6,7 +6,7 @@ xml-format - Format XML files
 SYNOPSIS
 ========
 
-    $ xml-format [-fh?] [-i <str>] [-o &lt;path&gt;] [<file>...]
+    $ xml-format [-fwh?] [-i <str>] [-o &lt;path&gt;] [<file>...]
 
 DESCRIPTION
 ===========
@@ -21,8 +21,6 @@ A text node is considered ignorable if:
 -   its contents are entirely whitespace
 
 -   all its sibling text nodes are also ignorable
-
--   it has at least one sibling node of any kind
 
 OPTIONS
 =======
@@ -39,6 +37,10 @@ spaces.
 
 -o &lt;path&gt;  
 Output formatted XML to &lt;path&gt; instead of stdout.
+
+-w  
+Preserve elements which contain only whitespace. Otherwise, these are
+converted to empty elements.
 
 --version  
 Show version information.
@@ -66,7 +68,7 @@ EXAMPLE
     <section>
       <title>Example</title>
       <para><emphasis>A</emphasis> <emphasis>B</emphasis> C</para>
-      <empty>    </empty>
+      <empty/>
       <p>
         <b>A</b>
         <b>B</b>

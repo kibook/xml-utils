@@ -6,10 +6,10 @@
       <dmIdent>
         <dmCode modelIdentCode="XMLUTILS" systemDiffCode="A" systemCode="05" subSystemCode="0" subSubSystemCode="0" assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="040" infoCodeVariant="A" itemLocationCode="D"/>
         <language languageIsoCode="en" countryIsoCode="CA"/>
-        <issueInfo issueNumber="000" inWork="04"/>
+        <issueInfo issueNumber="000" inWork="05"/>
       </dmIdent>
       <dmAddressItems>
-        <issueDate year="2019" month="02" day="28"/>
+        <issueDate year="2019" month="03" day="01"/>
         <dmTitle>
           <techName>xml-format(1) | xml-utils</techName>
         </dmTitle>
@@ -52,7 +52,7 @@
       <levelledPara>
         <title>SYNOPSIS</title>
         <para>
-          <verbatimText verbatimStyle="vs24"><![CDATA[$ xml-format [-fh?] [-i <str>] [-o &lt;path&gt;] [<file>...]]]></verbatimText>
+          <verbatimText verbatimStyle="vs24"><![CDATA[$ xml-format [-fwh?] [-i <str>] [-o &lt;path&gt;] [<file>...]]]></verbatimText>
         </para>
       </levelledPara>
       <levelledPara>
@@ -69,9 +69,6 @@
             </listItem>
             <listItem>
               <para>all its sibling text nodes are also ignorable</para>
-            </listItem>
-            <listItem>
-              <para>it has at least one sibling node of any kind</para>
             </listItem>
           </randomList>
         </para>
@@ -102,6 +99,12 @@
               <listItemTerm>-o &lt;path&gt;</listItemTerm>
               <listItemDefinition>
                 <para>Output formatted XML to &lt;path&gt; instead of stdout.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>-w</listItemTerm>
+              <listItemDefinition>
+                <para>Preserve elements which contain only whitespace. Otherwise, these are converted to empty elements.</para>
               </listItemDefinition>
             </definitionListItem>
             <definitionListItem>
@@ -138,7 +141,7 @@ $ xml-format test.xml
 <section>
   <title>Example</title>
   <para><emphasis>A</emphasis> <emphasis>B</emphasis> C</para>
-  <empty>    </empty>
+  <empty/>
   <p>
     <b>A</b>
     <b>B</b>
