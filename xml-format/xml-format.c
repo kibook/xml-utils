@@ -4,13 +4,15 @@
 #include <unistd.h>
 #include <getopt.h>
 #include <libxml/tree.h>
+#include <libxml/xmlsave.h>
 
 #define PROG_NAME "xml-format"
-#define VERSION "1.2.1"
+#define VERSION "1.3.0"
 
 /* Formatter options */
 #define FORMAT_OVERWRITE	0x01
 #define FORMAT_KEEPWSONLY	0x02
+#define FORMAT_OMIT_DECL	0x04
 
 /* Determine if an option is set. */
 bool optset(int opts, int opt)
@@ -80,6 +82,8 @@ void format(xmlNodePtr node, int opts)
 void format_file(const char *path, const char *out, int opts)
 {
 	xmlDocPtr doc;
+	xmlSaveCtxtPtr save;
+	int saveopts = XML_SAVE_FORMAT;
 
 	if (!(doc = xmlReadFile(path, NULL, 0))) {
 		return;
@@ -87,13 +91,20 @@ void format_file(const char *path, const char *out, int opts)
 
 	format(xmlDocGetRootElement(doc), opts);
 
-	if (out) {
-		xmlSaveFormatFile(out, doc, 1);
-	} else if (optset(opts, FORMAT_OVERWRITE)) {
-		xmlSaveFormatFile(path, doc, 1);
-	} else {
-		xmlSaveFormatFile("-", doc, 1);
+	if (optset(opts, FORMAT_OMIT_DECL)) {
+		saveopts |= XML_SAVE_NO_DECL;
 	}
+
+	if (out) {
+		save = xmlSaveToFilename(out, NULL, saveopts);
+	} else if (optset(opts, FORMAT_OVERWRITE)) {
+		save = xmlSaveToFilename(path, NULL, saveopts);
+	} else {
+		save = xmlSaveToFilename("-", NULL, saveopts);
+	}
+
+	xmlSaveDoc(save, doc);
+	xmlSaveClose(save);
 
 	xmlFreeDoc(doc);
 }
@@ -101,12 +112,13 @@ void format_file(const char *path, const char *out, int opts)
 /* Show usage message. */
 void show_help(void)
 {
-	puts("Usage: " PROG_NAME " [-fwh?] [-i <str>] [-o <path>] [<file>...]");
+	puts("Usage: " PROG_NAME " [-fOwh?] [-i <str>] [-o <path>] [<file>...]");
 	puts("");
 	puts("Options:");
 	puts("  -f         Overwrite input XML files.");
 	puts("  -h -?      Show usage message.");
 	puts("  -i <str>   Set the indentation string.");
+	puts("  -O         Omit XML declaration.");
 	puts("  -o <path>  Output to <path> instead of stdout.");
 	puts("  -w         Preserve elements containing only whitespace.");
 	puts(" --version   Show version information.");
@@ -123,7 +135,7 @@ void show_version(void)
 int main(int argc, char **argv)
 {
 	int i;
-	const char *sopts = "fi:o:wh?";
+	const char *sopts = "fi:Oo:wh?";
 	struct option lopts[] = {
 		{"version", no_argument, 0, 0},
 		{0, 0, 0, 0}
@@ -147,6 +159,9 @@ int main(int argc, char **argv)
 				break;
 			case 'i':
 				indent = strdup(optarg);
+				break;
+			case 'O':
+				opts |= FORMAT_OMIT_DECL;
 				break;
 			case 'o':
 				out = strdup(optarg);
@@ -175,6 +190,8 @@ int main(int argc, char **argv)
 
 	free(indent);
 	free(out);
+
+	xmlCleanupParser();
 
 	return 0;
 }

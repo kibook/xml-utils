@@ -9,7 +9,7 @@ xml\-format \- Format XML files
 .IP
 .nf
 \f[C]
-$\ xml\-format\ [\-fwh?]\ [\-i\ <str>]\ [\-o\ &lt;path&gt;]\ [<file>...]
+$\ xml\-format\ [\-fOwh?]\ [\-i\ <str>]\ [\-o\ &lt;path&gt;]\ [<file>...]
 \f[]
 .fi
 .SH DESCRIPTION
@@ -41,6 +41,11 @@ Show usage message.
 .B \-i <str>
 Use <str> to indent each level of the XML tree.
 The default is two spaces.
+.RS
+.RE
+.TP
+.B \-O
+Omit the XML declaration from the formatted XML output.
 .RS
 .RE
 .TP

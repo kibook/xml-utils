@@ -52,7 +52,7 @@
       <levelledPara>
         <title>SYNOPSIS</title>
         <para>
-          <verbatimText verbatimStyle="vs24"><![CDATA[$ xml-format [-fwh?] [-i <str>] [-o &lt;path&gt;] [<file>...]]]></verbatimText>
+          <verbatimText verbatimStyle="vs24"><![CDATA[$ xml-format [-fOwh?] [-i <str>] [-o &lt;path&gt;] [<file>...]]]></verbatimText>
         </para>
       </levelledPara>
       <levelledPara>
@@ -96,6 +96,12 @@
               <listItemTerm>-i &lt;str&gt;</listItemTerm>
               <listItemDefinition>
                 <para>Use &lt;str&gt; to indent each level of the XML tree. The default is two spaces.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>-O</listItemTerm>
+              <listItemDefinition>
+                <para>Omit the XML declaration from the formatted XML output.</para>
               </listItemDefinition>
             </definitionListItem>
             <definitionListItem>
