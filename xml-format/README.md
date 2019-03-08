@@ -22,6 +22,8 @@ A text node is considered ignorable if:
 
 -   all its sibling text nodes are also ignorable
 
+-   all its ancestors contained only ignorable text nodes
+
 OPTIONS
 =======
 
@@ -62,6 +64,15 @@ EXAMPLE
     <p><b>A</b> <b>B</b> <b>C</b></p>
     <p xml:space="preserve"><b>A</b> <b>B</b> <b>C</b></p>
 
+    <para>
+        See the following list:
+        <randomList>
+          <listItem><para>A</para></listItem>
+          <listItem><para>B</para></listItem>
+          <listItem><para>C</para></listItem>
+        </randomList>
+    </para>
+
     </section>
 
     $ xml-format test.xml
@@ -75,4 +86,12 @@ EXAMPLE
         <b>C</b>
       </p>
       <p xml:space="preserve"><b>A</b> <b>B</b> <b>C</b></p>
+      <para>
+        See the following list:
+        <randomList>
+          <listItem><para>A</para></listItem>
+          <listItem><para>B</para></listItem>
+          <listItem><para>C</para></listItem>
+        </randomList>
+      </para>
     </section>

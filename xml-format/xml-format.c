@@ -6,7 +6,7 @@
 #include <libxml/tree.h>
 
 #define PROG_NAME "xml-format"
-#define VERSION "1.2.0"
+#define VERSION "1.2.1"
 
 /* Formatter options */
 #define FORMAT_OVERWRITE	0x01
@@ -69,10 +69,10 @@ void format(xmlNodePtr node, int opts)
 
 	if (blanks_are_removable(node, opts)) {
 		remove_blanks(node);
-	}
 
-	for (cur = node->children; cur; cur = cur->next) {
-		format(cur, opts);
+		for (cur = node->children; cur; cur = cur->next) {
+			format(cur, opts);
+		}
 	}
 }
 

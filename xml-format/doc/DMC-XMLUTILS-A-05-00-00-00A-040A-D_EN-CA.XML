@@ -70,6 +70,9 @@
             <listItem>
               <para>all its sibling text nodes are also ignorable</para>
             </listItem>
+            <listItem>
+              <para>all its ancestors contained only ignorable text nodes</para>
+            </listItem>
           </randomList>
         </para>
       </levelledPara>
@@ -135,6 +138,15 @@
 <p><b>A</b> <b>B</b> <b>C</b></p>
 <p xml:space="preserve"><b>A</b> <b>B</b> <b>C</b></p>
 
+<para>
+    See the following list:
+    <randomList>
+      <listItem><para>A</para></listItem>
+      <listItem><para>B</para></listItem>
+      <listItem><para>C</para></listItem>
+    </randomList>
+</para>
+
 </section>
 
 $ xml-format test.xml
@@ -148,6 +160,14 @@ $ xml-format test.xml
     <b>C</b>
   </p>
   <p xml:space="preserve"><b>A</b> <b>B</b> <b>C</b></p>
+  <para>
+    See the following list:
+    <randomList>
+      <listItem><para>A</para></listItem>
+      <listItem><para>B</para></listItem>
+      <listItem><para>C</para></listItem>
+    </randomList>
+  </para>
 </section>]]></verbatimText>
         </para>
       </levelledPara>
