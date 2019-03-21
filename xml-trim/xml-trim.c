@@ -8,8 +8,8 @@
 #include <libxml/xpath.h>
 #include <libxml/xpathInternals.h>
 
-#define PROG_NAME "xml-trimspace"
-#define VERSION "2.1.3"
+#define PROG_NAME "xml-trim"
+#define VERSION "3.0.0"
 
 /* Remove whitespace on left end of string. */
 char *strltrm(char *dst, const char *src)

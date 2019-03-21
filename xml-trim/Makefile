@@ -1,5 +1,5 @@
-SOURCE=xml-trimspace.c
-OUTPUT=xml-trimspace
+SOURCE=xml-trim.c
+OUTPUT=xml-trim
 
 CFLAGS=-Wall -Werror -pedantic-errors `pkg-config --cflags libxml-2.0`
 

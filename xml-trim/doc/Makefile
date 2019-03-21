@@ -1,5 +1,5 @@
 SOURCE=DMC-XMLUTILS-A-02-00-00-00A-040A-D_EN-CA.XML
-OUTPUT=xml-trimspace.1
+OUTPUT=xml-trim.1
 README=../README.md
 
 PREFIX=/usr/local

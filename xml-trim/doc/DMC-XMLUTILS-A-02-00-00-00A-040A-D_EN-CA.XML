@@ -6,12 +6,12 @@
       <dmIdent>
         <dmCode modelIdentCode="XMLUTILS" systemDiffCode="A" systemCode="02" subSystemCode="0" subSubSystemCode="0" assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="040" infoCodeVariant="A" itemLocationCode="D"/>
         <language languageIsoCode="en" countryIsoCode="CA"/>
-        <issueInfo issueNumber="003" inWork="00"/>
+        <issueInfo issueNumber="003" inWork="01"/>
       </dmIdent>
       <dmAddressItems>
-        <issueDate year="2019" month="03" day="08"/>
+        <issueDate year="2019" month="03" day="21"/>
         <dmTitle>
-          <techName>xml-trimspace(1) | xml-utils</techName>
+          <techName>xml-trim(1) | xml-utils</techName>
         </dmTitle>
       </dmAddressItems>
     </dmAddress>
@@ -38,14 +38,8 @@
       <qualityAssurance>
         <unverified/>
       </qualityAssurance>
-      <reasonForUpdate id="rfu-0001" updateReasonType="urt02" updateHighlight="1">
-        <simplePara>Swap -n and -N options.</simplePara>
-      </reasonForUpdate>
-      <reasonForUpdate id="rfu-0002" updateReasonType="urt01">
-        <simplePara>Improve description.</simplePara>
-      </reasonForUpdate>
-      <reasonForUpdate id="rfu-0003" updateReasonType="urt02" updateHighlight="1">
-        <simplePara>Add support for XPath expressions.</simplePara>
+      <reasonForUpdate id="rfu-0001" updateHighlight="1">
+        <simplePara>Rename xml-trimspace to xml-trim.</simplePara>
       </reasonForUpdate>
     </dmStatus>
   </identAndStatusSection>
@@ -53,17 +47,17 @@
     <description>
       <levelledPara>
         <title>NAME</title>
-        <para>xml-trimspace - Trim whitespace in XML elements</para>
+        <para>xml-trim - Trim whitespace in XML elements</para>
       </levelledPara>
       <levelledPara>
         <title>SYNOPSIS</title>
         <para>
-          <verbatimText verbatimStyle="vs24">xml-trimspace [-N &lt;ns=URL&gt;] [-nh?] &lt;elem&gt;... &lt; &lt;src&gt; &gt; &lt;dst&gt;</verbatimText>
+          <verbatimText verbatimStyle="vs24">xml-trim [-N &lt;ns=URL&gt;] [-nh?] &lt;elem&gt;... &lt; &lt;src&gt; &gt; &lt;dst&gt;</verbatimText>
         </para>
       </levelledPara>
       <levelledPara>
         <title>DESCRIPTION</title>
-        <para>The <emphasis>xml-trimspace</emphasis> utility trims whitespace around the text contents of specified elements.</para>
+        <para>The <emphasis>xml-trim</emphasis> utility trims whitespace around the text contents of specified elements.</para>
         <para>Whitespace is trimmed according to the following rules:</para>
         <para>
           <sequentialList>
@@ -110,7 +104,7 @@
             <definitionListItem>
               <listItemTerm>&lt;elem&gt;...</listItemTerm>
               <listItemDefinition>
-                <para changeMark="1" changeType="modify" reasonForUpdateRefIds="rfu-0001 rfu-0003">Elements to trim space on. May include a namespace prefix if the namespace was registered with -N. &lt;elem&gt; may be either a simple element name (e.g., "para") which matches all elements with the same name at any position, or an XPath expression (e.g., "//section/para") for finer control.</para>
+                <para>Elements to trim space on. May include a namespace prefix if the namespace was registered with -N. &lt;elem&gt; may be either a simple element name (e.g., "para") which matches all elements with the same name at any position, or an XPath expression (e.g., "//section/para") for finer control.</para>
               </listItemDefinition>
             </definitionListItem>
             <definitionListItem>
@@ -138,13 +132,13 @@
     Hello world.
   </para>
 </section>]]></verbatimText>
-            <verbatimText verbatimStyle="vs24">$ xml-trimspace para &lt; example.xml</verbatimText>
+            <verbatimText verbatimStyle="vs24">$ xml-trim para &lt; example.xml</verbatimText>
             <verbatimText verbatimStyle="vs11"><![CDATA[<section>
   <para>Hello world.</para>
 </section>]]></verbatimText>
           </para>
         </levelledPara>
-        <levelledPara changeMark="1" changeType="modify" reasonForUpdateRefIds="rfu-0001">
+        <levelledPara>
           <title>With namespace</title>
           <para>
             <verbatimText verbatimStyle="vs11"><![CDATA[<d:section>
@@ -152,13 +146,13 @@
     Hello world.
   </d:para>
 </d:section>]]></verbatimText>
-            <verbatimText verbatimStyle="vs24">$ xml-trimspace -N d=http://docbook.org/ns/docbook d:para &lt; example.xml</verbatimText>
+            <verbatimText verbatimStyle="vs24">$ xml-trim -N d=http://docbook.org/ns/docbook d:para &lt; example.xml</verbatimText>
             <verbatimText verbatimStyle="vs11"><![CDATA[<d:section>
   <d:para>Hello world.</d:para>
 </d:section>]]></verbatimText>
           </para>
         </levelledPara>
-        <levelledPara changeMark="1" changeType="modify" reasonForUpdateRefIds="rfu-0001">
+        <levelledPara>
           <title>Normalizing space</title>
           <para>
             <verbatimText verbatimStyle="vs11"><![CDATA[<section>
@@ -170,7 +164,7 @@
     the text on a certain column.
   </para>
 </section>]]></verbatimText>
-            <verbatimText verbatimStyle="vs24">$ xml-trimspace -n para &lt; example.xml</verbatimText>
+            <verbatimText verbatimStyle="vs24">$ xml-trim -n para &lt; example.xml</verbatimText>
             <verbatimText verbatimStyle="vs11"><![CDATA[<section>
   <para>This is a <emphasis>long</emphasis> paragraph with both extra whitespace before
 and after the text, and line breaks entered by the author to wrap the

@@ -1,17 +1,17 @@
 NAME
 ====
 
-xml-trimspace - Trim whitespace in XML elements
+xml-trim - Trim whitespace in XML elements
 
 SYNOPSIS
 ========
 
-    xml-trimspace [-N <ns=URL>] [-nh?] <elem>... < <src> > <dst>
+    xml-trim [-N <ns=URL>] [-nh?] <elem>... < <src> > <dst>
 
 DESCRIPTION
 ===========
 
-The *xml-trimspace* utility trims whitespace around the text contents of
+The *xml-trim* utility trims whitespace around the text contents of
 specified elements.
 
 Whitespace is trimmed according to the following rules:
@@ -69,7 +69,7 @@ Without namespace
       </para>
     </section>
 
-    $ xml-trimspace para < example.xml
+    $ xml-trim para < example.xml
 
     <section>
       <para>Hello world.</para>
@@ -84,7 +84,7 @@ With namespace
       </d:para>
     </d:section>
 
-    $ xml-trimspace -N d=http://docbook.org/ns/docbook d:para < example.xml
+    $ xml-trim -N d=http://docbook.org/ns/docbook d:para < example.xml
 
     <d:section>
       <d:para>Hello world.</d:para>
@@ -103,7 +103,7 @@ Normalizing space
       </para>
     </section>
 
-    $ xml-trimspace -n para < example.xml
+    $ xml-trim -n para < example.xml
 
     <section>
       <para>This is a <emphasis>long</emphasis> paragraph with both extra whitespace before
