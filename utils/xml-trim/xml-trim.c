@@ -10,7 +10,7 @@
 #include "xml-utils.h"
 
 #define PROG_NAME "xml-trim"
-#define VERSION "3.1.0"
+#define VERSION "3.2.0"
 
 /* Remove whitespace on left end of string. */
 char *strltrm(char *dst, const char *src)
@@ -111,19 +111,79 @@ void trim_nodes(xmlNodeSetPtr nodes, bool normalize)
 	}
 }
 
+void trim_nodes_in_file(const char *path, xmlNodePtr ns, xmlNodePtr elems, bool normalize, bool overwrite)
+{
+	xmlDocPtr doc;
+	xmlXPathContextPtr ctx;
+	xmlNodePtr cur;
+
+	doc = read_xml_doc(path);
+	ctx = xmlXPathNewContext(doc);
+
+	for (cur = ns->children; cur; cur = cur->next) {
+		xmlChar *n;
+		n = xmlNodeGetContent(cur);
+		register_ns(ctx, (char *) n);
+		xmlFree(n);
+	}
+
+	for (cur = elems->children; cur; cur = cur->next) {
+		xmlChar *xpath;
+		xmlXPathObjectPtr obj;
+		xmlChar *e;
+
+		e = xmlNodeGetContent(cur);
+
+		/* If the element specifier contains a /, treat it like a
+		 * literal XPath expression.
+		 *
+		 * Otherwise, match all elements with the same name at any
+		 * position.
+		 */
+		if (xmlStrchr(e, '/')) {
+			xpath = xmlStrdup(e);
+		} else {
+			xpath = xmlStrdup(BAD_CAST "//");
+			xpath = xmlStrcat(xpath, e);
+		}
+
+		xmlFree(e);
+
+		obj = xmlXPathEvalExpression(xpath, ctx);
+
+		xmlFree(xpath);
+
+		if (!xmlXPathNodeSetIsEmpty(obj->nodesetval)) {
+			trim_nodes(obj->nodesetval, normalize);
+		}
+
+		xmlXPathFreeObject(obj);
+	}
+
+	xmlXPathFreeContext(ctx);
+
+	if (overwrite) {
+		xmlSaveFile(path, doc);
+	} else {
+		xmlSaveFile("-", doc);
+	}
+
+	xmlFreeDoc(doc);
+}
+
 /* Show usage message. */
 void show_help(void)
 {
-	puts("Usage: " PROG_NAME " [-N <ns=URL>] [-nh?] <elem>... < <src> > <dst>");
+	puts("Usage: " PROG_NAME " [-e <elem> ...] [-N <ns=URL> ...] [-fnh?] [<src>...]");
 	puts("");
 	puts("Options:");
 	puts("  -h -?        Show usage message.");
+	puts("  -e <elem>    Element to trim space on.");
+	puts("  -f           Overwrite input files.");
 	puts("  -N <ns=URL>  Register a namespace.");
 	puts("  -n           Normalize space as well as trim.");
 	puts("  --version    Show version information.");
-	puts("  <elem>...    Elements to trim space on.");
-	puts("  <src>        Source XML file.");
-	puts("  <dst>        The output file.");
+	puts("  <src>        XML file to trim.");
 	LIBXML2_PARSE_LONGOPT_HELP
 }
 
@@ -137,14 +197,11 @@ void show_version(void)
 int main(int argc, char **argv)
 {
 	int i;
+	xmlNodePtr ns, elems;
 	bool normalize = false;
+	bool overwrite = false;
 
-	xmlDocPtr doc;
-	xmlXPathContextPtr ctx = NULL;
-
-	xmlNodePtr ns, cur;
-
-	const char *sopts = "N:nh?";
+	const char *sopts = "e:fN:nh?";
 	struct option lopts[] = {
 		{"version", no_argument, 0, 0},
 		LIBXML2_PARSE_LONGOPT_DEFS
@@ -153,6 +210,7 @@ int main(int argc, char **argv)
 	int loptind = 0;
 
 	ns = xmlNewNode(NULL, BAD_CAST "namespaces");
+	elems = xmlNewNode(NULL, BAD_CAST "elems");
 
 	while ((i = getopt_long(argc, argv, sopts, lopts, &loptind)) != -1)
 		switch (i) {
@@ -162,6 +220,12 @@ int main(int argc, char **argv)
 					return 0;
 				}
 				LIBXML2_PARSE_LONGOPT_HANDLE(lopts, loptind);
+				break;
+			case 'e':
+				xmlNewChild(elems, NULL, BAD_CAST "elem", BAD_CAST optarg);
+				break;
+			case 'f':
+				overwrite = true;
 				break;
 			case 'N':
 				xmlNewChild(ns, NULL, BAD_CAST "ns", BAD_CAST optarg);
@@ -175,51 +239,16 @@ int main(int argc, char **argv)
 				return 0;
 		}
 
-	doc = read_xml_doc("-");
-	ctx = xmlXPathNewContext(doc);
-
-	for (cur = ns->children; cur; cur = cur->next) {
-		xmlChar *n;
-		n = xmlNodeGetContent(cur);
-		register_ns(ctx, (char *) n);
-		xmlFree(n);
-	}
-	
-	for (i = optind; i < argc; ++i) {
-		xmlChar *xpath;
-		xmlXPathObjectPtr obj;
-
-		/* If the element specifier contains a /, treat it like a
-		 * literal XPath expression.
-		 *
-		 * Otherwise, match all elements with the same name at any
-		 * position.
-		 */
-		if (strchr(argv[i], '/')) {
-			xpath = xmlStrdup(BAD_CAST argv[i]);
-		} else {
-			xpath = xmlStrdup(BAD_CAST "//");
-			xpath = xmlStrcat(xpath, BAD_CAST argv[i]);
+	if (optind < argc) {
+		for (i = optind; i < argc; ++i) {
+			trim_nodes_in_file(argv[i], ns, elems, normalize, overwrite);
 		}
-
-		obj = xmlXPathEvalExpression(xpath, ctx);
-
-		xmlFree(xpath);
-
-		if (!xmlXPathNodeSetIsEmpty(obj->nodesetval)) {
-			trim_nodes(obj->nodesetval, normalize);
-		}
-		
-		xmlXPathFreeObject(obj);
+	} else {
+		trim_nodes_in_file("-", ns, elems, normalize, overwrite);
 	}
-
-	xmlXPathFreeContext(ctx);
-
-	xmlSaveFile("-", doc);
-
-	xmlFreeDoc(doc);
 
 	xmlFreeNode(ns);
+	xmlFreeNode(elems);
 
 	xmlCleanupParser();
 

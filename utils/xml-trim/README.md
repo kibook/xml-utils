@@ -6,7 +6,7 @@ xml-trim - Trim whitespace in XML elements
 SYNOPSIS
 ========
 
-    xml-trim [-N <ns=URL>] [-nh?] <elem>... < <src> > <dst>
+    xml-trim [-e <elem> ...] [-N <ns=URL> ...] [-fnh?] <src>...
 
 DESCRIPTION
 ===========
@@ -32,6 +32,16 @@ OPTIONS
 -h -?  
 Show usage message.
 
+-e &lt;elem&gt;  
+Elements to trim space on. May include a namespace prefix if the
+namespace was registered with -N. &lt;elem&gt; may be either a simple
+element name (e.g., "para") which matches all elements with the same
+name at any position, or an XPath expression (e.g., "//section/para")
+for finer control.
+
+-f  
+Overwrite input XML files.
+
 -N &lt;ns=URL&gt;  
 Registers an XML namespace handle for URL, which can then be used when
 specifying element names as options. Multiple namespaces can be
@@ -44,18 +54,8 @@ whitespace.
 --version  
 Show version information.
 
-&lt;elem&gt;...  
-Elements to trim space on. May include a namespace prefix if the
-namespace was registered with -N. &lt;elem&gt; may be either a simple
-element name (e.g., "para") which matches all elements with the same
-name at any position, or an XPath expression (e.g., "//section/para")
-for finer control.
-
 &lt;src&gt;  
-The source XML file containing the elements to trim.
-
-&lt;dst&gt;  
-The output file.
+The source XML file(s) containing the elements to trim.
 
 In addition, the following options enable features of the XML parser
 that are disabled as a precaution by default:
@@ -81,7 +81,7 @@ Without namespace
       </para>
     </section>
 
-    $ xml-trim para < example.xml
+    $ xml-trim -e para example.xml
 
     <section>
       <para>Hello world.</para>
@@ -96,7 +96,7 @@ With namespace
       </d:para>
     </d:section>
 
-    $ xml-trim -N d=http://docbook.org/ns/docbook d:para < example.xml
+    $ xml-trim -N d=http://docbook.org/ns/docbook -e d:para example.xml
 
     <d:section>
       <d:para>Hello world.</d:para>
@@ -115,7 +115,7 @@ Normalizing space
       </para>
     </section>
 
-    $ xml-trim -n para < example.xml
+    $ xml-trim -n -e para example.xml
 
     <section>
       <para>This is a <emphasis>long</emphasis> paragraph with both extra whitespace before
