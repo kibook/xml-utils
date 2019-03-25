@@ -1,4 +1,4 @@
-TARGETS=xml-format xml-highlight xml-merge xml-trim
+TARGETS=utils/xml-*
 
 all docs clean maintainer-clean install uninstall: $(TARGETS)
 
