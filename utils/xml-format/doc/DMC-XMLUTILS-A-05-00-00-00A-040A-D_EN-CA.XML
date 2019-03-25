@@ -6,7 +6,7 @@
       <dmIdent>
         <dmCode modelIdentCode="XMLUTILS" systemDiffCode="A" systemCode="05" subSystemCode="0" subSubSystemCode="0" assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="040" infoCodeVariant="A" itemLocationCode="D"/>
         <language languageIsoCode="en" countryIsoCode="CA"/>
-        <issueInfo issueNumber="002" inWork="02"/>
+        <issueInfo issueNumber="002" inWork="03"/>
       </dmIdent>
       <dmAddressItems>
         <issueDate year="2019" month="03" day="25"/>
@@ -58,7 +58,7 @@
       <levelledPara>
         <title>SYNOPSIS</title>
         <para>
-          <verbatimText verbatimStyle="vs24" changeMark="1" changeType="modify" reasonForUpdateRefIds="rfu-0003"><![CDATA[xml-format [-fOwh?] [-i <str>] [-o <path>] [<file>...]]]></verbatimText>
+          <verbatimText verbatimStyle="vs24" changeMark="0" changeType="modify" reasonForUpdateRefIds="rfu-0003"><![CDATA[xml-format [-fOwh?] [-i <str>] [-o <path>] [<file>...]]]></verbatimText>
         </para>
       </levelledPara>
       <levelledPara>
