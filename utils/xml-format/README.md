@@ -44,8 +44,7 @@ Omit the XML declaration from the formatted XML output.
 Output formatted XML to &lt;path&gt; instead of stdout.
 
 -w  
-Preserve elements which contain only whitespace. Otherwise, these are
-converted to empty elements.
+Treat elements containing only whitespace as empty.
 
 --version  
 Show version information.
@@ -94,7 +93,7 @@ EXAMPLE
     <section>
       <title>Example</title>
       <para><emphasis>A</emphasis> <emphasis>B</emphasis> C</para>
-      <empty/>
+      <empty>    </empty>
       <p>
         <b>A</b>
         <b>B</b>

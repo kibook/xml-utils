@@ -8,11 +8,11 @@
 #include "xml-utils.h"
 
 #define PROG_NAME "xml-format"
-#define VERSION "1.4.0"
+#define VERSION "2.0.0"
 
 /* Formatter options */
 #define FORMAT_OVERWRITE	0x01
-#define FORMAT_KEEPWSONLY	0x02
+#define FORMAT_REMWSONLY	0x02
 #define FORMAT_OMIT_DECL	0x04
 
 /* Determine if an option is set. */
@@ -24,8 +24,8 @@ bool optset(int opts, int opt)
 /* The blank text node children in an element are considered removable only if
  * ALL the text node children of that element are blank (no mixed content).
  *
- * If FORMAT_KEEPWSONLY is set, an element with a single blank text node child
- * will not be convereted to an empty element.
+ * If there is only a single blank text node child, it is only considered
+ * removable if FORMAT_REMWSONLY is set.
  */
 bool blanks_are_removable(xmlNodePtr node, int opts)
 {
@@ -42,7 +42,7 @@ bool blanks_are_removable(xmlNodePtr node, int opts)
 		}
 	}
 
-	return i > 1 || !optset(opts, FORMAT_KEEPWSONLY);
+	return i > 1 || optset(opts, FORMAT_REMWSONLY);
 }
 
 /* Remove blank children. */
@@ -121,7 +121,7 @@ void show_help(void)
 	puts("  -i <str>   Set the indentation string.");
 	puts("  -O         Omit XML declaration.");
 	puts("  -o <path>  Output to <path> instead of stdout.");
-	puts("  -w         Preserve elements containing only whitespace.");
+	puts("  -w         Treat elements containing only whitespace as empty.");
 	puts(" --version   Show version information.");
 	puts("  <file>     XML file(s) to format. Otherwise, read from stdin.");
 	LIBXML2_PARSE_LONGOPT_HELP
@@ -171,7 +171,7 @@ int main(int argc, char **argv)
 				out = strdup(optarg);
 				break;
 			case 'w':
-				opts |= FORMAT_KEEPWSONLY;
+				opts |= FORMAT_REMWSONLY;
 				break;
 			case 'h':
 			case '?':

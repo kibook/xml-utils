@@ -6,7 +6,7 @@
       <dmIdent>
         <dmCode modelIdentCode="XMLUTILS" systemDiffCode="A" systemCode="05" subSystemCode="0" subSubSystemCode="0" assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="040" infoCodeVariant="A" itemLocationCode="D"/>
         <language languageIsoCode="en" countryIsoCode="CA"/>
-        <issueInfo issueNumber="002" inWork="01"/>
+        <issueInfo issueNumber="002" inWork="02"/>
       </dmIdent>
       <dmAddressItems>
         <issueDate year="2019" month="03" day="25"/>
@@ -40,6 +40,9 @@
       </qualityAssurance>
       <reasonForUpdate id="rfu-0001" updateHighlight="1" updateReasonType="urt02">
         <simplePara>Add standard libxml2 parser options.</simplePara>
+      </reasonForUpdate>
+      <reasonForUpdate id="rfu-0002" updateHighlight="1" updateReasonType="urt02">
+        <simplePara>Change behaviour of -w option.</simplePara>
       </reasonForUpdate>
     </dmStatus>
   </identAndStatusSection>
@@ -113,7 +116,7 @@
             <definitionListItem>
               <listItemTerm>-w</listItemTerm>
               <listItemDefinition>
-                <para>Preserve elements which contain only whitespace. Otherwise, these are converted to empty elements.</para>
+                <para changeMark="1" changeType="modify" reasonForUpdateRefIds="rfu-0002">Treat elements containing only whitespace as empty.</para>
               </listItemDefinition>
             </definitionListItem>
             <definitionListItem>
@@ -157,7 +160,7 @@
       <levelledPara>
         <title>EXAMPLE</title>
         <para>
-          <verbatimText verbatimStyle="vs24"><![CDATA[$ cat doc.xml
+          <verbatimText verbatimStyle="vs24" changeMark="1" changeType="modify" reasonForUpdateRefIds="rfu-0002"><![CDATA[$ cat doc.xml
 <section>     <title>Example</title>
 
 <para><emphasis>A</emphasis> <emphasis>B</emphasis> C</para>
@@ -182,7 +185,7 @@ $ xml-format test.xml
 <section>
   <title>Example</title>
   <para><emphasis>A</emphasis> <emphasis>B</emphasis> C</para>
-  <empty/>
+  <empty>    </empty>
   <p>
     <b>A</b>
     <b>B</b>

@@ -55,8 +55,7 @@ Output formatted XML to <path> instead of stdout.
 .RE
 .TP
 .B \-w
-Preserve elements which contain only whitespace.
-Otherwise, these are converted to empty elements.
+Treat elements containing only whitespace as empty.
 .RS
 .RE
 .TP
@@ -117,7 +116,7 @@ $\ xml\-format\ test.xml
 <section>
 \ \ <title>Example</title>
 \ \ <para><emphasis>A</emphasis>\ <emphasis>B</emphasis>\ C</para>
-\ \ <empty/>
+\ \ <empty>\ \ \ \ </empty>
 \ \ <p>
 \ \ \ \ <b>A</b>
 \ \ \ \ <b>B</b>
