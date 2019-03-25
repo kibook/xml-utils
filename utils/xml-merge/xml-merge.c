@@ -5,9 +5,10 @@
 #include <stdbool.h>
 #include <libxml/tree.h>
 #include <libxml/xpath.h>
+#include "xml-utils.h"
 
 #define PROG_NAME "xml-merge"
-#define VERSION "1.1.1"
+#define VERSION "1.2.0"
 
 void showHelp(void)
 {
@@ -19,6 +20,7 @@ void showHelp(void)
 	puts("  --version  Show version information");
 	puts("  dst        XML file to <src> in to");
 	puts("  src        XML file to merge in to <dst>");
+	LIBXML2_PARSE_LONGOPT_HELP
 }
 
 void show_version(void)
@@ -65,6 +67,7 @@ int main(int argc, char **argv)
 	const char *sopts = "fh?";
 	struct option lopts[] = {
 		{"version", no_argument, 0, 0},
+		LIBXML2_PARSE_LONGOPT_DEFS
 		{0, 0, 0, 0}
 	};
 	int loptind = 0;
@@ -78,6 +81,7 @@ int main(int argc, char **argv)
 					show_version();
 					return 0;
 				}
+				LIBXML2_PARSE_LONGOPT_HANDLE(lopts, loptind)
 				break;
 			case 'f':
 				overwrite = true;
@@ -92,8 +96,8 @@ int main(int argc, char **argv)
 	if (optind < argc) fname1 = argv[optind];
 	if (optind + 1 < argc) fname2 = argv[optind + 1];
 
-	doc1 = xmlReadFile(fname1, NULL, 0);
-	doc2 = xmlReadFile(fname2, NULL, 0);
+	doc1 = read_xml_doc(fname1);
+	doc2 = read_xml_doc(fname2);
 
 	target2 = xmlDocGetRootElement(doc2);
 

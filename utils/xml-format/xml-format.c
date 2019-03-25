@@ -5,9 +5,10 @@
 #include <getopt.h>
 #include <libxml/tree.h>
 #include <libxml/xmlsave.h>
+#include "xml-utils.h"
 
 #define PROG_NAME "xml-format"
-#define VERSION "1.3.0"
+#define VERSION "1.4.0"
 
 /* Formatter options */
 #define FORMAT_OVERWRITE	0x01
@@ -85,7 +86,7 @@ void format_file(const char *path, const char *out, int opts)
 	xmlSaveCtxtPtr save;
 	int saveopts = XML_SAVE_FORMAT;
 
-	if (!(doc = xmlReadFile(path, NULL, 0))) {
+	if (!(doc = read_xml_doc(path))) {
 		return;
 	}
 
@@ -123,6 +124,7 @@ void show_help(void)
 	puts("  -w         Preserve elements containing only whitespace.");
 	puts(" --version   Show version information.");
 	puts("  <file>     XML file(s) to format. Otherwise, read from stdin.");
+	LIBXML2_PARSE_LONGOPT_HELP
 }
 
 /* Show version information. */
@@ -138,6 +140,7 @@ int main(int argc, char **argv)
 	const char *sopts = "fi:Oo:wh?";
 	struct option lopts[] = {
 		{"version", no_argument, 0, 0},
+		LIBXML2_PARSE_LONGOPT_DEFS
 		{0, 0, 0, 0}
 	};
 	int loptind = 0;
@@ -153,6 +156,7 @@ int main(int argc, char **argv)
 					show_version();
 					return 0;
 				}
+				LIBXML2_PARSE_LONGOPT_HANDLE(lopts, loptind)
 				break;
 			case 'f':
 				opts |= FORMAT_OVERWRITE;

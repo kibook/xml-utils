@@ -1,8 +1,8 @@
-SOURCE=xml-format.c
+SOURCE=xml-format.c ../common/xml-utils.c
 OUTPUT=xml-format
 
 WARNING_FLAGS=-Wall -Werror -pedantic-errors
-CFLAGS=$(WARNING_FLAGS) `pkg-config --cflags libxml-2.0`
+CFLAGS=$(WARNING_FLAGS) -I ../common `pkg-config --cflags libxml-2.0`
 
 ifeq ($(DEBUG),1)
 	CFLAGS+=-g
@@ -20,8 +20,8 @@ INSTALL=install -s
 
 all: $(OUTPUT)
 
-$(OUTPUT): xml-format.c
-	$(CC) $(CFLAGS) -o $@ $< $(LDFLAGS)
+$(OUTPUT): $(SOURCE)
+	$(CC) $(CFLAGS) -o $@ $+ $(LDFLAGS)
 
 docs:
 	$(MAKE) -C doc

@@ -1,7 +1,8 @@
-SOURCE=xml-highlight.c
+SOURCE=xml-highlight.c ../common/xml-utils.c
 OUTPUT=xml-highlight
 
-CFLAGS=-Wall -pedantic-errors `pkg-config --cflags libxml-2.0`
+WARNING_FLAGS=-Wall -Werror -pedantic-errors
+CFLAGS=$(WARNING_FLAGS) -I ../common `pkg-config --cflags libxml-2.0`
 
 ifeq ($(DEBUG),1)
 	CFLAGS+=-g

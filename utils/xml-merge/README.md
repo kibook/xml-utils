@@ -35,6 +35,18 @@ The XML file which will me merged in to &lt;dst&gt;. The first occurence
 of an element in &lt;dst&gt; which matches the root element of this file
 is where the merge will occur.
 
+In addition, the following options enable features of the XML parser
+that are disabled as a precaution by default:
+
+--dtdload  
+Load the external DTD.
+
+--net  
+Allow network access to load external DTD and entities.
+
+--noent  
+Resolve entities.
+
 EXAMPLE
 =======
 

@@ -7,9 +7,10 @@
 #include <libxml/tree.h>
 #include <libxml/xpath.h>
 #include <libxml/xpathInternals.h>
+#include "xml-utils.h"
 
 #define PROG_NAME "xml-trim"
-#define VERSION "3.0.0"
+#define VERSION "3.1.0"
 
 /* Remove whitespace on left end of string. */
 char *strltrm(char *dst, const char *src)
@@ -123,6 +124,7 @@ void show_help(void)
 	puts("  <elem>...    Elements to trim space on.");
 	puts("  <src>        Source XML file.");
 	puts("  <dst>        The output file.");
+	LIBXML2_PARSE_LONGOPT_HELP
 }
 
 /* Show version information. */
@@ -145,6 +147,7 @@ int main(int argc, char **argv)
 	const char *sopts = "N:nh?";
 	struct option lopts[] = {
 		{"version", no_argument, 0, 0},
+		LIBXML2_PARSE_LONGOPT_DEFS
 		{0, 0, 0, 0}
 	};
 	int loptind = 0;
@@ -158,6 +161,7 @@ int main(int argc, char **argv)
 					show_version();
 					return 0;
 				}
+				LIBXML2_PARSE_LONGOPT_HANDLE(lopts, loptind);
 				break;
 			case 'N':
 				xmlNewChild(ns, NULL, BAD_CAST "ns", BAD_CAST optarg);
@@ -171,7 +175,7 @@ int main(int argc, char **argv)
 				return 0;
 		}
 
-	doc = xmlReadFile("-", NULL, 0);
+	doc = read_xml_doc("-");
 	ctx = xmlXPathNewContext(doc);
 
 	for (cur = ns->children; cur; cur = cur->next) {

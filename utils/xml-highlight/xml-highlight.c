@@ -5,10 +5,11 @@
 #include <string.h>
 #include <libxml/tree.h>
 #include <libxml/xpath.h>
+#include "xml-utils.h"
 #include "languages.h"
 
 #define PROG_NAME "xml-highlight"
-#define VERSION "1.0.1"
+#define VERSION "1.1.0"
 
 #define PRE_KEYWORD_DELIM BAD_CAST " (\n"
 #define POST_KEYWORD_DELIM BAD_CAST " .,);\n"
@@ -336,19 +337,18 @@ void highlight_syntax_in_file(const char *fname, const char *syntax, const char 
 	xmlDocPtr classdoc;
 
 	if (syntax) {
-		syndoc = xmlReadFile(syntax, NULL, 0);
+		syndoc = read_xml_doc(syntax);
 	} else {
-		syndoc = xmlReadMemory((const char *) syntax_xml, syntax_xml_len, NULL, NULL, 0);
+		syndoc = read_xml_mem((const char *) syntax_xml, syntax_xml_len);
 	}
 
 	if (classes) {
-		classdoc = xmlReadFile(classes, NULL, 0);
+		classdoc = read_xml_doc(classes);
 	} else {
-		classdoc = xmlReadMemory((const char *) classes_xml,
-			classes_xml_len, NULL, NULL, 0);
+		classdoc = read_xml_mem((const char *) classes_xml, classes_xml_len);
 	}
 
-	doc = xmlReadFile(fname, NULL, 0);
+	doc = read_xml_doc(fname);
 
 	highlight_syntax_in_doc(doc, syndoc, classdoc);
 
@@ -373,6 +373,7 @@ void show_help(void)
 	puts("  -f         Overwrite input documents.");
 	puts("  -s <XML>   Use a custom syntax definitions XML file.");
 	puts("  --version  Show version information.");
+	LIBXML2_PARSE_LONGOPT_HELP
 }
 
 void show_version(void)
@@ -391,6 +392,7 @@ int main(int argc, char **argv)
 	const char *sopts = "c:fs:h?";
 	struct option lopts[] = {
 		{"version", no_argument, 0, 0},
+		LIBXML2_PARSE_LONGOPT_DEFS
 		{0, 0, 0, 0}
 	};
 	int loptind = 0;
@@ -402,6 +404,7 @@ int main(int argc, char **argv)
 					show_version();
 					return 0;
 				}
+				LIBXML2_PARSE_LONGOPT_HANDLE(lopts, loptind)
 				break;
 			case 'c':
 				if (!classes)
