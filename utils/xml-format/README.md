@@ -6,7 +6,7 @@ xml-format - Format XML files
 SYNOPSIS
 ========
 
-    $ xml-format [-fOwh?] [-i <str>] [-o <path>] [<file>...]
+    xml-format [-fOwh?] [-i <str>] [-o <path>] [<file>...]
 
 DESCRIPTION
 ===========
