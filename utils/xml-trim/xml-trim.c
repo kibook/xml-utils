@@ -10,7 +10,7 @@
 #include "xml-utils.h"
 
 #define PROG_NAME "xml-trim"
-#define VERSION "3.2.0"
+#define VERSION "3.2.1"
 
 /* Remove whitespace on left end of string. */
 char *strltrm(char *dst, const char *src)
