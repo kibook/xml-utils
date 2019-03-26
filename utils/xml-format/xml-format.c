@@ -8,7 +8,7 @@
 #include "xml-utils.h"
 
 #define PROG_NAME "xml-format"
-#define VERSION "2.0.1"
+#define VERSION "2.0.2"
 
 /* Formatter options */
 #define FORMAT_OVERWRITE	0x01
@@ -22,10 +22,11 @@ bool optset(int opts, int opt)
 }
 
 /* The blank text node children in an element are considered removable only if
- * ALL the text node children of that element are blank (no mixed content).
+ * ALL the text node children of that element are blank (no mixed content), or
+ * there are no text node children at all.
  *
- * If there is only a single blank text node child, it is only considered
- * removable if FORMAT_REMWSONLY is set.
+ * If there is only a single blank text node child, it is considered removable
+ * only if FORMAT_REMWSONLY is set.
  */
 bool blanks_are_removable(xmlNodePtr node, int opts)
 {
@@ -42,7 +43,7 @@ bool blanks_are_removable(xmlNodePtr node, int opts)
 		}
 	}
 
-	return i > 1 || optset(opts, FORMAT_REMWSONLY);
+	return i > 1 || (node->children && node->children->type != XML_TEXT_NODE) || optset(opts, FORMAT_REMWSONLY);
 }
 
 /* Remove blank children. */
