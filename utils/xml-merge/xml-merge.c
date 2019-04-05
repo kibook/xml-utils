@@ -8,7 +8,7 @@
 #include "xml-utils.h"
 
 #define PROG_NAME "xml-merge"
-#define VERSION "1.2.1"
+#define VERSION "1.2.2"
 
 void showHelp(void)
 {
@@ -121,6 +121,8 @@ int main(int argc, char **argv)
 
 	xmlFreeDoc(doc1);
 	xmlFreeDoc(doc2);
+
+	xmlCleanupParser();
 
 	return 0;
 }
