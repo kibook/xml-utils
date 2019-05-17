@@ -6,7 +6,7 @@ xml-format - Format XML files
 SYNOPSIS
 ========
 
-    xml-format [-fOwh?] [-i <str>] [-o <path>] [<file>...]
+    xml-format [-cfOwh?] [-i <str>] [-o <path>] [<file>...]
 
 DESCRIPTION
 ===========
@@ -26,6 +26,9 @@ A text node is considered ignorable if:
 
 OPTIONS
 =======
+
+-c  
+Output in compact form without indenting.
 
 -f  
 Overwrite input XML files.

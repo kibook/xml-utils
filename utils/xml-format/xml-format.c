@@ -8,12 +8,13 @@
 #include "xml-utils.h"
 
 #define PROG_NAME "xml-format"
-#define VERSION "2.0.2"
+#define VERSION "2.1.0"
 
 /* Formatter options */
 #define FORMAT_OVERWRITE	0x01
 #define FORMAT_REMWSONLY	0x02
 #define FORMAT_OMIT_DECL	0x04
+#define FORMAT_COMPACT		0x08
 
 /* Determine if an option is set. */
 bool optset(int opts, int opt)
@@ -85,7 +86,7 @@ void format_file(const char *path, const char *out, int opts)
 {
 	xmlDocPtr doc;
 	xmlSaveCtxtPtr save;
-	int saveopts = XML_SAVE_FORMAT;
+	int saveopts = 0;
 
 	if (!(doc = read_xml_doc(path))) {
 		return;
@@ -93,6 +94,9 @@ void format_file(const char *path, const char *out, int opts)
 
 	format(xmlDocGetRootElement(doc), opts);
 
+	if (!optset(opts, FORMAT_COMPACT)) {
+		saveopts |= XML_SAVE_FORMAT;
+	}
 	if (optset(opts, FORMAT_OMIT_DECL)) {
 		saveopts |= XML_SAVE_NO_DECL;
 	}
@@ -114,9 +118,10 @@ void format_file(const char *path, const char *out, int opts)
 /* Show usage message. */
 void show_help(void)
 {
-	puts("Usage: " PROG_NAME " [-fOwh?] [-i <str>] [-o <path>] [<file>...]");
+	puts("Usage: " PROG_NAME " [-cfOwh?] [-i <str>] [-o <path>] [<file>...]");
 	puts("");
 	puts("Options:");
+	puts("  -c         Compact output.");
 	puts("  -f         Overwrite input XML files.");
 	puts("  -h -?      Show usage message.");
 	puts("  -i <str>   Set the indentation string.");
@@ -138,7 +143,7 @@ void show_version(void)
 int main(int argc, char **argv)
 {
 	int i;
-	const char *sopts = "fi:Oo:wh?";
+	const char *sopts = "cfi:Oo:wh?";
 	struct option lopts[] = {
 		{"version", no_argument, 0, 0},
 		LIBXML2_PARSE_LONGOPT_DEFS
@@ -158,6 +163,9 @@ int main(int argc, char **argv)
 					return 0;
 				}
 				LIBXML2_PARSE_LONGOPT_HANDLE(lopts, loptind)
+				break;
+			case 'c':
+				opts |= FORMAT_COMPACT;
 				break;
 			case 'f':
 				opts |= FORMAT_OVERWRITE;

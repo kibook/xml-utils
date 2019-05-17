@@ -6,10 +6,10 @@
       <dmIdent>
         <dmCode modelIdentCode="XMLUTILS" systemDiffCode="A" systemCode="05" subSystemCode="0" subSubSystemCode="0" assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="040" infoCodeVariant="A" itemLocationCode="D"/>
         <language languageIsoCode="en" countryIsoCode="CA"/>
-        <issueInfo issueNumber="003" inWork="00"/>
+        <issueInfo issueNumber="003" inWork="01"/>
       </dmIdent>
       <dmAddressItems>
-        <issueDate year="2019" month="04" day="05"/>
+        <issueDate year="2019" month="05" day="17"/>
         <dmTitle>
           <techName>xml-format(1) | xml-utils</techName>
         </dmTitle>
@@ -39,13 +39,7 @@
         <unverified/>
       </qualityAssurance>
       <reasonForUpdate id="rfu-0001" updateHighlight="1" updateReasonType="urt02">
-        <simplePara>Add standard libxml2 parser options.</simplePara>
-      </reasonForUpdate>
-      <reasonForUpdate id="rfu-0002" updateHighlight="1" updateReasonType="urt02">
-        <simplePara>Change behaviour of -w option.</simplePara>
-      </reasonForUpdate>
-      <reasonForUpdate id="rfu-0003" updateHighlight="0" updateReasonType="urt01">
-        <simplePara>Fix synopsis.</simplePara>
+        <simplePara>Add -c option.</simplePara>
       </reasonForUpdate>
     </dmStatus>
   </identAndStatusSection>
@@ -58,7 +52,7 @@
       <levelledPara>
         <title>SYNOPSIS</title>
         <para>
-          <verbatimText verbatimStyle="vs24" changeMark="0" changeType="modify" reasonForUpdateRefIds="rfu-0003"><![CDATA[xml-format [-fOwh?] [-i <str>] [-o <path>] [<file>...]]]></verbatimText>
+          <verbatimText verbatimStyle="vs24" changeMark="1" changeType="modify" reasonForUpdateRefIds="rfu-0001"><![CDATA[xml-format [-cfOwh?] [-i <str>] [-o <path>] [<file>...]]]></verbatimText>
         </para>
       </levelledPara>
       <levelledPara>
@@ -86,6 +80,12 @@
         <title>OPTIONS</title>
         <para>
           <definitionList>
+            <definitionListItem changeMark="1" changeType="add" reasonForUpdateRefIds="rfu-0001">
+              <listItemTerm>-c</listItemTerm>
+              <listItemDefinition>
+                <para>Output in compact form without indenting.</para>
+              </listItemDefinition>
+            </definitionListItem>
             <definitionListItem>
               <listItemTerm>-f</listItemTerm>
               <listItemDefinition>
@@ -119,7 +119,7 @@
             <definitionListItem>
               <listItemTerm>-w</listItemTerm>
               <listItemDefinition>
-                <para changeMark="1" changeType="modify" reasonForUpdateRefIds="rfu-0002">Treat elements containing only whitespace as empty.</para>
+                <para>Treat elements containing only whitespace as empty.</para>
               </listItemDefinition>
             </definitionListItem>
             <definitionListItem>
@@ -136,8 +136,8 @@
             </definitionListItem>
           </definitionList>
         </para>
-        <para changeMark="1" changeType="add" reasonForUpdateRefIds="rfu-0001">In addition, the following options enable features of the XML parser that are disabled as a precaution by default:</para>
-        <para changeMark="1" changeType="add" reasonForUpdateRefIds="rfu-0001">
+        <para>In addition, the following options enable features of the XML parser that are disabled as a precaution by default:</para>
+        <para>
           <definitionList>
             <definitionListItem>
               <listItemTerm>--dtdload</listItemTerm>
@@ -163,7 +163,7 @@
       <levelledPara>
         <title>EXAMPLE</title>
         <para>
-          <verbatimText verbatimStyle="vs24" changeMark="1" changeType="modify" reasonForUpdateRefIds="rfu-0002"><![CDATA[$ cat doc.xml
+          <verbatimText verbatimStyle="vs24"><![CDATA[$ cat doc.xml
 <section>     <title>Example</title>
 
 <para><emphasis>A</emphasis> <emphasis>B</emphasis> C</para>
