@@ -10,7 +10,7 @@
 #include "xml-utils.h"
 
 #define PROG_NAME "xml-trim"
-#define VERSION "3.2.1"
+#define VERSION "3.3.0"
 
 /* Remove whitespace on left end of string. */
 char *strltrm(char *dst, const char *src)
@@ -177,13 +177,13 @@ void show_help(void)
 	puts("Usage: " PROG_NAME " [-e <elem> ...] [-N <ns=URL> ...] [-fnh?] [<src>...]");
 	puts("");
 	puts("Options:");
-	puts("  -h -?        Show usage message.");
-	puts("  -e <elem>    Element to trim space on.");
-	puts("  -f           Overwrite input files.");
-	puts("  -N <ns=URL>  Register a namespace.");
-	puts("  -n           Normalize space as well as trim.");
-	puts("  --version    Show version information.");
-	puts("  <src>        XML file to trim.");
+	puts("  -e, --element <elem>      Element to trim space on.");
+	puts("  -f, --overwrite           Overwrite input files.");
+	puts("  -h, -?, --help            Show usage message.");
+	puts("  -N, --namespace <ns=URL>  Register a namespace.");
+	puts("  -n, --normalize           Normalize space as well as trim.");
+	puts("  --version                 Show version information.");
+	puts("  <src>                     XML file to trim.");
 	LIBXML2_PARSE_LONGOPT_HELP
 }
 
@@ -203,7 +203,12 @@ int main(int argc, char **argv)
 
 	const char *sopts = "e:fN:nh?";
 	struct option lopts[] = {
-		{"version", no_argument, 0, 0},
+		{"version"  , no_argument      , 0, 0},
+		{"help"     , no_argument      , 0, 'h'},
+		{"element"  , required_argument, 0, 'e'},
+		{"overwrite", no_argument      , 0, 'f'},
+		{"namespace", required_argument, 0, 'N'},
+		{"normalize", no_argument      , 0, 'n'},
 		LIBXML2_PARSE_LONGOPT_DEFS
 		{0, 0, 0, 0}
 	};

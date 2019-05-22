@@ -29,25 +29,25 @@ Whitespace is trimmed according to the following rules:
 OPTIONS
 =======
 
--h -?  
-Show usage message.
-
--e &lt;elem&gt;  
+-e, --element &lt;elem&gt;  
 Elements to trim space on. May include a namespace prefix if the
 namespace was registered with -N. &lt;elem&gt; may be either a simple
 element name (e.g., "para") which matches all elements with the same
 name at any position, or an XPath expression (e.g., "//section/para")
 for finer control.
 
--f  
+-f, --overwrite  
 Overwrite input XML files.
 
--N &lt;ns=URL&gt;  
+-h, -?, --help  
+Show usage message.
+
+-N, --namespace &lt;ns=URL&gt;  
 Registers an XML namespace handle for URL, which can then be used when
 specifying element names as options. Multiple namespaces can be
 registered by specifying this option multiple times.
 
--n  
+-n, --normalize  
 Normalize space in the specified elements in addition to trimming
 whitespace.
 

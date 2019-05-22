@@ -6,10 +6,10 @@
       <dmIdent>
         <dmCode modelIdentCode="XMLUTILS" systemDiffCode="A" systemCode="02" subSystemCode="0" subSubSystemCode="0" assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="040" infoCodeVariant="A" itemLocationCode="D"/>
         <language languageIsoCode="en" countryIsoCode="CA"/>
-        <issueInfo issueNumber="005" inWork="00"/>
+        <issueInfo issueNumber="005" inWork="01"/>
       </dmIdent>
       <dmAddressItems>
-        <issueDate year="2019" month="04" day="05"/>
+        <issueDate year="2019" month="05" day="22"/>
         <dmTitle>
           <techName>xml-trim(1) | xml-utils</techName>
         </dmTitle>
@@ -39,10 +39,7 @@
         <unverified/>
       </qualityAssurance>
       <reasonForUpdate id="rfu-0001" updateHighlight="1" updateReasonType="urt02">
-        <simplePara>Add standard libxml2 parser options.</simplePara>
-      </reasonForUpdate>
-      <reasonForUpdate id="rfu-0002" updateHighlight="1" updateReasonType="urt02">
-        <simplePara>Add -e and -f options and change behaviour of additional arguments.</simplePara>
+        <simplePara>Add long options.</simplePara>
       </reasonForUpdate>
     </dmStatus>
   </identAndStatusSection>
@@ -55,7 +52,7 @@
       <levelledPara>
         <title>SYNOPSIS</title>
         <para>
-          <verbatimText verbatimStyle="vs24" changeMark="1" changeType="modify" reasonForUpdateRefIds="rfu-0002"><![CDATA[xml-trim [-e <elem> ...] [-N <ns=URL> ...] [-fnh?] <src>...]]></verbatimText>
+          <verbatimText verbatimStyle="vs24"><![CDATA[xml-trim [-e <elem> ...] [-N <ns=URL> ...] [-fnh?] <src>...]]></verbatimText>
         </para>
       </levelledPara>
       <levelledPara>
@@ -79,33 +76,33 @@
       <levelledPara>
         <title>OPTIONS</title>
         <para>
-          <definitionList changeMark="1" changeType="modify" reasonForUpdateRefIds="rfu-0002">
+          <definitionList>
             <definitionListItem>
-              <listItemTerm>-h -?</listItemTerm>
-              <listItemDefinition>
-                <para>Show usage message.</para>
-              </listItemDefinition>
-            </definitionListItem>
-            <definitionListItem changeMark="1" changeType="add" reasonForUpdateRefIds="rfu-0002">
-              <listItemTerm>-e &lt;elem&gt;</listItemTerm>
+              <listItemTerm changeMark="1" changeType="modify" reasonForUpdateRefIds="rfu-0001">-e, --element &lt;elem&gt;</listItemTerm>
               <listItemDefinition>
                 <para>Elements to trim space on. May include a namespace prefix if the namespace was registered with -N. &lt;elem&gt; may be either a simple element name (e.g., "para") which matches all elements with the same name at any position, or an XPath expression (e.g., "//section/para") for finer control.</para>
               </listItemDefinition>
             </definitionListItem>
-            <definitionListItem changeMark="1" changeType="add" reasonForUpdateRefIds="rfu-0002">
-              <listItemTerm>-f</listItemTerm>
+            <definitionListItem>
+              <listItemTerm changeMark="1" changeType="modify" reasonForUpdateRefIds="rfu-0001">-f, --overwrite</listItemTerm>
               <listItemDefinition>
                 <para>Overwrite input XML files.</para>
               </listItemDefinition>
             </definitionListItem>
             <definitionListItem>
-              <listItemTerm>-N &lt;ns=URL&gt;</listItemTerm>
+              <listItemTerm changeMark="1" changeType="modify" reasonForUpdateRefIds="rfu-0001">-h, -?, --help</listItemTerm>
+              <listItemDefinition>
+                <para>Show usage message.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm changeMark="1" changeType="modify" reasonForUpdateRefIds="rfu-0001">-N, --namespace &lt;ns=URL&gt;</listItemTerm>
               <listItemDefinition>
                 <para>Registers an XML namespace handle for URL, which can then be used when specifying element names as options. Multiple namespaces can be registered by specifying this option multiple times.</para>
               </listItemDefinition>
             </definitionListItem>
             <definitionListItem>
-              <listItemTerm>-n</listItemTerm>
+              <listItemTerm changeMark="1" changeType="modify" reasonForUpdateRefIds="rfu-0001">-n, --normalize</listItemTerm>
               <listItemDefinition>
                 <para>Normalize space in the specified elements in addition to trimming whitespace.</para>
               </listItemDefinition>
@@ -124,8 +121,8 @@
             </definitionListItem>
           </definitionList>
         </para>
-        <para changeMark="1" changeType="add" reasonForUpdateRefIds="rfu-0001">In addition, the following options enable features of the XML parser that are disabled as a precaution by default:</para>
-        <para changeMark="1" changeType="add" reasonForUpdateRefIds="rfu-0001">
+        <para>In addition, the following options enable features of the XML parser that are disabled as a precaution by default:</para>
+        <para>
           <definitionList>
             <definitionListItem>
               <listItemTerm>--dtdload</listItemTerm>
@@ -158,7 +155,7 @@
     Hello world.
   </para>
 </section>]]></verbatimText>
-            <verbatimText verbatimStyle="vs24" changeMark="1" changeType="modify" reasonForUpdateRefIds="rfu-0002">$ xml-trim -e para example.xml</verbatimText>
+            <verbatimText verbatimStyle="vs24">$ xml-trim -e para example.xml</verbatimText>
             <verbatimText verbatimStyle="vs11"><![CDATA[<section>
   <para>Hello world.</para>
 </section>]]></verbatimText>
@@ -172,7 +169,7 @@
     Hello world.
   </d:para>
 </d:section>]]></verbatimText>
-            <verbatimText verbatimStyle="vs24" changeMark="1" changeType="modify" reasonForUpdateRefIds="rfu-0002">$ xml-trim -N d=http://docbook.org/ns/docbook -e d:para example.xml</verbatimText>
+            <verbatimText verbatimStyle="vs24">$ xml-trim -N d=http://docbook.org/ns/docbook -e d:para example.xml</verbatimText>
             <verbatimText verbatimStyle="vs11"><![CDATA[<d:section>
   <d:para>Hello world.</d:para>
 </d:section>]]></verbatimText>
@@ -190,7 +187,7 @@
     the text on a certain column.
   </para>
 </section>]]></verbatimText>
-            <verbatimText verbatimStyle="vs24" changeMark="1" changeType="modify" reasonForUpdateRefIds="rfu-0002">$ xml-trim -n -e para example.xml</verbatimText>
+            <verbatimText verbatimStyle="vs24">$ xml-trim -n -e para example.xml</verbatimText>
             <verbatimText verbatimStyle="vs11"><![CDATA[<section>
   <para>This is a <emphasis>long</emphasis> paragraph with both extra whitespace before
 and after the text, and line breaks entered by the author to wrap the
