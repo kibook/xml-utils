@@ -24,16 +24,16 @@ of the language.
 OPTIONS
 =======
 
--c &lt;classes&gt;  
+-c, --classes &lt;classes&gt;  
 Use a custom class definitions file.
 
--f  
+-f, --overwrite  
 Overwrite input XML file(s) instead of outputting to stdout.
 
--h -?  
+-h, -?, --help  
 Show help/usage message.
 
--s &lt;syntax&gt;  
+-s, --syntax &lt;syntax&gt;  
 Use a custom syntax definitions file.
 
 --version  

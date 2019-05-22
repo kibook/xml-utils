@@ -9,7 +9,7 @@
 #include "languages.h"
 
 #define PROG_NAME "xml-highlight"
-#define VERSION "1.1.1"
+#define VERSION "1.2.0"
 
 #define PRE_KEYWORD_DELIM BAD_CAST " (\n"
 #define POST_KEYWORD_DELIM BAD_CAST " .,);\n"
@@ -368,11 +368,11 @@ void show_help(void)
 	puts("Usage: " PROG_NAME " [options] [<document>...]");
 	puts("");
 	puts("Options:");
-	puts("  -h -?      Show usage message.");
-	puts("  -c <XML>   Use a custom classes XML file.");
-	puts("  -f         Overwrite input documents.");
-	puts("  -s <XML>   Use a custom syntax definitions XML file.");
-	puts("  --version  Show version information.");
+	puts("  -c, --classes <XML>  Use a custom classes XML file.");
+	puts("  -f, --overwrite      Overwrite input documents.");
+	puts("  -h, -?, --help       Show usage message.");
+	puts("  -s, --syntax <XML>   Use a custom syntax definitions XML file.");
+	puts("  --version            Show version information.");
 	LIBXML2_PARSE_LONGOPT_HELP
 }
 
@@ -391,7 +391,11 @@ int main(int argc, char **argv)
 
 	const char *sopts = "c:fs:h?";
 	struct option lopts[] = {
-		{"version", no_argument, 0, 0},
+		{"version"  , no_argument      , 0, 0},
+		{"help"     , no_argument      , 0, 'h'},
+		{"classes"  , required_argument, 0, 'c'},
+		{"overwrite", no_argument      , 0, 'f'},
+		{"syntax"   , required_argument, 0, 's'},
 		LIBXML2_PARSE_LONGOPT_DEFS
 		{0, 0, 0, 0}
 	};
