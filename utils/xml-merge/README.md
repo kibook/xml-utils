@@ -17,11 +17,11 @@ element.
 OPTIONS
 =======
 
--f  
+-f, --overwrite  
 Overwrite the &lt;dst&gt; file with the merged result, instead of
 writing to stdout.
 
--h -?  
+-h, -?, --help  
 Show usage message.
 
 --version  

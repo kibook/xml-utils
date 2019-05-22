@@ -8,18 +8,18 @@
 #include "xml-utils.h"
 
 #define PROG_NAME "xml-merge"
-#define VERSION "1.2.2"
+#define VERSION "1.3.0"
 
 void showHelp(void)
 {
 	puts("Usage: " PROG_NAME "[-fh?] <dst> <src>");
 	puts("");
 	puts("Options:");
-	puts("  -f         Overwrite <dst> file.");
-	puts("  -h -?      Show help/usage message");
-	puts("  --version  Show version information");
-	puts("  dst        XML file to <src> in to");
-	puts("  src        XML file to merge in to <dst>");
+	puts("  -f, --overwrite  Overwrite <dst> file.");
+	puts("  -h, -?, --help   Show help/usage message");
+	puts("  --version        Show version information");
+	puts("  dst              XML file to <src> in to");
+	puts("  src              XML file to merge in to <dst>");
 	LIBXML2_PARSE_LONGOPT_HELP
 }
 
@@ -66,7 +66,9 @@ int main(int argc, char **argv)
 
 	const char *sopts = "fh?";
 	struct option lopts[] = {
-		{"version", no_argument, 0, 0},
+		{"version"  , no_argument, 0, 0},
+		{"help"     , no_argument, 0, 'h'},
+		{"overwrite", no_argument, 0, 'f'},
 		LIBXML2_PARSE_LONGOPT_DEFS
 		{0, 0, 0, 0}
 	};
