@@ -8,7 +8,7 @@
 #include "xml-utils.h"
 
 #define PROG_NAME "xml-format"
-#define VERSION "2.1.0"
+#define VERSION "2.2.0"
 
 /* Formatter options */
 #define FORMAT_OVERWRITE	0x01
@@ -121,15 +121,15 @@ void show_help(void)
 	puts("Usage: " PROG_NAME " [-cfOwh?] [-i <str>] [-o <path>] [<file>...]");
 	puts("");
 	puts("Options:");
-	puts("  -c         Compact output.");
-	puts("  -f         Overwrite input XML files.");
-	puts("  -h -?      Show usage message.");
-	puts("  -i <str>   Set the indentation string.");
-	puts("  -O         Omit XML declaration.");
-	puts("  -o <path>  Output to <path> instead of stdout.");
-	puts("  -w         Treat elements containing only whitespace as empty.");
-	puts(" --version   Show version information.");
-	puts("  <file>     XML file(s) to format. Otherwise, read from stdin.");
+	puts("  -c, --compact       Compact output.");
+	puts("  -f, --overwrite     Overwrite input XML files.");
+	puts("  -h, -?, --help      Show usage message.");
+	puts("  -i, --indent <str>  Set the indentation string.");
+	puts("  -O, --omit-decl     Omit XML declaration.");
+	puts("  -o, --out <path>    Output to <path> instead of stdout.");
+	puts("  -w, --empty         Treat elements containing only whitespace as empty.");
+	puts(" --version            Show version information.");
+	puts("  <file>              XML file(s) to format. Otherwise, read from stdin.");
 	LIBXML2_PARSE_LONGOPT_HELP
 }
 
@@ -145,7 +145,14 @@ int main(int argc, char **argv)
 	int i;
 	const char *sopts = "cfi:Oo:wh?";
 	struct option lopts[] = {
-		{"version", no_argument, 0, 0},
+		{"version"  , no_argument      , 0, 0},
+		{"help"     , no_argument      , 0, 'h'},
+		{"compact"  , no_argument      , 0, 'c'},
+		{"overwrite", no_argument      , 0, 'f'},
+		{"indent"   , required_argument, 0, 'i'},
+		{"omit-decl", no_argument      , 0, 'O'},
+		{"out"      , required_argument, 0, 'o'},
+		{"empty"    , no_argument      , 0, 'w'},
 		LIBXML2_PARSE_LONGOPT_DEFS
 		{0, 0, 0, 0}
 	};

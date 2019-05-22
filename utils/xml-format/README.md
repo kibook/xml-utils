@@ -27,26 +27,26 @@ A text node is considered ignorable if:
 OPTIONS
 =======
 
--c  
+-c, --compact  
 Output in compact form without indenting.
 
--f  
+-f, --overwrite  
 Overwrite input XML files.
 
--h -?  
+-h, -?, --help  
 Show usage message.
 
--i &lt;str&gt;  
+-i, --indent &lt;str&gt;  
 Use &lt;str&gt; to indent each level of the XML tree. The default is two
 spaces.
 
--O  
+-O, --omit-decl  
 Omit the XML declaration from the formatted XML output.
 
--o &lt;path&gt;  
+-o, --out &lt;path&gt;  
 Output formatted XML to &lt;path&gt; instead of stdout.
 
--w  
+-w, --empty  
 Treat elements containing only whitespace as empty.
 
 --version  
