@@ -8,19 +8,13 @@
 #include "xml-utils.h"
 
 #define PROG_NAME "xml-format"
-#define VERSION "2.2.0"
+#define VERSION "2.3.0"
 
 /* Formatter options */
 #define FORMAT_OVERWRITE	0x01
 #define FORMAT_REMWSONLY	0x02
 #define FORMAT_OMIT_DECL	0x04
 #define FORMAT_COMPACT		0x08
-
-/* Determine if an option is set. */
-bool optset(int opts, int opt)
-{
-	return ((opts & opt) == opt);
-}
 
 /* The blank text node children in an element are considered removable only if
  * ALL the text node children of that element are blank (no mixed content), or
