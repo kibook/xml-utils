@@ -9,14 +9,14 @@
 #include "languages.h"
 
 #define PROG_NAME "xml-highlight"
-#define VERSION "1.3.0"
+#define VERSION "1.3.1"
 
 #define PRE_KEYWORD_DELIM BAD_CAST " (\n"
 #define POST_KEYWORD_DELIM BAD_CAST " .,);\n"
 
 #define ELEM_XPATH "//*[processing-instruction('language')='%s']/text()"
 
-xmlNodePtr first_xpath_node(xmlDocPtr doc, xmlNodePtr node, const xmlChar *expr)
+static xmlNodePtr first_xpath_node(xmlDocPtr doc, xmlNodePtr node, const xmlChar *expr)
 {
 	xmlXPathContextPtr ctx;
 	xmlXPathObjectPtr obj;
@@ -35,7 +35,7 @@ xmlNodePtr first_xpath_node(xmlDocPtr doc, xmlNodePtr node, const xmlChar *expr)
 	return first;
 }
 
-bool is_keyword(xmlChar *content, int content_len, int i, const xmlChar *keyword, int keyword_len, bool ignorecase)
+static bool is_keyword(xmlChar *content, int content_len, int i, const xmlChar *keyword, int keyword_len, bool ignorecase)
 {
 	bool is;
 	xmlChar s, e;
@@ -53,7 +53,7 @@ bool is_keyword(xmlChar *content, int content_len, int i, const xmlChar *keyword
 	return is;
 }
 
-void highlight_keyword_in_node(xmlNodePtr node, const xmlChar *keyword, xmlNodePtr tag, bool ignorecase)
+static void highlight_keyword_in_node(xmlNodePtr node, const xmlChar *keyword, xmlNodePtr tag, bool ignorecase)
 {
 	xmlChar *content;
 	int keyword_len, content_len;
@@ -94,7 +94,7 @@ void highlight_keyword_in_node(xmlNodePtr node, const xmlChar *keyword, xmlNodeP
 	xmlFree(content);
 }
 
-void highlight_area_in_node(xmlNodePtr node, const xmlChar *start, const xmlChar *end, xmlNodePtr tag, bool ignorecase)
+static void highlight_area_in_node(xmlNodePtr node, const xmlChar *start, const xmlChar *end, xmlNodePtr tag, bool ignorecase)
 {
 	xmlChar *content;
 	int i, slen, elen;
@@ -146,7 +146,7 @@ void highlight_area_in_node(xmlNodePtr node, const xmlChar *start, const xmlChar
 	xmlFree(content);
 }
 
-void highlight_keyword_in_nodes(xmlNodeSetPtr nodes, const xmlChar *keyword, xmlNodePtr tag, bool ignorecase)
+static void highlight_keyword_in_nodes(xmlNodeSetPtr nodes, const xmlChar *keyword, xmlNodePtr tag, bool ignorecase)
 {
 	int i;
 	for (i = 0; i < nodes->nodeNr; ++i) {
@@ -154,7 +154,7 @@ void highlight_keyword_in_nodes(xmlNodeSetPtr nodes, const xmlChar *keyword, xml
 	}
 }
 
-void highlight_area_in_nodes(xmlNodeSetPtr nodes, const xmlChar *start, const xmlChar *end, xmlNodePtr tag, bool ignorecase)
+static void highlight_area_in_nodes(xmlNodeSetPtr nodes, const xmlChar *start, const xmlChar *end, xmlNodePtr tag, bool ignorecase)
 {
 	int i;
 	for (i = 0; i < nodes->nodeNr; ++i) {
@@ -162,7 +162,7 @@ void highlight_area_in_nodes(xmlNodeSetPtr nodes, const xmlChar *start, const xm
 	}
 }
 
-void highlight_keyword_in_doc(xmlDocPtr doc, const xmlChar *lang, const xmlChar *keyword, xmlNodePtr tag, bool ignorecase)
+static void highlight_keyword_in_doc(xmlDocPtr doc, const xmlChar *lang, const xmlChar *keyword, xmlNodePtr tag, bool ignorecase)
 {
 	xmlXPathContextPtr ctx;
 	xmlXPathObjectPtr obj;
@@ -182,7 +182,7 @@ void highlight_keyword_in_doc(xmlDocPtr doc, const xmlChar *lang, const xmlChar 
 	xmlXPathFreeContext(ctx);
 }
 
-void highlight_area_in_doc(xmlDocPtr doc, const xmlChar *lang, const xmlChar *start, const xmlChar *end, xmlNodePtr tag, bool ignorecase)
+static void highlight_area_in_doc(xmlDocPtr doc, const xmlChar *lang, const xmlChar *start, const xmlChar *end, xmlNodePtr tag, bool ignorecase)
 {
 	xmlXPathContextPtr ctx;
 	xmlXPathObjectPtr obj;
@@ -202,7 +202,7 @@ void highlight_area_in_doc(xmlDocPtr doc, const xmlChar *lang, const xmlChar *st
 	xmlXPathFreeContext(ctx);
 }
 
-xmlNodePtr get_class(const xmlChar *class, xmlDocPtr classes, xmlDocPtr syntax)
+static xmlNodePtr get_class(const xmlChar *class, xmlDocPtr classes, xmlDocPtr syntax)
 {
 	xmlNodePtr node;
 	xmlChar xpath[256];
@@ -218,7 +218,7 @@ xmlNodePtr get_class(const xmlChar *class, xmlDocPtr classes, xmlDocPtr syntax)
 	return node;
 }
 
-void highlight_keyword_node_in_doc(xmlDocPtr doc, xmlDocPtr syntax, xmlDocPtr classes, const xmlChar *lang, xmlNodePtr node, bool ignorecase)
+static void highlight_keyword_node_in_doc(xmlDocPtr doc, xmlDocPtr syntax, xmlDocPtr classes, const xmlChar *lang, xmlNodePtr node, bool ignorecase)
 {
 	xmlChar *keyword, *class;
 	xmlNodePtr tag;
@@ -240,7 +240,7 @@ void highlight_keyword_node_in_doc(xmlDocPtr doc, xmlDocPtr syntax, xmlDocPtr cl
 	xmlFree(class);
 }
 
-void highlight_area_node_in_doc(xmlDocPtr doc, xmlDocPtr syntax, xmlDocPtr classes, const xmlChar *lang, xmlNodePtr node, bool ignorecase)
+static void highlight_area_node_in_doc(xmlDocPtr doc, xmlDocPtr syntax, xmlDocPtr classes, const xmlChar *lang, xmlNodePtr node, bool ignorecase)
 {
 	xmlChar *start, *end, *class;
 	xmlNodePtr tag;
@@ -264,7 +264,7 @@ void highlight_area_node_in_doc(xmlDocPtr doc, xmlDocPtr syntax, xmlDocPtr class
 	xmlFree(class);
 }
 
-void highlight_language_in_doc(xmlDocPtr doc, xmlDocPtr syntax,
+static void highlight_language_in_doc(xmlDocPtr doc, xmlDocPtr syntax,
 	xmlDocPtr classes, xmlNodePtr language)
 {
 	xmlXPathContextPtr ctx;
@@ -310,7 +310,7 @@ void highlight_language_in_doc(xmlDocPtr doc, xmlDocPtr syntax,
 	xmlXPathFreeContext(ctx);
 }
 
-void highlight_syntax_in_doc(xmlDocPtr doc, xmlDocPtr syntax, xmlDocPtr classes)
+static void highlight_syntax_in_doc(xmlDocPtr doc, xmlDocPtr syntax, xmlDocPtr classes)
 {
 	xmlXPathContextPtr ctx;
 	xmlXPathObjectPtr obj;
@@ -330,7 +330,7 @@ void highlight_syntax_in_doc(xmlDocPtr doc, xmlDocPtr syntax, xmlDocPtr classes)
 	xmlXPathFreeContext(ctx);
 }
 
-void highlight_syntax_in_file(const char *fname, const char *syntax, const char *classes, bool overwrite)
+static void highlight_syntax_in_file(const char *fname, const char *syntax, const char *classes, bool overwrite)
 {
 	xmlDocPtr doc;
 	xmlDocPtr syndoc;
@@ -363,7 +363,7 @@ void highlight_syntax_in_file(const char *fname, const char *syntax, const char 
 	xmlFreeDoc(classdoc);
 }
 
-void show_help(void)
+static void show_help(void)
 {
 	puts("Usage: " PROG_NAME " [options] [<document>...]");
 	puts("");
@@ -376,7 +376,7 @@ void show_help(void)
 	LIBXML2_PARSE_LONGOPT_HELP
 }
 
-void show_version(void)
+static void show_version(void)
 {
 	printf("%s (xml-utils) %s\n", PROG_NAME, VERSION);
 	printf("Using libxml %s\n", xmlParserVersion);

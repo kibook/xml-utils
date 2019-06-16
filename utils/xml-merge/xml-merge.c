@@ -8,9 +8,9 @@
 #include "xml-utils.h"
 
 #define PROG_NAME "xml-merge"
-#define VERSION "1.4.0"
+#define VERSION "1.4.1"
 
-void showHelp(void)
+static void show_help(void)
 {
 	puts("Usage: " PROG_NAME "[-fh?] <dst> <src>");
 	puts("");
@@ -23,13 +23,13 @@ void showHelp(void)
 	LIBXML2_PARSE_LONGOPT_HELP
 }
 
-void show_version(void)
+static void show_version(void)
 {
 	printf("%s (xml-utils) %s\n", PROG_NAME, VERSION);
 	printf("Using libxml %s\n", xmlParserVersion);
 }
 
-xmlNodePtr firstXPathNode(char *xpath, xmlDocPtr doc)
+static xmlNodePtr firstXPathNode(char *xpath, xmlDocPtr doc)
 {
 	xmlXPathContextPtr ctx;
 	xmlXPathObjectPtr obj;
@@ -90,7 +90,7 @@ int main(int argc, char **argv)
 				break;
 			case 'h':
 			case '?':
-				showHelp();
+				show_help();
 				return 0;
 		}
 	}

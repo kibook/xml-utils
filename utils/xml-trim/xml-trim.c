@@ -10,10 +10,10 @@
 #include "xml-utils.h"
 
 #define PROG_NAME "xml-trim"
-#define VERSION "3.4.0"
+#define VERSION "3.4.1"
 
 /* Remove whitespace on left end of string. */
-char *strltrm(char *dst, const char *src)
+static char *strltrm(char *dst, const char *src)
 {
 	int start;
 	for (start = 0; isspace(src[start]); ++start);
@@ -22,7 +22,7 @@ char *strltrm(char *dst, const char *src)
 }
 
 /* Remove whitespace on right end of string. */
-char *strrtrm(char *dst, const char *src)
+static char *strrtrm(char *dst, const char *src)
 {
 	int len, end;
 	len = strlen(src);
@@ -34,7 +34,7 @@ char *strrtrm(char *dst, const char *src)
 /* Normalize space by replacing all sequences of whitespace characters with a
  * single space.
  */
-char *strnorm(char *dst, const char *src)
+static char *strnorm(char *dst, const char *src)
 {
 	int i, j;
 	j = 0;
@@ -53,7 +53,7 @@ char *strnorm(char *dst, const char *src)
 }
 
 /* Register an XML namespace with the XPath context. */
-void register_ns(xmlXPathContextPtr ctx, char *optarg)
+static void register_ns(xmlXPathContextPtr ctx, char *optarg)
 {
 	char *prefix, *uri;
 
@@ -64,7 +64,7 @@ void register_ns(xmlXPathContextPtr ctx, char *optarg)
 }
 
 /* Trim space in a text node. */
-void trim(xmlNodePtr node, char *(*f)(char *, const char *)) {
+static void trim(xmlNodePtr node, char *(*f)(char *, const char *)) {
 	char *content, *trimmed;
 
 	content = (char *) xmlNodeGetContent(node);
@@ -81,7 +81,7 @@ void trim(xmlNodePtr node, char *(*f)(char *, const char *)) {
 }
 
 /* Trim all text nodes in a given set of elements. */
-void trim_nodes(xmlNodeSetPtr nodes, bool normalize)
+static void trim_nodes(xmlNodeSetPtr nodes, bool normalize)
 {
 	int i;
 
@@ -111,7 +111,7 @@ void trim_nodes(xmlNodeSetPtr nodes, bool normalize)
 	}
 }
 
-void trim_nodes_in_file(const char *path, xmlNodePtr ns, xmlNodePtr elems, bool normalize, bool overwrite)
+static void trim_nodes_in_file(const char *path, xmlNodePtr ns, xmlNodePtr elems, bool normalize, bool overwrite)
 {
 	xmlDocPtr doc;
 	xmlXPathContextPtr ctx;
@@ -172,7 +172,7 @@ void trim_nodes_in_file(const char *path, xmlNodePtr ns, xmlNodePtr elems, bool 
 }
 
 /* Show usage message. */
-void show_help(void)
+static void show_help(void)
 {
 	puts("Usage: " PROG_NAME " [-e <elem> ...] [-N <ns=URL> ...] [-fnh?] [<src>...]");
 	puts("");
@@ -188,7 +188,7 @@ void show_help(void)
 }
 
 /* Show version information. */
-void show_version(void)
+static void show_version(void)
 {
 	printf("%s (xml-utils) %s\n", PROG_NAME, VERSION);
 	printf("Using libxml %s\n", xmlParserVersion);

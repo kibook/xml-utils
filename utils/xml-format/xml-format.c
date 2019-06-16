@@ -8,7 +8,7 @@
 #include "xml-utils.h"
 
 #define PROG_NAME "xml-format"
-#define VERSION "2.3.0"
+#define VERSION "2.3.1"
 
 /* Formatter options */
 #define FORMAT_OVERWRITE	0x01
@@ -23,7 +23,7 @@
  * If there is only a single blank text node child, it is considered removable
  * only if FORMAT_REMWSONLY is set.
  */
-bool blanks_are_removable(xmlNodePtr node, int opts)
+static bool blanks_are_removable(xmlNodePtr node, int opts)
 {
 	xmlNodePtr cur;
 	int i;
@@ -42,7 +42,7 @@ bool blanks_are_removable(xmlNodePtr node, int opts)
 }
 
 /* Remove blank children. */
-void remove_blanks(xmlNodePtr node)
+static void remove_blanks(xmlNodePtr node)
 {
 	xmlNodePtr cur;
 
@@ -62,7 +62,7 @@ void remove_blanks(xmlNodePtr node)
 }
 
 /* Format XML nodes. */
-void format(xmlNodePtr node, int opts)
+static void format(xmlNodePtr node, int opts)
 {
 	xmlNodePtr cur;
 
@@ -76,7 +76,7 @@ void format(xmlNodePtr node, int opts)
 }
 
 /* Format an XML file. */
-void format_file(const char *path, const char *out, int opts)
+static void format_file(const char *path, const char *out, int opts)
 {
 	xmlDocPtr doc;
 	xmlSaveCtxtPtr save;
@@ -110,7 +110,7 @@ void format_file(const char *path, const char *out, int opts)
 }
 
 /* Show usage message. */
-void show_help(void)
+static void show_help(void)
 {
 	puts("Usage: " PROG_NAME " [-cfOwh?] [-i <str>] [-o <path>] [<file>...]");
 	puts("");
@@ -128,7 +128,7 @@ void show_help(void)
 }
 
 /* Show version information. */
-void show_version(void)
+static void show_version(void)
 {
 	printf("%s (xml-utils) %s\n", PROG_NAME, VERSION);
 	printf("Using libxml %s\n", xmlParserVersion);
