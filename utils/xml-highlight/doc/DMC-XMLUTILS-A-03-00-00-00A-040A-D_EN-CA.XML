@@ -6,10 +6,10 @@
       <dmIdent>
         <dmCode modelIdentCode="XMLUTILS" systemDiffCode="A" systemCode="03" subSystemCode="0" subSubSystemCode="0" assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="040" infoCodeVariant="A" itemLocationCode="D"/>
         <language languageIsoCode="en" countryIsoCode="CA"/>
-        <issueInfo issueNumber="007" inWork="00"/>
+        <issueInfo issueNumber="007" inWork="01"/>
       </dmIdent>
       <dmAddressItems>
-        <issueDate year="2019" month="05" day="24"/>
+        <issueDate year="2019" month="06" day="20"/>
         <dmTitle>
           <techName>xml-highlight(1) | xml-utils</techName>
         </dmTitle>
@@ -38,12 +38,6 @@
       <qualityAssurance>
         <unverified/>
       </qualityAssurance>
-      <reasonForUpdate id="rfu-0001" updateHighlight="1" updateReasonType="urt02">
-        <simplePara>Add long options.</simplePara>
-      </reasonForUpdate>
-      <reasonForUpdate id="rfu-0002" updateHighlight="1" updateReasonType="urt02">
-        <simplePara>Add standard --xinclude option.</simplePara>
-      </reasonForUpdate>
     </dmStatus>
   </identAndStatusSection>
   <content>
@@ -68,25 +62,25 @@
         <para>
           <definitionList>
             <definitionListItem>
-              <listItemTerm changeMark="1" changeType="modify" reasonForUpdateRefIds="rfu-0001">-c, --classes &lt;classes&gt;</listItemTerm>
+              <listItemTerm>-c, --classes &lt;classes&gt;</listItemTerm>
               <listItemDefinition>
                 <para>Use a custom class definitions file.</para>
               </listItemDefinition>
             </definitionListItem>
             <definitionListItem>
-              <listItemTerm changeMark="1" changeType="modify" reasonForUpdateRefIds="rfu-0001">-f, --overwrite</listItemTerm>
+              <listItemTerm>-f, --overwrite</listItemTerm>
               <listItemDefinition>
                 <para>Overwrite input XML file(s) instead of outputting to stdout.</para>
               </listItemDefinition>
             </definitionListItem>
             <definitionListItem>
-              <listItemTerm changeMark="1" changeType="modify" reasonForUpdateRefIds="rfu-0001">-h, -?, --help</listItemTerm>
+              <listItemTerm>-h, -?, --help</listItemTerm>
               <listItemDefinition>
                 <para>Show help/usage message.</para>
               </listItemDefinition>
             </definitionListItem>
             <definitionListItem>
-              <listItemTerm changeMark="1" changeType="modify" reasonForUpdateRefIds="rfu-0001">-s, --syntax &lt;syntax&gt;</listItemTerm>
+              <listItemTerm>-s, --syntax &lt;syntax&gt;</listItemTerm>
               <listItemDefinition>
                 <para>Use a custom syntax definitions file.</para>
               </listItemDefinition>
@@ -120,7 +114,7 @@
                 <para>Resolve entities.</para>
               </listItemDefinition>
             </definitionListItem>
-            <definitionListItem changeMark="1" changeType="add" reasonForUpdateRefIds="rfu-0002">
+            <definitionListItem>
               <listItemTerm>--xinclude</listItemTerm>
               <listItemDefinition>
                 <para>Do XInclude processing.</para>
