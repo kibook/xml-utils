@@ -6,7 +6,7 @@ xml-format - Format XML files
 SYNOPSIS
 ========
 
-    xml-format [-cfOwh?] [-i <str>] [-o <path>] [<file>...]
+    xml-format [-cfIOwh?] [-i <str>] [-o <path>] [<file>...]
 
 DESCRIPTION
 ===========
@@ -35,6 +35,9 @@ Overwrite input XML files.
 
 -h, -?, --help  
 Show usage message.
+
+-I, --indent-all  
+Indent nodes within non-blank nodes.
 
 -i, --indent &lt;str&gt;  
 Use &lt;str&gt; to indent each level of the XML tree. The default is two

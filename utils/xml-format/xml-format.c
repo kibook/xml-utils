@@ -8,13 +8,14 @@
 #include "xml-utils.h"
 
 #define PROG_NAME "xml-format"
-#define VERSION "2.3.1"
+#define VERSION "2.4.0"
 
 /* Formatter options */
 #define FORMAT_OVERWRITE	0x01
 #define FORMAT_REMWSONLY	0x02
 #define FORMAT_OMIT_DECL	0x04
 #define FORMAT_COMPACT		0x08
+#define FORMAT_INDENT		0x10
 
 /* The blank text node children in an element are considered removable only if
  * ALL the text node children of that element are blank (no mixed content), or
@@ -61,16 +62,51 @@ static void remove_blanks(xmlNodePtr node)
 	}
 }
 
+/* Add indentation to nodes within non-blank nodes. */
+static void indent(xmlNodePtr node)
+{
+	xmlNodePtr cur;
+	int n = 0, i;
+
+	for (cur = node->parent; cur; cur = cur->parent) {
+		++n;
+	}
+
+	if (!node->prev) {
+		xmlAddPrevSibling(node, xmlNewText(BAD_CAST "\n"));
+		for (i = 1; i < n; ++i) {
+			xmlAddPrevSibling(node, xmlNewText(BAD_CAST xmlTreeIndentString));
+		}
+	}
+
+	for (i = node->next ? 1 : 2; i < n; ++i) {
+		xmlAddNextSibling(node, xmlNewText(BAD_CAST xmlTreeIndentString));
+	}
+	xmlAddNextSibling(node, xmlNewText(BAD_CAST "\n"));
+}
+
 /* Format XML nodes. */
 static void format(xmlNodePtr node, int opts)
 {
-	xmlNodePtr cur;
+	bool remblanks;
 
-	if (blanks_are_removable(node, opts)) {
+	if ((remblanks = blanks_are_removable(node, opts))) {
 		remove_blanks(node);
+	}
 
-		for (cur = node->children; cur; cur = cur->next) {
+	if (remblanks || optset(opts, FORMAT_INDENT)) {
+		xmlNodePtr cur = node->children;
+
+		while (cur) {
+			xmlNodePtr next = cur->next;
+
 			format(cur, opts);
+
+			if (remblanks && optset(opts, FORMAT_INDENT)) {
+				indent(cur);
+			}
+
+			cur = next;
 		}
 	}
 }
@@ -118,6 +154,7 @@ static void show_help(void)
 	puts("  -c, --compact       Compact output.");
 	puts("  -f, --overwrite     Overwrite input XML files.");
 	puts("  -h, -?, --help      Show usage message.");
+	puts("  -I, --indent-all    Indent nodes within non-blank nodes.");
 	puts("  -i, --indent <str>  Set the indentation string.");
 	puts("  -O, --omit-decl     Omit XML declaration.");
 	puts("  -o, --out <path>    Output to <path> instead of stdout.");
@@ -137,16 +174,17 @@ static void show_version(void)
 int main(int argc, char **argv)
 {
 	int i;
-	const char *sopts = "cfi:Oo:wh?";
+	const char *sopts = "cfIi:Oo:wh?";
 	struct option lopts[] = {
 		{"version"  , no_argument      , 0, 0},
-		{"help"     , no_argument      , 0, 'h'},
-		{"compact"  , no_argument      , 0, 'c'},
-		{"overwrite", no_argument      , 0, 'f'},
-		{"indent"   , required_argument, 0, 'i'},
-		{"omit-decl", no_argument      , 0, 'O'},
-		{"out"      , required_argument, 0, 'o'},
-		{"empty"    , no_argument      , 0, 'w'},
+		{"help"      , no_argument      , 0, 'h'},
+		{"compact"   , no_argument      , 0, 'c'},
+		{"overwrite" , no_argument      , 0, 'f'},
+		{"indent-all", no_argument      , 0, 'I'},
+		{"indent"    , required_argument, 0, 'i'},
+		{"omit-decl" , no_argument      , 0, 'O'},
+		{"out"       , required_argument, 0, 'o'},
+		{"empty"     , no_argument      , 0, 'w'},
 		LIBXML2_PARSE_LONGOPT_DEFS
 		{0, 0, 0, 0}
 	};
@@ -170,6 +208,9 @@ int main(int argc, char **argv)
 				break;
 			case 'f':
 				opts |= FORMAT_OVERWRITE;
+				break;
+			case 'I':
+				opts |= FORMAT_INDENT;
 				break;
 			case 'i':
 				indent = strdup(optarg);
