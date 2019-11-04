@@ -8,7 +8,7 @@
 #include "xml-utils.h"
 
 #define PROG_NAME "xml-format"
-#define VERSION "2.4.0"
+#define VERSION "2.4.1"
 
 /* Formatter options */
 #define FORMAT_OVERWRITE	0x01
@@ -148,7 +148,7 @@ static void format_file(const char *path, const char *out, int opts)
 /* Show usage message. */
 static void show_help(void)
 {
-	puts("Usage: " PROG_NAME " [-cfOwh?] [-i <str>] [-o <path>] [<file>...]");
+	puts("Usage: " PROG_NAME " [-cfIOwh?] [-i <str>] [-o <path>] [<file>...]");
 	puts("");
 	puts("Options:");
 	puts("  -c, --compact       Compact output.");
