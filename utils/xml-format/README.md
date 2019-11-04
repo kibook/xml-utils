@@ -37,7 +37,8 @@ Overwrite input XML files.
 Show usage message.
 
 -I, --indent-all  
-Indent nodes within non-blank nodes.
+Indent nodes within non-blank nodes. Normally, all whitespace within
+non-blank nodes and their descendants is treated as significant.
 
 -i, --indent &lt;str&gt;  
 Use &lt;str&gt; to indent each level of the XML tree. The default is two
@@ -76,6 +77,8 @@ Do XInclude processing.
 
 EXAMPLE
 =======
+
+Standard formatting:
 
     $ cat doc.xml
     <section>     <title>Example</title>
@@ -118,3 +121,31 @@ EXAMPLE
         </randomList>
       </para>
     </section>
+
+Using the -I (--indent-all) option:
+
+    $ cat test1.xml
+    <para>
+      See the following list:
+      <randomList>
+        <listItem><para>A</para></listItem>
+        <listItem><para>B</para></listItem>
+        <listItem><para>C</para></listitem>
+      </randomList>
+    </para>
+
+    $ xml-format -I test1.xml
+    <para>
+      See the following list:
+      <randomList>
+        <listItem>
+          <para>A</para>
+        </listItem>
+        <listItem>
+          <para>B</para>
+        </listItem>
+        <listItem>
+          <para>C</para>
+        </listItem>
+      </randomList>
+    </para>

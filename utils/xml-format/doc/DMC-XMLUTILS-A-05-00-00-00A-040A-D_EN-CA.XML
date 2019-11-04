@@ -6,10 +6,10 @@
       <dmIdent>
         <dmCode modelIdentCode="XMLUTILS" systemDiffCode="A" systemCode="05" subSystemCode="0" subSubSystemCode="0" assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="040" infoCodeVariant="A" itemLocationCode="D"/>
         <language languageIsoCode="en" countryIsoCode="CA"/>
-        <issueInfo issueNumber="005" inWork="01"/>
+        <issueInfo issueNumber="005" inWork="02"/>
       </dmIdent>
       <dmAddressItems>
-        <issueDate year="2019" month="11" day="02"/>
+        <issueDate year="2019" month="11" day="04"/>
         <dmTitle>
           <techName>xml-format(1) | xml-utils</techName>
         </dmTitle>
@@ -101,7 +101,7 @@
             <definitionListItem changeMark="1" changeType="add" reasonForUpdateRefIds="rfu-0001">
               <listItemTerm>-I, --indent-all</listItemTerm>
               <listItemDefinition>
-                <para>Indent nodes within non-blank nodes.</para>
+                <para>Indent nodes within non-blank nodes. Normally, all whitespace within non-blank nodes and their descendants is treated as significant.</para>
               </listItemDefinition>
             </definitionListItem>
             <definitionListItem>
@@ -175,6 +175,7 @@
       <levelledPara>
         <title>EXAMPLE</title>
         <para>
+          Standard formatting:
           <verbatimText verbatimStyle="vs24"><![CDATA[$ cat doc.xml
 <section>     <title>Example</title>
 
@@ -216,6 +217,34 @@ $ xml-format test.xml
     </randomList>
   </para>
 </section>]]></verbatimText>
+        </para>
+        <para changeMark="1" changeType="add" reasonForUpdateRefIds="rfu-0001">
+          Using the -I (--indent-all) option:
+          <verbatimText verbatimStyle="vs11"><![CDATA[$ cat test1.xml
+<para>
+  See the following list:
+  <randomList>
+    <listItem><para>A</para></listItem>
+    <listItem><para>B</para></listItem>
+    <listItem><para>C</para></listitem>
+  </randomList>
+</para>
+
+$ xml-format -I test1.xml
+<para>
+  See the following list:
+  <randomList>
+    <listItem>
+      <para>A</para>
+    </listItem>
+    <listItem>
+      <para>B</para>
+    </listItem>
+    <listItem>
+      <para>C</para>
+    </listItem>
+  </randomList>
+</para>]]></verbatimText>
         </para>
       </levelledPara>
     </description>
