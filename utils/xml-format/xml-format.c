@@ -8,7 +8,7 @@
 #include "xml-utils.h"
 
 #define PROG_NAME "xml-format"
-#define VERSION "2.4.1"
+#define VERSION "2.4.2"
 
 /* Formatter options */
 #define FORMAT_OVERWRITE	0x01
@@ -16,6 +16,16 @@
 #define FORMAT_OMIT_DECL	0x04
 #define FORMAT_COMPACT		0x08
 #define FORMAT_INDENT		0x10
+
+/* Determine whether the node is a textual node. Textual nodes are never
+ * subject to formatting or indenting.
+ */
+static bool is_text(const xmlNodePtr node)
+{
+	return
+		node->type == XML_TEXT_NODE ||
+		node->type == XML_CDATA_SECTION_NODE;
+}
 
 /* The blank text node children in an element are considered removable only if
  * ALL the text node children of that element are blank (no mixed content), or
@@ -34,12 +44,12 @@ static bool blanks_are_removable(xmlNodePtr node, int opts)
 	}
 
 	for (cur = node->children, i = 0; cur; cur = cur->next, ++i) {
-		if (cur->type == XML_TEXT_NODE && !xmlIsBlankNode(cur)) {
+		if (is_text(cur) && !xmlIsBlankNode(cur)) {
 			return false;
 		}
 	}
 
-	return i > 1 || (node->children && node->children->type != XML_TEXT_NODE) || optset(opts, FORMAT_REMWSONLY);
+	return i > 1 || (node->children && !is_text(node->children)) || optset(opts, FORMAT_REMWSONLY);
 }
 
 /* Remove blank children. */
