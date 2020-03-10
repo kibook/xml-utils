@@ -6,10 +6,10 @@
       <dmIdent>
         <dmCode modelIdentCode="XMLUTILS" systemDiffCode="A" systemCode="05" subSystemCode="0" subSubSystemCode="0" assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="040" infoCodeVariant="A" itemLocationCode="D"/>
         <language languageIsoCode="en" countryIsoCode="CA"/>
-        <issueInfo issueNumber="006" inWork="00"/>
+        <issueInfo issueNumber="006" inWork="01"/>
       </dmIdent>
       <dmAddressItems>
-        <issueDate year="2019" month="11" day="15"/>
+        <issueDate year="2020" month="03" day="10"/>
         <dmTitle>
           <techName>xml-format(1) | xml-utils</techName>
         </dmTitle>
@@ -39,7 +39,7 @@
         <unverified/>
       </qualityAssurance>
       <reasonForUpdate id="rfu-0001" updateHighlight="1" updateReasonType="urt02">
-        <simplePara>Add -I option.</simplePara>
+        <simplePara>Add --huge parser option.</simplePara>
       </reasonForUpdate>
     </dmStatus>
   </identAndStatusSection>
@@ -52,7 +52,7 @@
       <levelledPara>
         <title>SYNOPSIS</title>
         <para>
-          <verbatimText verbatimStyle="vs24" changeMark="1" changeType="modify" reasonForUpdateRefIds="rfu-0001"><![CDATA[xml-format [-cfIOwh?] [-i <str>] [-o <path>] [<file>...]]]></verbatimText>
+          <verbatimText verbatimStyle="vs24"><![CDATA[xml-format [-cfIOwh?] [-i <str>] [-o <path>] [<file>...]]]></verbatimText>
         </para>
       </levelledPara>
       <levelledPara>
@@ -98,7 +98,7 @@
                 <para>Show usage message.</para>
               </listItemDefinition>
             </definitionListItem>
-            <definitionListItem changeMark="1" changeType="add" reasonForUpdateRefIds="rfu-0001">
+            <definitionListItem>
               <listItemTerm>-I, --indent-all</listItemTerm>
               <listItemDefinition>
                 <para>Indent nodes within non-blank nodes. Normally, all whitespace within non-blank nodes and their descendants is treated as significant.</para>
@@ -149,6 +149,12 @@
               <listItemTerm>--dtdload</listItemTerm>
               <listItemDefinition>
                 <para>Load the external DTD.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem changeMark="1" changeType="add" reasonForUpdateRefIds="rfu-0001">
+              <listItemTerm>--huge</listItemTerm>
+              <listItemDefinition>
+                <para>Remove any internal arbitrary parser limits.</para>
               </listItemDefinition>
             </definitionListItem>
             <definitionListItem>
@@ -218,7 +224,7 @@ $ xml-format test.xml
   </para>
 </section>]]></verbatimText>
         </para>
-        <para changeMark="1" changeType="add" reasonForUpdateRefIds="rfu-0001">
+        <para>
           Using the -I (--indent-all) option:
           <verbatimText verbatimStyle="vs11"><![CDATA[$ cat test1.xml
 <para>

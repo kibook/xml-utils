@@ -63,6 +63,9 @@ that are disabled as a precaution by default:
 --dtdload  
 Load the external DTD.
 
+--huge  
+Remove any internal arbitrary parser limits.
+
 --net  
 Allow network access to load external DTD and entities.
 
