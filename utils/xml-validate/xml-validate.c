@@ -8,7 +8,7 @@
 #include "xml-utils.h"
 
 #define PROG_NAME "xml-validate"
-#define VERSION "0.1.0"
+#define VERSION "0.2.0"
 
 #define ERR_PREFIX PROG_NAME ": ERROR: "
 #define SUCCESS_PREFIX PROG_NAME ": SUCCESS: "
@@ -16,7 +16,7 @@
 
 #define E_BAD_LIST ERR_PREFIX "Could not read list file: %s\n"
 #define E_MAX_SCHEMA_PARSERS ERR_PREFIX "Maximum number of schemas reached: %d\n"
-#define E_BAD_IDREF ERR_PREFIX "No matching ID for '%s' (%s line %ld).\n"
+#define E_BAD_IDREF ERR_PREFIX "%s (%ld): No matching ID for '%s'.\n"
 
 #define EXIT_MAX_SCHEMAS 2
 #define EXIT_MISSING_SCHEMA 3
@@ -35,6 +35,10 @@ struct xml_schema_parser {
 	xmlSchemaParserCtxtPtr ctxt;
 	xmlSchemaPtr schema;
 	xmlSchemaValidCtxtPtr valid_ctxt;
+	xmlXPathContextPtr xpath_ctx;
+	xmlXPathObjectPtr id;
+	xmlXPathObjectPtr idref;
+	xmlXPathObjectPtr idrefs;
 };
 
 /* Initial max schema parsers. */
@@ -59,6 +63,7 @@ static void suppress_error(void *userData, xmlErrorPtr error)
 
 xmlStructuredErrorFunc schema_errfunc = print_error;
 
+/* Find a schema parser by URL. */
 static struct xml_schema_parser *get_schema_parser(const char *url)
 {
 	int i;
@@ -72,6 +77,7 @@ static struct xml_schema_parser *get_schema_parser(const char *url)
 	return NULL;
 }
 
+/* Create a new schema parser from a URL. */
 static struct xml_schema_parser *add_schema_parser(char *url)
 {
 	struct xml_schema_parser *parser;
@@ -80,20 +86,36 @@ static struct xml_schema_parser *add_schema_parser(char *url)
 	xmlSchemaParserCtxtPtr ctxt;
 	xmlSchemaPtr schema;
 	xmlSchemaValidCtxtPtr valid_ctxt;
+	xmlXPathContextPtr xpath_ctx;
+	xmlXPathObjectPtr id, idref, idrefs;
 
+	/* Read the schema document and create a validating context. */
 	doc = read_xml_doc(url);
 	ctxt = xmlSchemaNewDocParserCtxt(doc);
 	schema = xmlSchemaParse(ctxt);
 	valid_ctxt = xmlSchemaNewValidCtxt(schema);
 
+	/* Set custom error functions. */
 	xmlSchemaSetParserStructuredErrors(ctxt, schema_errfunc, stderr);
 	xmlSchemaSetValidStructuredErrors(valid_ctxt, schema_errfunc, stderr);
 
+	/* Locate xs:ID, xs:IDREF and xs:IDREFS types. */
+	xpath_ctx = xmlXPathNewContext(doc);
+	xmlXPathRegisterNs(xpath_ctx, BAD_CAST "xs", XML_SCHEMA_URI);
+	id = xmlXPathEvalExpression(BAD_CAST "//xs:attribute[@type='xs:ID']|//xs:element[@type='xs:ID']", xpath_ctx);
+	idref = xmlXPathEvalExpression(BAD_CAST "//xs:attribute[@type='xs:IDREF']|//xs:element[@type='xs:IDREF']", xpath_ctx);
+	idrefs = xmlXPathEvalExpression(BAD_CAST "//xs:attribute[@type='xs:IDREFS']|//xs:element[@type='xs:IDREFS']", xpath_ctx);
+
+	/* Initialize the parser. */
 	schema_parsers[schema_parser_count].url = url;
 	schema_parsers[schema_parser_count].doc = doc;
 	schema_parsers[schema_parser_count].ctxt = ctxt;
 	schema_parsers[schema_parser_count].schema = schema;
 	schema_parsers[schema_parser_count].valid_ctxt = valid_ctxt;
+	schema_parsers[schema_parser_count].xpath_ctx = xpath_ctx;
+	schema_parsers[schema_parser_count].id = id;
+	schema_parsers[schema_parser_count].idref = idref;
+	schema_parsers[schema_parser_count].idrefs = idrefs;
 
 	parser = &schema_parsers[schema_parser_count];
 
@@ -102,6 +124,7 @@ static struct xml_schema_parser *add_schema_parser(char *url)
 	return parser;
 }
 
+/* Show help/usage message. */
 static void show_help(void)
 {
 	puts("Usage: " PROG_NAME " [-s <path>] [-flqvh?] [<file>...]");
@@ -118,6 +141,7 @@ static void show_help(void)
 	LIBXML2_PARSE_LONGOPT_HELP
 }
 
+/* Show version information. */
 static void show_version(void)
 {
 	printf("%s (xml-utils) %s\n", PROG_NAME, VERSION);
@@ -150,39 +174,31 @@ static int check_id_exists_in_doc(const xmlDocPtr doc, const char *fname, bool a
 }
 
 /* Check if a given ID exists in a document. */
-static int check_id_exists(const xmlDocPtr schema, const xmlDocPtr doc, const char *fname, const xmlChar *id)
+static int check_id_exists(const struct xml_schema_parser *parser, const xmlDocPtr doc, const char *fname, const xmlChar *id)
 {
-	xmlXPathContextPtr ctx;
-	xmlXPathObjectPtr obj;
 	int err = 0;
 
-	ctx = xmlXPathNewContext(schema);
-	xmlXPathRegisterNs(ctx, BAD_CAST "xs", XML_SCHEMA_URI);
-
-	obj = xmlXPathEvalExpression(BAD_CAST "//xs:attribute[@type='xs:ID']|//xs:element[@type='xs:ID']", ctx);
-	if (!xmlXPathNodeSetIsEmpty(obj->nodesetval)) {
+	if (!xmlXPathNodeSetIsEmpty(parser->id->nodesetval)) {
 		int i;
 
-		for (i = 0; i < obj->nodesetval->nodeNr; ++i) {
-			xmlChar *name = xmlGetProp(obj->nodesetval->nodeTab[i], BAD_CAST "name");
+		for (i = 0; i < parser->id->nodesetval->nodeNr; ++i) {
+			xmlNodePtr node = parser->id->nodesetval->nodeTab[i];
+			xmlChar *name = xmlGetProp(node, BAD_CAST "name");
 			err += check_id_exists_in_doc(
 				doc,
 				fname,
-				xmlStrcmp(obj->nodesetval->nodeTab[i]->name, BAD_CAST "attribute") == 0,
+				xmlStrcmp(node->name, BAD_CAST "attribute") == 0,
 				name,
 				id);
 			xmlFree(name);
 		}
 	}
-	xmlXPathFreeObject(obj);
-
-	xmlXPathFreeContext(ctx);
 
 	return err;
 }
 
 /* Check if a specific IDREF value is valid. */
-static int check_specific_idref(const xmlDocPtr schema, const xmlDocPtr doc, const char *fname, bool attr, const xmlChar *name)
+static int check_specific_idref(const struct xml_schema_parser *parser, const xmlDocPtr doc, const char *fname, bool attr, const xmlChar *name)
 {
 	xmlXPathContextPtr ctx;
 	xmlXPathObjectPtr obj;
@@ -204,10 +220,11 @@ static int check_specific_idref(const xmlDocPtr schema, const xmlDocPtr doc, con
 			int e;
 			xmlNodePtr node = obj->nodesetval->nodeTab[i];
 			xmlChar *id = xmlNodeGetContent(node);
-			e = check_id_exists(schema, doc, fname, id);
+
+			e = check_id_exists(parser, doc, fname, id);
 
 			if (e) {
-				fprintf(stderr, E_BAD_IDREF, (char *) id, fname, xmlGetLineNo(node));
+				fprintf(stderr, E_BAD_IDREF, fname, xmlGetLineNo(node), (char *) id);
 			}
 
 			err += e;
@@ -223,38 +240,30 @@ static int check_specific_idref(const xmlDocPtr schema, const xmlDocPtr doc, con
 }
 
 /* Check all IDREF values in a document. */
-static int check_idref(const xmlDocPtr schema, const xmlDocPtr doc, const char *fname)
+static int check_idref(const struct xml_schema_parser *parser, const xmlDocPtr doc, const char *fname)
 {
-	xmlXPathContextPtr ctx;
-	xmlXPathObjectPtr obj;
 	int err = 0;
 
-	ctx = xmlXPathNewContext(schema);
-	xmlXPathRegisterNs(ctx, BAD_CAST "xs", XML_SCHEMA_URI);
-
-	obj = xmlXPathEvalExpression(BAD_CAST "//xs:attribute[@type='xs:IDREF']|//xs:element[@type='xs:IDREF']", ctx);
-	if (!xmlXPathNodeSetIsEmpty(obj->nodesetval)) {
+	if (!xmlXPathNodeSetIsEmpty(parser->idref->nodesetval)) {
 		int i;
-		for (i = 0; i < obj->nodesetval->nodeNr; ++i) {
-			xmlChar *name = xmlGetProp(obj->nodesetval->nodeTab[i], BAD_CAST "name");
+		for (i = 0; i < parser->idref->nodesetval->nodeNr; ++i) {
+			xmlNodePtr node = parser->idref->nodesetval->nodeTab[i];
+			xmlChar *name = xmlGetProp(node, BAD_CAST "name");
 			err += check_specific_idref(
-				schema,
+				parser,
 				doc,
 				fname,
-				xmlStrcmp(obj->nodesetval->nodeTab[i]->name, BAD_CAST "attribute") == 0,
+				xmlStrcmp(node->name, BAD_CAST "attribute") == 0,
 				name);
 			xmlFree(name);
 		}
 	}
-	xmlXPathFreeObject(obj);
-
-	xmlXPathFreeContext(ctx);
 
 	return err;
 }
 
 /* Check all IDREFS values in a document. */
-static int check_specific_idrefs(const xmlDocPtr schema, const xmlDocPtr doc, const char *fname, bool attr, const xmlChar *name)
+static int check_specific_idrefs(const struct xml_schema_parser *parser, const xmlDocPtr doc, const char *fname, bool attr, const xmlChar *name)
 {
 	xmlXPathContextPtr ctx;
 	xmlXPathObjectPtr obj;
@@ -281,10 +290,10 @@ static int check_specific_idrefs(const xmlDocPtr schema, const xmlDocPtr doc, co
 			while ((id = strtok(id ? NULL : ids, " "))) {
 				int e;
 
-				e = check_id_exists(schema, doc, fname, BAD_CAST id);
+				e = check_id_exists(parser, doc, fname, BAD_CAST id);
 
 				if (e) {
-					fprintf(stderr, E_BAD_IDREF, (char *) id, fname, xmlGetLineNo(node));
+					fprintf(stderr, E_BAD_IDREF, fname, xmlGetLineNo(node), (char *) id);
 				}
 
 				err += e;
@@ -300,32 +309,24 @@ static int check_specific_idrefs(const xmlDocPtr schema, const xmlDocPtr doc, co
 	return err;
 }
 
-static int check_idrefs(const xmlDocPtr schema, const xmlDocPtr doc, const char *fname)
+static int check_idrefs(const struct xml_schema_parser *parser, const xmlDocPtr doc, const char *fname)
 {
-	xmlXPathContextPtr ctx;
-	xmlXPathObjectPtr obj;
 	int err = 0;
 
-	ctx = xmlXPathNewContext(schema);
-	xmlXPathRegisterNs(ctx, BAD_CAST "xs", XML_SCHEMA_URI);
-
-	obj = xmlXPathEvalExpression(BAD_CAST "//xs:attribute[@type='xs:IDREFS']|//xs:element[@type='xs:IDREFS']", ctx);
-	if (!xmlXPathNodeSetIsEmpty(obj->nodesetval)) {
+	if (!xmlXPathNodeSetIsEmpty(parser->idrefs->nodesetval)) {
 		int i;
-		for (i = 0; i < obj->nodesetval->nodeNr; ++i) {
-			xmlChar *name = xmlGetProp(obj->nodesetval->nodeTab[i], BAD_CAST "name");
+		for (i = 0; i < parser->idrefs->nodesetval->nodeNr; ++i) {
+			xmlNodePtr node = parser->idrefs->nodesetval->nodeTab[i];
+			xmlChar *name = xmlGetProp(node, BAD_CAST "name");
 			err += check_specific_idrefs(
-				schema,
+				parser,
 				doc,
 				fname,
-				xmlStrcmp(obj->nodesetval->nodeTab[i]->name, BAD_CAST "attribute") == 0,
+				xmlStrcmp(node->name, BAD_CAST "attribute") == 0,
 				name);
 			xmlFree(name);
 		}
 	}
-	xmlXPathFreeObject(obj);
-
-	xmlXPathFreeContext(ctx);
 
 	return err;
 }
@@ -378,8 +379,8 @@ static int validate_file(const char *fname, const char *schema, int list)
 	/* libxml2's XML Schema validator currently does not check ID and
 	 * IDREF/IDREFS relationships, so these have been implemented
 	 * separately. */
-	err += check_idref(parser->doc, doc, fname);
-	err += check_idrefs(parser->doc, doc, fname);
+	err += check_idref(parser, doc, fname);
+	err += check_idrefs(parser, doc, fname);
 
 	if (xmlSchemaValidateDoc(parser->valid_ctxt, doc)) {
 		++err;
@@ -501,6 +502,11 @@ int main(int argc, char *argv[])
 		xmlSchemaFreeValidCtxt(schema_parsers[i].valid_ctxt);
 		xmlSchemaFree(schema_parsers[i].schema);
 		xmlSchemaFreeParserCtxt(schema_parsers[i].ctxt);
+		xmlXPathFreeObject(schema_parsers[i].id);
+		xmlXPathFreeObject(schema_parsers[i].idref);
+		xmlXPathFreeObject(schema_parsers[i].idrefs);
+		xmlXPathFreeContext(schema_parsers[i].xpath_ctx);
+		xmlFreeDoc(schema_parsers[i].doc);
 	}
 
 	free(schema_parsers);
