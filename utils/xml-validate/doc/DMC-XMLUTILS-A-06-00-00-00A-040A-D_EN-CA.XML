@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dmodule>
+<dmodule xmlns:dc="http://www.purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.s1000d.org/S1000D_5-0/xml_schema_flat/descript.xsd">
+  <identAndStatusSection>
+    <dmAddress>
+      <dmIdent>
+        <dmCode modelIdentCode="XMLUTILS" systemDiffCode="A" systemCode="06" subSystemCode="0" subSubSystemCode="0" assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="040" infoCodeVariant="A" itemLocationCode="D"/>
+        <language languageIsoCode="en" countryIsoCode="CA"/>
+        <issueInfo issueNumber="000" inWork="01"/>
+      </dmIdent>
+      <dmAddressItems>
+        <issueDate year="2020" month="03" day="27"/>
+        <dmTitle>
+          <techName>xml-validate(1) | xml-utils</techName>
+        </dmTitle>
+      </dmAddressItems>
+    </dmAddress>
+    <dmStatus issueType="new">
+      <security securityClassification="01"/>
+      <responsiblePartnerCompany>
+        <enterpriseName>khzae.net</enterpriseName>
+      </responsiblePartnerCompany>
+      <originator>
+        <enterpriseName>khzae.net</enterpriseName>
+      </originator>
+      <applic>
+        <displayText>
+          <simplePara>All</simplePara>
+        </displayText>
+      </applic>
+      <brexDmRef>
+        <dmRef>
+          <dmRefIdent>
+            <dmCode modelIdentCode="S1000D" systemDiffCode="G" systemCode="04" subSystemCode="1" subSubSystemCode="0" assyCode="0301" disassyCode="00" disassyCodeVariant="A" infoCode="022" infoCodeVariant="A" itemLocationCode="D"/>
+          </dmRefIdent>
+        </dmRef>
+      </brexDmRef>
+      <qualityAssurance>
+        <unverified/>
+      </qualityAssurance>
+    </dmStatus>
+  </identAndStatusSection>
+  <content>
+    <description>
+      <levelledPara>
+        <title>NAME</title>
+        <para>xml-validate - Validate XML documents against their schemas</para>
+      </levelledPara>
+      <levelledPara>
+        <title>SYNOPSIS</title>
+        <para>
+          <verbatimText verbatimStyle="vs24" changeMark="1" changeType="modify" reasonForUpdateRefIds="rfu-0002"><![CDATA[xml-validate [-s <path>] [-floqvh?] [<file>...]]]></verbatimText>
+        </para>
+      </levelledPara>
+      <levelledPara>
+        <title>DESCRIPTION</title>
+        <para>The <emphasis>xml-validate</emphasis> tool validates XML documents, checking whether they are valid XML files and if they are valid against a referenced or specified schema.</para>
+      </levelledPara>
+      <levelledPara>
+        <title>OPTIONS</title>
+        <para>
+          <definitionList>
+            <definitionListItem>
+              <listItemTerm>-f, --filenames</listItemTerm>
+              <listItemDefinition>
+                <para>List invalid files.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>-h, -?, --help</listItemTerm>
+              <listItemDefinition>
+                <para>Show help/usage message.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>-l, --list</listItemTerm>
+              <listItemDefinition>
+                <para>Treat input as a list of XML documents names to validate, rather than an XML document itself.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>-q, --quiet</listItemTerm>
+              <listItemDefinition>
+                <para>Quiet mode. The tool will not output anything to stdout or stderr. Success/failure will only be indicated through the exit status.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>-s, --schema &lt;path&gt;</listItemTerm>
+              <listItemDefinition>
+                <para>Validate the XML documents against the specified schema, rather than the one that they reference.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>-v, --verbose</listItemTerm>
+              <listItemDefinition>
+                <para>Verbose mode. Success/failure will be explicitly reported on top of any errors.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>--version</listItemTerm>
+              <listItemDefinition>
+                <para>Show version information.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>&lt;file&gt;...</listItemTerm>
+              <listItemDefinition>
+                <para>Any number of XML documents to validate. If none are specified, input is read from stdin.</para>
+              </listItemDefinition>
+            </definitionListItem>
+          </definitionList>
+        </para>
+        <para>In addition, the following options enable features of the XML parser that are disabled as a precaution by default:</para>
+        <para>
+          <definitionList>
+            <definitionListItem>
+              <listItemTerm>--dtdload</listItemTerm>
+              <listItemDefinition>
+                <para>Load the external DTD.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem changeMark="1" changeType="add" reasonForUpdateRefIds="rfu-0001">
+              <listItemTerm>--huge</listItemTerm>
+              <listItemDefinition>
+                <para>Remove any internal arbitrary parser limits.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>--net</listItemTerm>
+              <listItemDefinition>
+                <para>Allow network access to load external DTD and entities.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>--noent</listItemTerm>
+              <listItemDefinition>
+                <para>Resolve entities.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>--xinclude</listItemTerm>
+              <listItemDefinition>
+                <para>Do XInclude processing.</para>
+              </listItemDefinition>
+            </definitionListItem>
+          </definitionList>
+        </para>
+      </levelledPara>
+      <levelledPara>
+        <title>EXIT STATUS</title>
+        <para>
+          <definitionList>
+            <definitionListItem>
+              <listItemTerm>0</listItemTerm>
+              <listItemDefinition>
+                <para>No errors.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>1</listItemTerm>
+              <listItemDefinition>
+                <para>Some XML documents are not well-formed or valid.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>2</listItemTerm>
+              <listItemDefinition>
+                <para>The number of schemas cached exceeded the available memory.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem>
+              <listItemTerm>3</listItemTerm>
+              <listItemDefinition>
+                <para>A specified schema could not be read.</para>
+              </listItemDefinition>
+            </definitionListItem>
+          </definitionList>
+        </para>
+      </levelledPara>
+      <levelledPara>
+        <title>EXAMPLE</title>
+        <para>
+          <verbatimText verbatimStyle="vs24">$ xml-validate doc.xml</verbatimText>
+        </para>
+      </levelledPara>
+    </description>
+  </content>
+</dmodule>

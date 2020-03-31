@@ -36,6 +36,11 @@ extern int DEFAULT_PARSE_OPTS;
 	puts("  --noent     Resolve entities.");\
 	puts("  --xinclude  Do XInclude processing.");
 
+#define LIBXML2_PARSE_INIT \
+	if (optset(DEFAULT_PARSE_OPTS, XML_PARSE_NONET)) {\
+		xmlSetExternalEntityLoader(xmlNoNetExternalEntityLoader);\
+	}
+
 /* Return whether a bitset contains an option. */
 bool optset(int opts, int opt);
 
@@ -44,5 +49,8 @@ xmlDocPtr read_xml_doc(const char *path);
 
 /* Read an XML document from memory. */
 xmlDocPtr read_xml_mem(const char *buffer, int size);
+
+/* Save an XML document to a file. */
+int save_xml_doc(xmlDocPtr doc, const char *path);
 
 #endif

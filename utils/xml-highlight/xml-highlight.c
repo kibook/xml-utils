@@ -9,7 +9,7 @@
 #include "languages.h"
 
 #define PROG_NAME "xml-highlight"
-#define VERSION "1.3.1"
+#define VERSION "1.3.2"
 
 #define PRE_KEYWORD_DELIM BAD_CAST " (\n"
 #define POST_KEYWORD_DELIM BAD_CAST " .,);\n"
@@ -353,9 +353,9 @@ static void highlight_syntax_in_file(const char *fname, const char *syntax, cons
 	highlight_syntax_in_doc(doc, syndoc, classdoc);
 
 	if (overwrite) {
-		xmlSaveFile(fname, doc);
+		save_xml_doc(doc, fname);
 	} else {
-		xmlSaveFile("-", doc);
+		save_xml_doc(doc, "-");
 	}
 
 	xmlFreeDoc(doc);

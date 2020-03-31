@@ -8,7 +8,7 @@
 #include "xml-utils.h"
 
 #define PROG_NAME "xml-merge"
-#define VERSION "1.4.1"
+#define VERSION "1.4.2"
 
 static void show_help(void)
 {
@@ -116,9 +116,9 @@ int main(int argc, char **argv)
 	}
 
 	if (overwrite) {
-		xmlSaveFile(fname1, doc1);
+		save_xml_doc(doc1, fname1);
 	} else {
-		xmlSaveFile("-", doc1);
+		save_xml_doc(doc1, "-");
 	}
 
 	xmlFreeDoc(doc1);

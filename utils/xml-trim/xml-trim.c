@@ -10,7 +10,7 @@
 #include "xml-utils.h"
 
 #define PROG_NAME "xml-trim"
-#define VERSION "3.4.1"
+#define VERSION "3.4.2"
 
 /* Remove whitespace on left end of string. */
 static char *strltrm(char *dst, const char *src)
@@ -163,9 +163,9 @@ static void trim_nodes_in_file(const char *path, xmlNodePtr ns, xmlNodePtr elems
 	xmlXPathFreeContext(ctx);
 
 	if (overwrite) {
-		xmlSaveFile(path, doc);
+		save_xml_doc(doc, path);
 	} else {
-		xmlSaveFile("-", doc);
+		save_xml_doc(doc, "-");
 	}
 
 	xmlFreeDoc(doc);

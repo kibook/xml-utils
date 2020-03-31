@@ -40,3 +40,9 @@ xmlDocPtr read_xml_mem(const char *buffer, int size)
 
 	return doc;
 }
+
+/* Save an XML document to a file. */
+int save_xml_doc(xmlDocPtr doc, const char *path)
+{
+	return xmlSaveFile(path, doc);
+}
