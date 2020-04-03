@@ -8,7 +8,7 @@
 #include "xml-utils.h"
 
 #define PROG_NAME "xml-validate"
-#define VERSION "0.2.0"
+#define VERSION "0.3.0"
 
 #define ERR_PREFIX PROG_NAME ": ERROR: "
 #define SUCCESS_PREFIX PROG_NAME ": SUCCESS: "
@@ -25,6 +25,8 @@
 #define XSI_URI BAD_CAST "http://www.w3.org/2001/XMLSchema-instance"
 
 static enum verbosity_level {SILENT, NORMAL, VERBOSE} verbosity = NORMAL;
+
+enum show_fnames { SHOW_NONE, SHOW_INVALID, SHOW_VALID };
 
 /* Cache schemas to prevent parsing them twice (mainly needed when accessing
  * the schema over a network)
@@ -127,17 +129,18 @@ static struct xml_schema_parser *add_schema_parser(char *url)
 /* Show help/usage message. */
 static void show_help(void)
 {
-	puts("Usage: " PROG_NAME " [-s <path>] [-flqvh?] [<file>...]");
+	puts("Usage: " PROG_NAME " [-s <path>] [-F|-f] [-lqvh?] [<file>...]");
 	puts("");
 	puts("Options:");
-	puts("  -f, --filenames       List invalid files.");
-	puts("  -h, -?, --help        Show help/usage message.");
-	puts("  -l, --list            Treat input as list of filenames.");
-	puts("  -q, --quiet           Silent (no output).");
-	puts("  -s, --schema <path>   Validate against the given schema.");
-	puts("  -v, --verbose         Verbose output.");
-	puts("  --version             Show version information.");
-	puts("  <file>                Any number of XML documents to validate.");
+	puts("  -F, --valid-filenames  List valid files.");
+	puts("  -f, --filenames        List invalid files.");
+	puts("  -h, -?, --help         Show help/usage message.");
+	puts("  -l, --list             Treat input as list of filenames.");
+	puts("  -q, --quiet            Silent (no output).");
+	puts("  -s, --schema <path>    Validate against the given schema.");
+	puts("  -v, --verbose          Verbose output.");
+	puts("  --version              Show version information.");
+	puts("  <file>                 Any number of XML documents to validate.");
 	LIBXML2_PARSE_LONGOPT_HELP
 }
 
@@ -403,7 +406,7 @@ static int validate_file(const char *fname, const char *schema, int list)
 	return err;
 }
 
-static int validate_file_list(const char *fname, const char *schema, int list_invalid)
+static int validate_file_list(const char *fname, const char *schema, enum show_fnames show_fnames)
 {
 	FILE *f;
 	char path[PATH_MAX];
@@ -422,7 +425,7 @@ static int validate_file_list(const char *fname, const char *schema, int list_in
 
 	while (fgets(path, PATH_MAX, f)) {
 		strtok(path, "\t\r\n");
-		err += validate_file(path, schema, list_invalid);
+		err += validate_file(path, schema, show_fnames);
 	}
 
 	if (fname) {
@@ -436,7 +439,7 @@ int main(int argc, char *argv[])
 {
 	int c, i;
 	int err = 0;
-	int list_invalid = 0;
+	enum show_fnames show_fnames = SHOW_NONE;
 	int is_list = 0;
 	char *schema = NULL;
 
@@ -465,7 +468,8 @@ int main(int argc, char *argv[])
 				}
 				LIBXML2_PARSE_LONGOPT_HANDLE(lopts, loptind)
 				break;
-			case 'f': list_invalid = 1; break;
+			case 'F': show_fnames = SHOW_VALID; break;
+			case 'f': show_fnames = SHOW_INVALID; break;
 			case 'l': is_list = 1; break;
 			case 'q': verbosity = SILENT; break;
 			case 'v': verbosity = VERBOSE; break;
@@ -486,15 +490,15 @@ int main(int argc, char *argv[])
 	if (optind < argc) {
 		for (i = optind; i < argc; ++i) {
 			if (is_list) {
-				err += validate_file_list(argv[i], schema, list_invalid);
+				err += validate_file_list(argv[i], schema, show_fnames);
 			} else {
-				err += validate_file(argv[i], schema, list_invalid);
+				err += validate_file(argv[i], schema, show_fnames);
 			}
 		}
 	} else if (is_list) {
-		err = validate_file_list(NULL, schema, list_invalid);
+		err = validate_file_list(NULL, schema, show_fnames);
 	} else {
-		err = validate_file("-", schema, list_invalid);
+		err = validate_file("-", schema, show_fnames);
 	}
 
 	for (i = 0; i < schema_parser_count; ++i) {

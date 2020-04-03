@@ -6,10 +6,10 @@
       <dmIdent>
         <dmCode modelIdentCode="XMLUTILS" systemDiffCode="A" systemCode="06" subSystemCode="0" subSubSystemCode="0" assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="040" infoCodeVariant="A" itemLocationCode="D"/>
         <language languageIsoCode="en" countryIsoCode="CA"/>
-        <issueInfo issueNumber="000" inWork="01"/>
+        <issueInfo issueNumber="000" inWork="02"/>
       </dmIdent>
       <dmAddressItems>
-        <issueDate year="2020" month="03" day="27"/>
+        <issueDate year="2020" month="04" day="03"/>
         <dmTitle>
           <techName>xml-validate(1) | xml-utils</techName>
         </dmTitle>
@@ -49,7 +49,7 @@
       <levelledPara>
         <title>SYNOPSIS</title>
         <para>
-          <verbatimText verbatimStyle="vs24" changeMark="1" changeType="modify" reasonForUpdateRefIds="rfu-0002"><![CDATA[xml-validate [-s <path>] [-floqvh?] [<file>...]]]></verbatimText>
+          <verbatimText verbatimStyle="vs24" changeMark="1" changeType="modify" reasonForUpdateRefIds="rfu-0002"><![CDATA[xml-validate [-s <path>] [-F|-f] [-loqvh?] [<file>...]]]></verbatimText>
         </para>
       </levelledPara>
       <levelledPara>
@@ -60,6 +60,12 @@
         <title>OPTIONS</title>
         <para>
           <definitionList>
+            <definitionListItem>
+              <listItemTerm>-F, --valid-filenames</listItemTerm>
+              <listItemDefinition>
+                <para>List valid files.</para>
+              </listItemDefinition>
+            </definitionListItem>
             <definitionListItem>
               <listItemTerm>-f, --filenames</listItemTerm>
               <listItemDefinition>

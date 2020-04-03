@@ -6,7 +6,7 @@ xml-validate - Validate XML documents against their schemas
 SYNOPSIS
 ========
 
-    xml-validate [-s <path>] [-floqvh?] [<file>...]
+    xml-validate [-s <path>] [-F|-f] [-loqvh?] [<file>...]
 
 DESCRIPTION
 ===========
@@ -17,6 +17,9 @@ specified schema.
 
 OPTIONS
 =======
+
+-F, --valid-filenames  
+List valid files.
 
 -f, --filenames  
 List invalid files.
