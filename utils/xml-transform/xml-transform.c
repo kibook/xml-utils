@@ -16,7 +16,7 @@
 #include "identity.h"
 
 #define PROG_NAME "xml-transform"
-#define VERSION "1.0.0"
+#define VERSION "1.1.0"
 
 #define INF_PREFIX PROG_NAME ": INFO: "
 #define ERR_PREFIX PROG_NAME ": ERROR: "
@@ -183,12 +183,21 @@ static void transform_file(const char *path, xmlNodePtr stylesheets, const char 
 
 	/* Use the output settings of the last stylesheet to determine how to
 	 * save the end result. */
-	last = (xsltStylesheetPtr) stylesheets->last->doc;
+	if (stylesheets->last) {
+		last = (xsltStylesheetPtr) stylesheets->last->doc;
 
-	if (overwrite) {
-		save_doc(doc, path, last);
+		if (overwrite) {
+			save_doc(doc, path, last);
+		} else {
+			save_doc(doc, out, last);
+		}
+	/* If no stylesheets are specified, save as-is. */
 	} else {
-		save_doc(doc, out, last);
+		if (overwrite) {
+			save_xml_doc(doc, path);
+		} else {
+			save_xml_doc(doc, out);
+		}
 	}
 
 	xmlFreeDoc(doc);
@@ -314,12 +323,91 @@ static void free_stylesheets(xmlNodePtr stylesheets)
 	}
 }
 
+/* Combine a single file into the combined document. */
+static void combine_file(xmlNodePtr combined, const char *path)
+{
+	xmlDocPtr doc = read_xml_doc(path);
+	xmlAddChild(combined, xmlCopyNode(xmlDocGetRootElement(doc), 1));
+	xmlFreeDoc(doc);
+}
+
+/* Combine a list of files into the combined document. */
+static void combine_file_list(xmlNodePtr combined, const char *path)
+{
+	FILE *f;
+	char line[PATH_MAX];
+
+	if (path) {
+		if (!(f = fopen(path, "r"))) {
+			if (verbosity >= NORMAL) {
+				fprintf(stderr, E_BAD_LIST, path, strerror(errno));
+			}
+			return;
+		}
+	} else {
+		f = stdin;
+	}
+
+	while (fgets(line, PATH_MAX, f)) {
+		strtok(line, "\t\r\n");
+		combine_file(combined, line);
+	}
+
+	if (path) {
+		fclose(f);
+	}
+}
+
+/* Transform input files as as combined document. */
+static void transform_combined(int argc, char **argv, bool islist, const char *out, xmlNodePtr stylesheets)
+{
+	xmlDocPtr doc;
+	xmlNodePtr combined;
+
+	doc = xmlNewDoc(BAD_CAST "1.0");
+	combined = xmlNewNode(NULL, BAD_CAST "combined");
+	xmlDocSetRootElement(doc, combined);
+
+	/* Combine all input files into a single document. */
+	if (optind < argc) {
+		int i;
+
+		for (i = optind; i < argc; ++i) {
+			if (islist) {
+				combine_file_list(combined, argv[i]);
+			} else {
+				combine_file(combined, argv[i]);
+			}
+		}
+	} else if (islist) {
+		combine_file_list(combined, NULL);
+	} else {
+		combine_file(combined, "-");
+	}
+
+	doc = transform_doc(doc, stylesheets);
+
+	/* Use the output settings of the last stylesheet to determine how to
+	 * save the end result. */
+	if (stylesheets->last) {
+		xsltStylesheetPtr last;
+		last = (xsltStylesheetPtr) stylesheets->last->doc;
+		save_doc(doc, out, last);
+	/* If no stylesheets were specified, save as-is. */
+	} else {
+		save_xml_doc(doc, out);
+	}
+
+	xmlFreeDoc(doc);
+}
+
 /* Show help/usage message. */
 static void show_help(void)
 {
-	puts("Usage: " PROG_NAME " [-s <stylesheet> [-p <name>=<value> ...] ...] [-o <file>] [-dfilqvh?] [<file>...]");
+	puts("Usage: " PROG_NAME " [-s <stylesheet> [-p <name>=<value> ...] ...] [-o <file>] [-cdfilqvh?] [<file>...]");
 	puts("");
 	puts("Options:");
+	puts("  -c, --combine                  Combine input files into a single document.");
 	puts("  -d, --preserve-dtd             Preserve the original DTD.");
 	puts("  -f, --overwrite                Overwrite input files.");
 	puts("  -h, -?, --help                 Show usage message.");
@@ -353,10 +441,12 @@ int main(int argc, char **argv)
 	bool overwrite = false;
 	bool islist = false;
 	bool include_identity = false;
+	bool combine = false;
 
-	const char *sopts = "ds:ilo:p:qfvh?";
+	const char *sopts = "cds:ilo:p:qfvh?";
 	struct option lopts[] = {
 		{"version"     , no_argument      , 0, 0},
+		{"combine"     , no_argument      , 0, 'c'},
 		{"preserve-dtd", no_argument      , 0, 'd'},
 		{"help"        , no_argument      , 0, 'h'},
 		{"identity"    , no_argument      , 0, 'i'},
@@ -383,6 +473,9 @@ int main(int argc, char **argv)
 					return 0;
 				}
 				LIBXML2_PARSE_LONGOPT_HANDLE(lopts, loptind)
+				break;
+			case 'c':
+				combine = true;
 				break;
 			case 'd':
 				preserve_dtd = true;
@@ -422,18 +515,22 @@ int main(int argc, char **argv)
 
 	load_stylesheets(stylesheets, include_identity);
 
-	if (optind < argc) {
-		for (i = optind; i < argc; ++i) {
-			if (islist) {
-				transform_list(argv[i], stylesheets, out, overwrite);
-			} else {
-				transform_file(argv[i], stylesheets, out, overwrite);
-			}
-		}
-	} else if (islist) {
-		transform_list(NULL, stylesheets, out, overwrite);
+	if (combine) {
+		transform_combined(argc, argv, islist, out, stylesheets);
 	} else {
-		transform_file("-", stylesheets, out, false);
+		if (optind < argc) {
+			for (i = optind; i < argc; ++i) {
+				if (islist) {
+					transform_list(argv[i], stylesheets, out, overwrite);
+				} else {
+					transform_file(argv[i], stylesheets, out, overwrite);
+				}
+			}
+		} else if (islist) {
+			transform_list(NULL, stylesheets, out, overwrite);
+		} else {
+			transform_file("-", stylesheets, out, false);
+		}
 	}
 
 	if (out) {

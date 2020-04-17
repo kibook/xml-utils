@@ -6,16 +6,16 @@
       <dmIdent>
         <dmCode modelIdentCode="XMLUTILS" systemDiffCode="A" systemCode="04" subSystemCode="0" subSubSystemCode="0" assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="040" infoCodeVariant="A" itemLocationCode="D"/>
         <language languageIsoCode="en" countryIsoCode="CA"/>
-        <issueInfo issueNumber="001" inWork="00"/>
+        <issueInfo issueNumber="001" inWork="01"/>
       </dmIdent>
       <dmAddressItems>
-        <issueDate year="2020" month="03" day="27"/>
+        <issueDate year="2020" month="04" day="17"/>
         <dmTitle>
           <techName>xml-transform(1) | xml-utils</techName>
         </dmTitle>
       </dmAddressItems>
     </dmAddress>
-    <dmStatus issueType="new">
+    <dmStatus issueType="changed">
       <security securityClassification="01"/>
       <responsiblePartnerCompany>
         <enterpriseName>khzae.net</enterpriseName>
@@ -38,6 +38,9 @@
       <qualityAssurance>
         <unverified/>
       </qualityAssurance>
+      <reasonForUpdate id="rfu-0001" updateHighlight="1" updateReasonType="urt02">
+        <simplePara>Add -c (--combine) option.</simplePara>
+      </reasonForUpdate>
     </dmStatus>
   </identAndStatusSection>
   <content>
@@ -49,8 +52,8 @@
       <levelledPara>
         <title>SYNOPSIS</title>
         <para>
-          <verbatimText verbatimStyle="vs24">xml-transform [-s &lt;stylesheet&gt; [-p &lt;name&gt;=&lt;value&gt; ...] ...]
-              [-o &lt;file&gt;] [-dfilqvh?] [&lt;file&gt; ...]</verbatimText>
+          <verbatimText verbatimStyle="vs24" changeMark="1" changeType="modify" reasonForUpdateRefIds="rfu-0001">xml-transform [-s &lt;stylesheet&gt; [-p &lt;name&gt;=&lt;value&gt; ...] ...]
+              [-o &lt;file&gt;] [-cdfilqvh?] [&lt;file&gt; ...]</verbatimText>
         </para>
       </levelledPara>
       <levelledPara>
@@ -61,6 +64,12 @@
         <title>OPTIONS</title>
         <para>
           <definitionList>
+            <definitionListItem changeMark="1" changeType="add" reasonForUpdateRefIds="rfu-0001">
+              <listItemTerm>-c, --combine</listItemTerm>
+              <listItemDefinition>
+                <para>Transform the input files as a single, combined XML document, rather than as individual documents.</para>
+              </listItemDefinition>
+            </definitionListItem>
             <definitionListItem>
               <listItemTerm>-d, --preserve-dtd</listItemTerm>
               <listItemDefinition>

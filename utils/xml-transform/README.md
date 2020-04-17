@@ -7,7 +7,7 @@ SYNOPSIS
 ========
 
     xml-transform [-s <stylesheet> [-p <name>=<value> ...] ...]
-                  [-o <file>] [-dfilqvh?] [<file> ...]
+                  [-o <file>] [-cdfilqvh?] [<file> ...]
 
 DESCRIPTION
 ===========
@@ -16,6 +16,10 @@ Applies one or more XSLT stylesheets to one or more XML documents.
 
 OPTIONS
 =======
+
+-c, --combine  
+Transform the input files as a single, combined XML document, rather
+than as individual documents.
 
 -d, --preserve-dtd  
 Preserve the DTD of the original document when transforming.
