@@ -8,7 +8,7 @@
 #include "xml-utils.h"
 
 #define PROG_NAME "xml-format"
-#define VERSION "2.4.2"
+#define VERSION "2.5.0"
 
 /* Formatter options */
 #define FORMAT_OVERWRITE	0x01
@@ -112,7 +112,7 @@ static void format(xmlNodePtr node, int opts)
 
 			format(cur, opts);
 
-			if (remblanks && optset(opts, FORMAT_INDENT)) {
+			if (remblanks && optset(opts, FORMAT_INDENT) && !optset(opts, FORMAT_COMPACT)) {
 				indent(cur);
 			}
 

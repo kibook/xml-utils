@@ -6,10 +6,10 @@
       <dmIdent>
         <dmCode modelIdentCode="XMLUTILS" systemDiffCode="A" systemCode="05" subSystemCode="0" subSubSystemCode="0" assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="040" infoCodeVariant="A" itemLocationCode="D"/>
         <language languageIsoCode="en" countryIsoCode="CA"/>
-        <issueInfo issueNumber="007" inWork="00"/>
+        <issueInfo issueNumber="007" inWork="01"/>
       </dmIdent>
       <dmAddressItems>
-        <issueDate year="2020" month="03" day="27"/>
+        <issueDate year="2020" month="04" day="23"/>
         <dmTitle>
           <techName>xml-format(1) | xml-utils</techName>
         </dmTitle>
@@ -39,7 +39,10 @@
         <unverified/>
       </qualityAssurance>
       <reasonForUpdate id="rfu-0001" updateHighlight="1" updateReasonType="urt02">
-        <simplePara>Add --huge parser option.</simplePara>
+        <simplePara>Change behaviour of -I (--indent-all) in -c (--compact) mode.</simplePara>
+      </reasonForUpdate>
+      <reasonForUpdate id="rfu-0002" updateHighlight="0" updateReasonType="urt01">
+        <simplePara>Improve the formatting of the EXAMPLES section.</simplePara>
       </reasonForUpdate>
     </dmStatus>
   </identAndStatusSection>
@@ -102,6 +105,7 @@
               <listItemTerm>-I, --indent-all</listItemTerm>
               <listItemDefinition>
                 <para>Indent nodes within non-blank nodes. Normally, all whitespace within non-blank nodes and their descendants is treated as significant.</para>
+                <para changeMark="1" changeType="add" reasonForUpdateRefIds="rfu-0001">If -c (--compact) is specified, then this option will allow blank nodes within non-blank nodes to be compacted.</para>
               </listItemDefinition>
             </definitionListItem>
             <definitionListItem>
@@ -151,7 +155,7 @@
                 <para>Load the external DTD.</para>
               </listItemDefinition>
             </definitionListItem>
-            <definitionListItem changeMark="1" changeType="add" reasonForUpdateRefIds="rfu-0001">
+            <definitionListItem>
               <listItemTerm>--huge</listItemTerm>
               <listItemDefinition>
                 <para>Remove any internal arbitrary parser limits.</para>
@@ -178,11 +182,11 @@
           </definitionList>
         </para>
       </levelledPara>
-      <levelledPara>
-        <title>EXAMPLE</title>
+      <levelledPara changeMark="0" changeType="modify" reasonForUpdateRefIds="rfu-0002">
+        <title>EXAMPLES</title>
         <para>
-          Standard formatting:
-          <verbatimText verbatimStyle="vs24"><![CDATA[$ cat doc.xml
+          Raw XML:
+          <verbatimText verbatimStyle="vs24"><![CDATA[$ cat test.xml
 <section>     <title>Example</title>
 
 <para><emphasis>A</emphasis> <emphasis>B</emphasis> C</para>
@@ -201,9 +205,12 @@
     </randomList>
 </para>
 
-</section>
-
-$ xml-format test.xml
+</section>]]>
+          </verbatimText>
+        </para>
+        <para>
+          Basic formatting:
+          <verbatimText verbatimStyle="vs11"><![CDATA[$ xml-format test.xml
 <section>
   <title>Example</title>
   <para><emphasis>A</emphasis> <emphasis>B</emphasis> C</para>
@@ -251,6 +258,31 @@ $ xml-format -I test1.xml
     </listItem>
   </randomList>
 </para>]]></verbatimText>
+        </para>
+        <para changeMark="1" changeType="add" reasonForUpdateRefIds="rfu-0001">
+          Using the -c (--compact) option:
+          <verbatimText verbatimStyle="vs11"><![CDATA[$ xml-format test.xml
+<section><title>Example</title><para><emphasis>A</emphasis> <emphasis
+>B</emphasis> C</para><empty>    </empty><p xml:space="preserve"><b>A
+</b> <b>B</b> <b>C</b></p><para>
+    See the following list:
+    <randomList>
+      <listItem><para>A</para></listItem>
+      <listItem><para>B</para></listItem>
+      <listItem><para>C</para></listItem>
+    </randomList>
+</para></section>]]></verbatimText>
+        </para>
+        <para changeMark="1" changeType="add" reasonForUpdateRefIds="rfu-0001">
+          Using the -c (--compact) and -I (--indent-all) options together:
+          <verbatimText verbatimStyle="vs11"><![CDATA[$ xml-format -cI test.xml
+<section><title>Example</title><para><emphasis>A</emphasis> <emphasis
+>B</emphasis> C</para><empty>    </empty><p xml:space="preserve"><b>A
+</b> <b>B</b> <b>C</b></p><para>
+    See the following list:
+    <randomList><listItem><para>A</para></listItem><listItem><para>B<
+/para></listItem><listItem><para>C</para></listItem></randomList>
+</para></section>]]></verbatimText>
         </para>
       </levelledPara>
     </description>

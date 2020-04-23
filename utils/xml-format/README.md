@@ -40,6 +40,9 @@ Show usage message.
 Indent nodes within non-blank nodes. Normally, all whitespace within
 non-blank nodes and their descendants is treated as significant.
 
+If -c (--compact) is specified, then this option will allow blank nodes
+within non-blank nodes to be compacted.
+
 -i, --indent &lt;str&gt;  
 Use &lt;str&gt; to indent each level of the XML tree. The default is two
 spaces.
@@ -78,12 +81,12 @@ Resolve entities.
 --xinclude  
 Do XInclude processing.
 
-EXAMPLE
-=======
+EXAMPLES
+========
 
-Standard formatting:
+Raw XML:
 
-    $ cat doc.xml
+    $ cat test.xml
     <section>     <title>Example</title>
 
     <para><emphasis>A</emphasis> <emphasis>B</emphasis> C</para>
@@ -103,6 +106,9 @@ Standard formatting:
     </para>
 
     </section>
+              
+
+Basic formatting:
 
     $ xml-format test.xml
     <section>
@@ -152,3 +158,28 @@ Using the -I (--indent-all) option:
         </listItem>
       </randomList>
     </para>
+
+Using the -c (--compact) option:
+
+    $ xml-format test.xml
+    <section><title>Example</title><para><emphasis>A</emphasis> <emphasis
+    >B</emphasis> C</para><empty>    </empty><p xml:space="preserve"><b>A
+    </b> <b>B</b> <b>C</b></p><para>
+        See the following list:
+        <randomList>
+          <listItem><para>A</para></listItem>
+          <listItem><para>B</para></listItem>
+          <listItem><para>C</para></listItem>
+        </randomList>
+    </para></section>
+
+Using the -c (--compact) and -I (--indent-all) options together:
+
+    $ xml-format -cI test.xml
+    <section><title>Example</title><para><emphasis>A</emphasis> <emphasis
+    >B</emphasis> C</para><empty>    </empty><p xml:space="preserve"><b>A
+    </b> <b>B</b> <b>C</b></p><para>
+        See the following list:
+        <randomList><listItem><para>A</para></listItem><listItem><para>B<
+    /para></listItem><listItem><para>C</para></listItem></randomList>
+    </para></section>
