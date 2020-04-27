@@ -9,7 +9,7 @@
 #include "xml-utils.h"
 
 #define PROG_NAME "xml-query"
-#define VERSION "0.1.1"
+#define VERSION "0.1.2"
 
 struct opts {
 	xmlNodePtr queries;
@@ -260,7 +260,7 @@ int main(int argc, char **argv)
 		{"filename" , no_argument      , 0, 'n'},
 		{"set"      , required_argument, 0, 's'},
 		{"tab"      , no_argument      , 0, 't'},
-		{"when"     , required_argument, 0, 'w'},
+		{"where"    , required_argument, 0, 'w'},
 		{"xpath"    , required_argument, 0, 'x'},
 		LIBXML2_PARSE_LONGOPT_DEFS
 		{0, 0, 0, 0}
