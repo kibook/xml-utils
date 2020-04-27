@@ -9,7 +9,7 @@
 #include "xml-utils.h"
 
 #define PROG_NAME "xml-query"
-#define VERSION "0.1.0"
+#define VERSION "0.1.1"
 
 struct opts {
 	xmlNodePtr queries;
@@ -123,6 +123,8 @@ static int query_doc(xmlXPathContextPtr ctx, const char *path, struct opts *opts
 		} else if (xmlStrcmp(type, BAD_CAST "filename") == 0) {
 			printf("%s", path);
 		}
+
+		xmlFree(type);
 
 		if (cur->next) {
 			putchar(opts->delim);
