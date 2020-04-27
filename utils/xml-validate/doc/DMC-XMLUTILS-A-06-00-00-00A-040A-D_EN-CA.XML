@@ -6,10 +6,10 @@
       <dmIdent>
         <dmCode modelIdentCode="XMLUTILS" systemDiffCode="A" systemCode="06" subSystemCode="0" subSubSystemCode="0" assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="040" infoCodeVariant="A" itemLocationCode="D"/>
         <language languageIsoCode="en" countryIsoCode="CA"/>
-        <issueInfo issueNumber="000" inWork="02"/>
+        <issueInfo issueNumber="000" inWork="03"/>
       </dmIdent>
       <dmAddressItems>
-        <issueDate year="2020" month="04" day="03"/>
+        <issueDate year="2020" month="04" day="27"/>
         <dmTitle>
           <techName>xml-validate(1) | xml-utils</techName>
         </dmTitle>
@@ -54,7 +54,7 @@
       </levelledPara>
       <levelledPara>
         <title>DESCRIPTION</title>
-        <para>The <emphasis>xml-validate</emphasis> tool validates XML documents, checking whether they are valid XML files and if they are valid against a referenced or specified schema.</para>
+        <para>The <emphasis>xml-validate</emphasis> utility validates XML documents, checking whether they are valid XML files and if they are valid against a referenced or specified schema.</para>
       </levelledPara>
       <levelledPara>
         <title>OPTIONS</title>
@@ -87,7 +87,7 @@
             <definitionListItem>
               <listItemTerm>-q, --quiet</listItemTerm>
               <listItemDefinition>
-                <para>Quiet mode. The tool will not output anything to stdout or stderr. Success/failure will only be indicated through the exit status.</para>
+                <para>Quiet mode. The utility will not output anything to stdout or stderr. Success/failure will only be indicated through the exit status.</para>
               </listItemDefinition>
             </definitionListItem>
             <definitionListItem>

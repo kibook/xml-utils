@@ -11,8 +11,8 @@ SYNOPSIS
 DESCRIPTION
 ===========
 
-The *xml-validate* tool validates XML documents, checking whether they
-are valid XML files and if they are valid against a referenced or
+The *xml-validate* utility validates XML documents, checking whether
+they are valid XML files and if they are valid against a referenced or
 specified schema.
 
 OPTIONS
@@ -32,7 +32,7 @@ Treat input as a list of XML documents names to validate, rather than an
 XML document itself.
 
 -q, --quiet  
-Quiet mode. The tool will not output anything to stdout or stderr.
+Quiet mode. The utility will not output anything to stdout or stderr.
 Success/failure will only be indicated through the exit status.
 
 -s, --schema &lt;path&gt;  
