@@ -8,7 +8,7 @@
 #include "xml-utils.h"
 
 #define PROG_NAME "xml-validate"
-#define VERSION "0.3.0"
+#define VERSION "0.3.1"
 
 #define ERR_PREFIX PROG_NAME ": ERROR: "
 #define SUCCESS_PREFIX PROG_NAME ": SUCCESS: "
@@ -179,25 +179,34 @@ static int check_id_exists_in_doc(const xmlDocPtr doc, const char *fname, bool a
 /* Check if a given ID exists in a document. */
 static int check_id_exists(const struct xml_schema_parser *parser, const xmlDocPtr doc, const char *fname, const xmlChar *id)
 {
-	int err = 0;
-
 	if (!xmlXPathNodeSetIsEmpty(parser->id->nodesetval)) {
 		int i;
 
 		for (i = 0; i < parser->id->nodesetval->nodeNr; ++i) {
 			xmlNodePtr node = parser->id->nodesetval->nodeTab[i];
 			xmlChar *name = xmlGetProp(node, BAD_CAST "name");
-			err += check_id_exists_in_doc(
+			bool matched;
+
+			/* Determine if the given ID matched in the document. */
+			matched = check_id_exists_in_doc(
 				doc,
 				fname,
 				xmlStrcmp(node->name, BAD_CAST "attribute") == 0,
 				name,
-				id);
+				id) == 0;
+
 			xmlFree(name);
+
+			/* If the IDREF matches any ID in the doc, then exit
+			 * successfully. */
+			if (matched) {
+				return 0;
+			}
 		}
 	}
 
-	return err;
+	/* At this point, no ID in the document matched the IDREF. */
+	return 1;
 }
 
 /* Check if a specific IDREF value is valid. */
