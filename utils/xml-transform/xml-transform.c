@@ -16,7 +16,7 @@
 #include "identity.h"
 
 #define PROG_NAME "xml-transform"
-#define VERSION "1.1.0"
+#define VERSION "1.1.1"
 
 #define INF_PREFIX PROG_NAME ": INFO: "
 #define ERR_PREFIX PROG_NAME ": ERROR: "
@@ -314,9 +314,8 @@ static void free_stylesheets(xmlNodePtr stylesheets)
 
 		params = (const char **) cur->children;
 		nparams = cur->line;
-		for (i = 0; i < nparams; ++i) {
+		for (i = 0; i < nparams * 2; ++i) {
 			xmlFree((char *) params[i]);
-			xmlFree((char *) params[i + 1]);
 		}
 		free(params);
 		cur->children = NULL;
