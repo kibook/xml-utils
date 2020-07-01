@@ -7,7 +7,7 @@ SYNOPSIS
 ========
 
     xml-transform [-s <stylesheet> [-p <name>=<value> ...] ...]
-                  [-o <file>] [-cdfilqvh?] [<file> ...]
+                  [-o <file>] [-cdfilqSvh?] [<file> ...]
 
 DESCRIPTION
 ===========
@@ -46,6 +46,12 @@ Pass a parameter to the last specified stylesheet.
 
 -q, --quiet  
 Quiet mode. Errors are not printed.
+
+-S, --xml-stylesheets  
+Apply stylesheets that are associated to each XML document with the
+`xml-stylesheet` processing instruction. Associated stylesheets are
+applied before any user-specified stylesheets, in the order in which
+they occur within the document.
 
 -s, --stylesheet &lt;stylesheet&gt;  
 An XSLT stylesheet file to apply to each XML document. Multiple

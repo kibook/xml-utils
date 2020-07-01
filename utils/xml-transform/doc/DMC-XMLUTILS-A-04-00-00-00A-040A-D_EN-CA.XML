@@ -6,10 +6,10 @@
       <dmIdent>
         <dmCode modelIdentCode="XMLUTILS" systemDiffCode="A" systemCode="04" subSystemCode="0" subSubSystemCode="0" assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="040" infoCodeVariant="A" itemLocationCode="D"/>
         <language languageIsoCode="en" countryIsoCode="CA"/>
-        <issueInfo issueNumber="002" inWork="00"/>
+        <issueInfo issueNumber="002" inWork="01"/>
       </dmIdent>
       <dmAddressItems>
-        <issueDate year="2020" month="05" day="01"/>
+        <issueDate year="2020" month="07" day="01"/>
         <dmTitle>
           <techName>xml-transform(1) | xml-utils</techName>
         </dmTitle>
@@ -39,7 +39,7 @@
         <unverified/>
       </qualityAssurance>
       <reasonForUpdate id="rfu-0001" updateHighlight="1" updateReasonType="urt02">
-        <simplePara>Add -c (--combine) option.</simplePara>
+        <simplePara>Add -S (--xml-stylesheets) option.</simplePara>
       </reasonForUpdate>
     </dmStatus>
   </identAndStatusSection>
@@ -53,7 +53,7 @@
         <title>SYNOPSIS</title>
         <para>
           <verbatimText verbatimStyle="vs24" changeMark="1" changeType="modify" reasonForUpdateRefIds="rfu-0001">xml-transform [-s &lt;stylesheet&gt; [-p &lt;name&gt;=&lt;value&gt; ...] ...]
-              [-o &lt;file&gt;] [-cdfilqvh?] [&lt;file&gt; ...]</verbatimText>
+              [-o &lt;file&gt;] [-cdfilqSvh?] [&lt;file&gt; ...]</verbatimText>
         </para>
       </levelledPara>
       <levelledPara>
@@ -64,7 +64,7 @@
         <title>OPTIONS</title>
         <para>
           <definitionList>
-            <definitionListItem changeMark="1" changeType="add" reasonForUpdateRefIds="rfu-0001">
+            <definitionListItem>
               <listItemTerm>-c, --combine</listItemTerm>
               <listItemDefinition>
                 <para>Transform the input files as a single, combined XML document, rather than as individual documents.</para>
@@ -116,6 +116,12 @@
               <listItemTerm>-q, --quiet</listItemTerm>
               <listItemDefinition>
                 <para>Quiet mode. Errors are not printed.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem changeMark="1" changeType="add" reasonForUpdateRefIds="rfu-0001">
+              <listItemTerm>-S, --xml-stylesheets</listItemTerm>
+              <listItemDefinition>
+                <para>Apply stylesheets that are associated to each XML document with the <verbatimText>xml-stylesheet</verbatimText> processing instruction. Associated stylesheets are applied before any user-specified stylesheets, in the order in which they occur within the document.</para>
               </listItemDefinition>
             </definitionListItem>
             <definitionListItem>
