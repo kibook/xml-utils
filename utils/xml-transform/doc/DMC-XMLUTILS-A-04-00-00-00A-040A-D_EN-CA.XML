@@ -41,6 +41,9 @@
       <reasonForUpdate id="rfu-0001" updateHighlight="1" updateReasonType="urt02">
         <simplePara>Add -S (--xml-stylesheets) option.</simplePara>
       </reasonForUpdate>
+      <reasonForUpdate id="rfu-0002" updateHighlight="1" updateReasonType="urt02">
+        <simplePara>Add global parameters.</simplePara>
+      </reasonForUpdate>
     </dmStatus>
   </identAndStatusSection>
   <content>
@@ -109,7 +112,7 @@
             <definitionListItem>
               <listItemTerm>-p, --param &lt;name&gt;=&lt;value&gt;</listItemTerm>
               <listItemDefinition>
-                <para>Pass a parameter to the last specified stylesheet.</para>
+                <para changeMark="1" changeType="modify" reasonForUpdateRefIds="rfu-0002">Pass a parameter to the last specified stylesheet. If specified before any stylesheets, the parameter will be passed to all stylesheets.</para>
               </listItemDefinition>
             </definitionListItem>
             <definitionListItem>

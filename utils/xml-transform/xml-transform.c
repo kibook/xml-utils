@@ -16,7 +16,7 @@
 #include "identity.h"
 
 #define PROG_NAME "xml-transform"
-#define VERSION "1.2.0"
+#define VERSION "1.3.0"
 
 #define INF_PREFIX PROG_NAME ": INFO: "
 #define ERR_PREFIX PROG_NAME ": ERROR: "
@@ -31,6 +31,7 @@
 static enum verbosity { QUIET, NORMAL, VERBOSE } verbosity = NORMAL;
 static bool preserve_dtd = false;
 static bool use_xml_stylesheets = false;
+static xmlNodePtr global_params;
 
 /* Add identity template to stylesheet. */
 static void add_identity(xmlDocPtr style)
@@ -187,6 +188,18 @@ static xmlNodePtr xml_stylesheet_node(const xmlNodePtr pi)
 	return node;
 }
 
+/* Read param from XML and encode in params list. */
+static void read_param(const char **params, int *n, xmlNodePtr param)
+{
+	char *name, *value;
+
+	name  = (char *) xmlGetProp(param, BAD_CAST "name");
+	value = (char *) xmlGetProp(param, BAD_CAST "value");
+
+	params[(*n)++] = name;
+	params[(*n)++] = value;
+}
+
 /* Load stylesheet from disk and cache. */
 static void load_stylesheet(xmlNodePtr cur, const bool include_identity)
 {
@@ -215,7 +228,7 @@ static void load_stylesheet(xmlNodePtr cur, const bool include_identity)
 
 	cur->doc = (xmlDocPtr) style;
 
-	if ((nparams = xmlChildElementCount(cur)) > 0) {
+	if ((nparams = xmlChildElementCount(cur) + xmlChildElementCount(global_params)) > 0) {
 		xmlNodePtr param;
 		int n = 0;
 
@@ -223,18 +236,16 @@ static void load_stylesheet(xmlNodePtr cur, const bool include_identity)
 
 		param = cur->children;
 		while (param) {
-			xmlNodePtr next;
-			char *name, *value;
-
-			next = param->next;
-
-			name  = (char *) xmlGetProp(param, BAD_CAST "name");
-			value = (char *) xmlGetProp(param, BAD_CAST "value");
-
-			params[n++] = name;
-			params[n++] = value;
-
+			xmlNodePtr next = param->next;
+			read_param(params, &n, param);
 			xmlFreeNode(param);
+			param = next;
+		}
+
+		param = global_params->children;
+		while (param) {
+			xmlNodePtr next = param->next;
+			read_param(params, &n, param);
 			param = next;
 		}
 
@@ -584,6 +595,7 @@ int main(int argc, char **argv)
 	exsltRegisterAll();
 
 	stylesheets = xmlNewNode(NULL, BAD_CAST "stylesheets");
+	global_params = xmlNewNode(NULL, BAD_CAST "params");
 
 	while ((i = getopt_long(argc, argv, sopts, lopts, &loptind)) != -1) {
 		switch (i) {
@@ -618,7 +630,11 @@ int main(int argc, char **argv)
 				out = strdup(optarg);
 				break;
 			case 'p':
-				add_param(last_style, optarg);
+				if (last_style == NULL) {
+					add_param(global_params, optarg);
+				} else {
+					add_param(last_style, optarg);
+				}
 				break;
 			case 'q':
 				--verbosity;
@@ -661,6 +677,7 @@ int main(int argc, char **argv)
 	}
 
 	free_stylesheets(stylesheets);
+	xmlFreeNode(global_params);
 
 	xsltCleanupGlobals();
 	xmlCleanupParser();

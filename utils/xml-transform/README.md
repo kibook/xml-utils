@@ -42,7 +42,8 @@ Output to &lt;file&gt; instead of stdout. This option only makes sense
 when the input is a single XML document.
 
 -p, --param &lt;name&gt;=&lt;value&gt;  
-Pass a parameter to the last specified stylesheet.
+Pass a parameter to the last specified stylesheet. If specified before
+any stylesheets, the parameter will be passed to all stylesheets.
 
 -q, --quiet  
 Quiet mode. Errors are not printed.
