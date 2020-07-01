@@ -16,7 +16,7 @@
 #include "identity.h"
 
 #define PROG_NAME "xml-transform"
-#define VERSION "1.3.0"
+#define VERSION "1.3.1"
 
 #define INF_PREFIX PROG_NAME ": INFO: "
 #define ERR_PREFIX PROG_NAME ": ERROR: "
@@ -534,7 +534,7 @@ static void transform_combined(int argc, char **argv, bool islist, const char *o
 /* Show help/usage message. */
 static void show_help(void)
 {
-	puts("Usage: " PROG_NAME " [-s <stylesheet> [-p <name>=<value> ...] ...] [-o <file>] [-cdfilqvh?] [<file>...]");
+	puts("Usage: " PROG_NAME " [-s <stylesheet> [-p <name>=<value> ...] ...] [-o <file>] [-cdfilqSvh?] [<file>...]");
 	puts("");
 	puts("Options:");
 	puts("  -c, --combine                  Combine input files into a single document.");
@@ -546,6 +546,7 @@ static void show_help(void)
 	puts("  -o, --out <file>               Output result of transformation to <path>.");
 	puts("  -p, --param <name>=<value>     Pass parameters to stylesheets.");
 	puts("  -q, --quiet                    Quiet mode.");
+	puts("  -S, --xml-stylesheets          Apply associated stylesheets.");
 	puts("  -s, --stylesheet <stylesheet>  Apply XSLT stylesheet to XML documents.");
 	puts("  -v, --verbose                  Verbose output.");
 	puts("  --version                      Show version information.");
