@@ -9,7 +9,7 @@
 #include "languages.h"
 
 #define PROG_NAME "xml-highlight"
-#define VERSION "1.3.2"
+#define VERSION "1.4.0"
 
 #define PRE_KEYWORD_DELIM BAD_CAST " (\n"
 #define POST_KEYWORD_DELIM BAD_CAST " .,);\n"
@@ -408,7 +408,7 @@ int main(int argc, char **argv)
 					show_version();
 					return 0;
 				}
-				LIBXML2_PARSE_LONGOPT_HANDLE(lopts, loptind)
+				LIBXML2_PARSE_LONGOPT_HANDLE(lopts, loptind, optarg)
 				break;
 			case 'c':
 				if (!classes)

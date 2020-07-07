@@ -8,7 +8,7 @@
 #include "xml-utils.h"
 
 #define PROG_NAME "xml-format"
-#define VERSION "2.5.0"
+#define VERSION "2.6.0"
 
 /* Formatter options */
 #define FORMAT_OVERWRITE	0x01
@@ -211,7 +211,7 @@ int main(int argc, char **argv)
 					show_version();
 					return 0;
 				}
-				LIBXML2_PARSE_LONGOPT_HANDLE(lopts, loptind)
+				LIBXML2_PARSE_LONGOPT_HANDLE(lopts, loptind, optarg)
 				break;
 			case 'c':
 				opts |= FORMAT_COMPACT;

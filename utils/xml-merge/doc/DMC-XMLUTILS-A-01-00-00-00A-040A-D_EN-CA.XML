@@ -6,16 +6,16 @@
       <dmIdent>
         <dmCode modelIdentCode="XMLUTILS" systemDiffCode="A" systemCode="01" subSystemCode="0" subSubSystemCode="0" assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="040" infoCodeVariant="A" itemLocationCode="D"/>
         <language languageIsoCode="en" countryIsoCode="CA"/>
-        <issueInfo issueNumber="008" inWork="00"/>
+        <issueInfo issueNumber="008" inWork="01"/>
       </dmIdent>
       <dmAddressItems>
-        <issueDate year="2020" month="05" day="01"/>
+        <issueDate year="2020" month="07" day="07"/>
         <dmTitle>
           <techName>xml-merge(1) | xml-utils</techName>
         </dmTitle>
       </dmAddressItems>
     </dmAddress>
-    <dmStatus issueType="status">
+    <dmStatus issueType="changed">
       <security securityClassification="01"/>
       <responsiblePartnerCompany>
         <enterpriseName>khzae.net</enterpriseName>
@@ -38,6 +38,9 @@
       <qualityAssurance>
         <unverified/>
       </qualityAssurance>
+      <reasonForUpdate id="rfu-xml-catalog" updateHighlight="1" updateReasonType="urt02">
+        <simplePara>Add --xml-catalog parser option.</simplePara>
+      </reasonForUpdate>
     </dmStatus>
   </identAndStatusSection>
   <content>
@@ -92,8 +95,8 @@
             </definitionListItem>
           </definitionList>
         </para>
-        <para>In addition, the following options enable features of the XML parser that are disabled as a precaution by default:</para>
         <para>
+          In addition, the following options allow configuration of the XML parser:
           <definitionList>
             <definitionListItem>
               <listItemTerm>--dtdload</listItemTerm>
@@ -125,6 +128,12 @@
                 <para>Do XInclude processing.</para>
               </listItemDefinition>
             </definitionListItem>
+            <definitionListItem changeMark="1" changeType="add" reasonForUpdateRefIds="rfu-xml-catalog">
+              <listItemTerm>--xml-catalog &lt;file&gt;</listItemTerm>
+              <listItemDefinition>
+                <para>Use an XML catalog when resolving entities. Multiple catalogs may be loaded by specifying this option multiple times.</para>
+              </listItemDefinition>
+            </definitionListItem>
           </definitionList>
         </para>
       </levelledPara>
@@ -133,30 +142,30 @@
         <para>Given the following two XML files:</para>
         <para>
           <emphasis><verbatimText verbatimStyle="vs02">file1.xml</verbatimText>:</emphasis>
-          <verbatimText verbatimStyle="vs11"><![CDATA[<root>
-<metadata>...</metadata>
-<content/>
-</root>]]></verbatimText>
+          <verbatimText verbatimStyle="vs11">&lt;root&gt;
+&lt;metadata&gt;...&lt;/metadata&gt;
+&lt;content/&gt;
+&lt;/root&gt;</verbatimText>
         </para>
         <para>
           <emphasis><verbatimText verbatimStyle="vs02">file2.xml</verbatimText>:</emphasis>
-          <verbatimText verbatimStyle="vs11"><![CDATA[<content>
-<text>Hello world.</text>
-</content>]]></verbatimText>
+          <verbatimText verbatimStyle="vs11">&lt;content&gt;
+&lt;text&gt;Hello world.&lt;/text&gt;
+&lt;/content&gt;</verbatimText>
         </para>
         <para>the xml-merge utility will merge them on the element <verbatimText verbatimStyle="vs12">content</verbatimText>:</para>
         <para>
-          <verbatimText verbatimStyle="vs24"><![CDATA[$ xml-merge file1.xml file2.xml > merged.xml]]></verbatimText>
+          <verbatimText verbatimStyle="vs24">$ xml-merge file1.xml file2.xml &gt; merged.xml</verbatimText>
         </para>
         <para>to produce the merged file:</para>
         <para>
           <emphasis><verbatimText verbatimStyle="vs02">merged.xml</verbatimText>:</emphasis>
-          <verbatimText verbatimStyle="vs11"><![CDATA[<root>
-<metadata>...</metadata>
-<content>
-<text>Hello world.</text>
-</content>
-</root>]]></verbatimText>
+          <verbatimText verbatimStyle="vs11">&lt;root&gt;
+&lt;metadata&gt;...&lt;/metadata&gt;
+&lt;content&gt;
+&lt;text&gt;Hello world.&lt;/text&gt;
+&lt;/content&gt;
+&lt;/root&gt;</verbatimText>
         </para>
       </levelledPara>
     </description>

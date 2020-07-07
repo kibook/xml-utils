@@ -57,8 +57,8 @@ Show version information.
 &lt;src&gt;  
 The source XML file(s) containing the elements to trim.
 
-In addition, the following options enable features of the XML parser
-that are disabled as a precaution by default:
+In addition, the following options allow configuration of the XML
+parser:
 
 --dtdload  
 Load the external DTD.
@@ -74,6 +74,10 @@ Resolve entities.
 
 --xinclude  
 Do XInclude processing.
+
+--xml-catalog &lt;file&gt;  
+Use an XML catalog when resolving entities. Multiple catalogs may be
+loaded by specifying this option multiple times.
 
 EXAMPLES
 ========

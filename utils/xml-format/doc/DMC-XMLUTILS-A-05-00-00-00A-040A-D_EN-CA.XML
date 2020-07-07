@@ -6,10 +6,10 @@
       <dmIdent>
         <dmCode modelIdentCode="XMLUTILS" systemDiffCode="A" systemCode="05" subSystemCode="0" subSubSystemCode="0" assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="040" infoCodeVariant="A" itemLocationCode="D"/>
         <language languageIsoCode="en" countryIsoCode="CA"/>
-        <issueInfo issueNumber="008" inWork="00"/>
+        <issueInfo issueNumber="008" inWork="01"/>
       </dmIdent>
       <dmAddressItems>
-        <issueDate year="2020" month="05" day="01"/>
+        <issueDate year="2020" month="07" day="07"/>
         <dmTitle>
           <techName>xml-format(1) | xml-utils</techName>
         </dmTitle>
@@ -38,11 +38,8 @@
       <qualityAssurance>
         <unverified/>
       </qualityAssurance>
-      <reasonForUpdate id="rfu-0001" updateHighlight="1" updateReasonType="urt02">
-        <simplePara>Change behaviour of -I (--indent-all) in -c (--compact) mode.</simplePara>
-      </reasonForUpdate>
-      <reasonForUpdate id="rfu-0002" updateHighlight="0" updateReasonType="urt01">
-        <simplePara>Improve the formatting of the EXAMPLES section.</simplePara>
+      <reasonForUpdate id="rfu-xml-catalog" updateHighlight="1" updateReasonType="urt02">
+        <simplePara>Add --xml-catalog parser option.</simplePara>
       </reasonForUpdate>
     </dmStatus>
   </identAndStatusSection>
@@ -55,7 +52,7 @@
       <levelledPara>
         <title>SYNOPSIS</title>
         <para>
-          <verbatimText verbatimStyle="vs24"><![CDATA[xml-format [-cfIOwh?] [-i <str>] [-o <path>] [<file>...]]]></verbatimText>
+          <verbatimText verbatimStyle="vs24">xml-format [-cfIOwh?] [-i &lt;str&gt;] [-o &lt;path&gt;] [&lt;file&gt;...]</verbatimText>
         </para>
       </levelledPara>
       <levelledPara>
@@ -105,7 +102,7 @@
               <listItemTerm>-I, --indent-all</listItemTerm>
               <listItemDefinition>
                 <para>Indent nodes within non-blank nodes. Normally, all whitespace within non-blank nodes and their descendants is treated as significant.</para>
-                <para changeMark="1" changeType="add" reasonForUpdateRefIds="rfu-0001">If -c (--compact) is specified, then this option will allow blank nodes within non-blank nodes to be compacted.</para>
+                <para>If -c (--compact) is specified, then this option will allow blank nodes within non-blank nodes to be compacted.</para>
               </listItemDefinition>
             </definitionListItem>
             <definitionListItem>
@@ -146,8 +143,8 @@
             </definitionListItem>
           </definitionList>
         </para>
-        <para>In addition, the following options enable features of the XML parser that are disabled as a precaution by default:</para>
         <para>
+          In addition, the following options allow configuration of the XML parser:
           <definitionList>
             <definitionListItem>
               <listItemTerm>--dtdload</listItemTerm>
@@ -179,110 +176,116 @@
                 <para>Do XInclude processing.</para>
               </listItemDefinition>
             </definitionListItem>
+            <definitionListItem changeMark="1" changeType="add" reasonForUpdateRefIds="rfu-xml-catalog">
+              <listItemTerm>--xml-catalog &lt;file&gt;</listItemTerm>
+              <listItemDefinition>
+                <para>Use an XML catalog when resolving entities. Multiple catalogs may be loaded by specifying this option multiple times.</para>
+              </listItemDefinition>
+            </definitionListItem>
           </definitionList>
         </para>
       </levelledPara>
-      <levelledPara changeMark="0" changeType="modify" reasonForUpdateRefIds="rfu-0002">
+      <levelledPara>
         <title>EXAMPLES</title>
         <para>
           Raw XML:
-          <verbatimText verbatimStyle="vs24"><![CDATA[$ cat test.xml
-<section>     <title>Example</title>
+          <verbatimText verbatimStyle="vs24">$ cat test.xml
+&lt;section&gt;     &lt;title&gt;Example&lt;/title&gt;
 
-<para><emphasis>A</emphasis> <emphasis>B</emphasis> C</para>
+&lt;para&gt;&lt;emphasis&gt;A&lt;/emphasis&gt; &lt;emphasis&gt;B&lt;/emphasis&gt; C&lt;/para&gt;
 
-<empty>    </empty>
+&lt;empty&gt;    &lt;/empty&gt;
 
-<p><b>A</b> <b>B</b> <b>C</b></p>
-<p xml:space="preserve"><b>A</b> <b>B</b> <b>C</b></p>
+&lt;p&gt;&lt;b&gt;A&lt;/b&gt; &lt;b&gt;B&lt;/b&gt; &lt;b&gt;C&lt;/b&gt;&lt;/p&gt;
+&lt;p xml:space="preserve"&gt;&lt;b&gt;A&lt;/b&gt; &lt;b&gt;B&lt;/b&gt; &lt;b&gt;C&lt;/b&gt;&lt;/p&gt;
 
-<para>
+&lt;para&gt;
     See the following list:
-    <randomList>
-      <listItem><para>A</para></listItem>
-      <listItem><para>B</para></listItem>
-      <listItem><para>C</para></listItem>
-    </randomList>
-</para>
+    &lt;randomList&gt;
+      &lt;listItem&gt;&lt;para&gt;A&lt;/para&gt;&lt;/listItem&gt;
+      &lt;listItem&gt;&lt;para&gt;B&lt;/para&gt;&lt;/listItem&gt;
+      &lt;listItem&gt;&lt;para&gt;C&lt;/para&gt;&lt;/listItem&gt;
+    &lt;/randomList&gt;
+&lt;/para&gt;
 
-</section>]]>
+&lt;/section&gt;
           </verbatimText>
         </para>
         <para>
           Basic formatting:
-          <verbatimText verbatimStyle="vs11"><![CDATA[$ xml-format test.xml
-<section>
-  <title>Example</title>
-  <para><emphasis>A</emphasis> <emphasis>B</emphasis> C</para>
-  <empty>    </empty>
-  <p>
-    <b>A</b>
-    <b>B</b>
-    <b>C</b>
-  </p>
-  <p xml:space="preserve"><b>A</b> <b>B</b> <b>C</b></p>
-  <para>
+          <verbatimText verbatimStyle="vs11">$ xml-format test.xml
+&lt;section&gt;
+  &lt;title&gt;Example&lt;/title&gt;
+  &lt;para&gt;&lt;emphasis&gt;A&lt;/emphasis&gt; &lt;emphasis&gt;B&lt;/emphasis&gt; C&lt;/para&gt;
+  &lt;empty&gt;    &lt;/empty&gt;
+  &lt;p&gt;
+    &lt;b&gt;A&lt;/b&gt;
+    &lt;b&gt;B&lt;/b&gt;
+    &lt;b&gt;C&lt;/b&gt;
+  &lt;/p&gt;
+  &lt;p xml:space="preserve"&gt;&lt;b&gt;A&lt;/b&gt; &lt;b&gt;B&lt;/b&gt; &lt;b&gt;C&lt;/b&gt;&lt;/p&gt;
+  &lt;para&gt;
     See the following list:
-    <randomList>
-      <listItem><para>A</para></listItem>
-      <listItem><para>B</para></listItem>
-      <listItem><para>C</para></listItem>
-    </randomList>
-  </para>
-</section>]]></verbatimText>
+    &lt;randomList&gt;
+      &lt;listItem&gt;&lt;para&gt;A&lt;/para&gt;&lt;/listItem&gt;
+      &lt;listItem&gt;&lt;para&gt;B&lt;/para&gt;&lt;/listItem&gt;
+      &lt;listItem&gt;&lt;para&gt;C&lt;/para&gt;&lt;/listItem&gt;
+    &lt;/randomList&gt;
+  &lt;/para&gt;
+&lt;/section&gt;</verbatimText>
         </para>
         <para>
           Using the -I (--indent-all) option:
-          <verbatimText verbatimStyle="vs11"><![CDATA[$ cat test1.xml
-<para>
+          <verbatimText verbatimStyle="vs11">$ cat test1.xml
+&lt;para&gt;
   See the following list:
-  <randomList>
-    <listItem><para>A</para></listItem>
-    <listItem><para>B</para></listItem>
-    <listItem><para>C</para></listitem>
-  </randomList>
-</para>
+  &lt;randomList&gt;
+    &lt;listItem&gt;&lt;para&gt;A&lt;/para&gt;&lt;/listItem&gt;
+    &lt;listItem&gt;&lt;para&gt;B&lt;/para&gt;&lt;/listItem&gt;
+    &lt;listItem&gt;&lt;para&gt;C&lt;/para&gt;&lt;/listitem&gt;
+  &lt;/randomList&gt;
+&lt;/para&gt;
 
 $ xml-format -I test1.xml
-<para>
+&lt;para&gt;
   See the following list:
-  <randomList>
-    <listItem>
-      <para>A</para>
-    </listItem>
-    <listItem>
-      <para>B</para>
-    </listItem>
-    <listItem>
-      <para>C</para>
-    </listItem>
-  </randomList>
-</para>]]></verbatimText>
+  &lt;randomList&gt;
+    &lt;listItem&gt;
+      &lt;para&gt;A&lt;/para&gt;
+    &lt;/listItem&gt;
+    &lt;listItem&gt;
+      &lt;para&gt;B&lt;/para&gt;
+    &lt;/listItem&gt;
+    &lt;listItem&gt;
+      &lt;para&gt;C&lt;/para&gt;
+    &lt;/listItem&gt;
+  &lt;/randomList&gt;
+&lt;/para&gt;</verbatimText>
         </para>
-        <para changeMark="1" changeType="add" reasonForUpdateRefIds="rfu-0001">
+        <para>
           Using the -c (--compact) option:
-          <verbatimText verbatimStyle="vs11"><![CDATA[$ xml-format test.xml
-<section><title>Example</title><para><emphasis>A</emphasis> <emphasis
->B</emphasis> C</para><empty>    </empty><p xml:space="preserve"><b>A
-</b> <b>B</b> <b>C</b></p><para>
+          <verbatimText verbatimStyle="vs11">$ xml-format test.xml
+&lt;section&gt;&lt;title&gt;Example&lt;/title&gt;&lt;para&gt;&lt;emphasis&gt;A&lt;/emphasis&gt; &lt;emphasis
+&gt;B&lt;/emphasis&gt; C&lt;/para&gt;&lt;empty&gt;    &lt;/empty&gt;&lt;p xml:space="preserve"&gt;&lt;b&gt;A
+&lt;/b&gt; &lt;b&gt;B&lt;/b&gt; &lt;b&gt;C&lt;/b&gt;&lt;/p&gt;&lt;para&gt;
     See the following list:
-    <randomList>
-      <listItem><para>A</para></listItem>
-      <listItem><para>B</para></listItem>
-      <listItem><para>C</para></listItem>
-    </randomList>
-</para></section>]]></verbatimText>
+    &lt;randomList&gt;
+      &lt;listItem&gt;&lt;para&gt;A&lt;/para&gt;&lt;/listItem&gt;
+      &lt;listItem&gt;&lt;para&gt;B&lt;/para&gt;&lt;/listItem&gt;
+      &lt;listItem&gt;&lt;para&gt;C&lt;/para&gt;&lt;/listItem&gt;
+    &lt;/randomList&gt;
+&lt;/para&gt;&lt;/section&gt;</verbatimText>
         </para>
-        <para changeMark="1" changeType="add" reasonForUpdateRefIds="rfu-0001">
+        <para>
           Using the -c (--compact) and -I (--indent-all) options together:
-          <verbatimText verbatimStyle="vs11"><![CDATA[$ xml-format -cI test.xml
-<section><title>Example</title><para><emphasis>A</emphasis> <emphasis
->B</emphasis> C</para><empty>    </empty><p xml:space="preserve"><b>A
-</b> <b>B</b> <b>C</b></p><para>
+          <verbatimText verbatimStyle="vs11">$ xml-format -cI test.xml
+&lt;section&gt;&lt;title&gt;Example&lt;/title&gt;&lt;para&gt;&lt;emphasis&gt;A&lt;/emphasis&gt; &lt;emphasis
+&gt;B&lt;/emphasis&gt; C&lt;/para&gt;&lt;empty&gt;    &lt;/empty&gt;&lt;p xml:space="preserve"&gt;&lt;b&gt;A
+&lt;/b&gt; &lt;b&gt;B&lt;/b&gt; &lt;b&gt;C&lt;/b&gt;&lt;/p&gt;&lt;para&gt;
     See the following list:
-    <randomList><listItem><para>A</para></listItem><listItem><para>B<
-/para></listItem><listItem><para>C</para></listItem></randomList>
-</para></section>]]></verbatimText>
+    &lt;randomList&gt;&lt;listItem&gt;&lt;para&gt;A&lt;/para&gt;&lt;/listItem&gt;&lt;listItem&gt;&lt;para&gt;B&lt;
+/para&gt;&lt;/listItem&gt;&lt;listItem&gt;&lt;para&gt;C&lt;/para&gt;&lt;/listItem&gt;&lt;/randomList&gt;
+&lt;/para&gt;&lt;/section&gt;</verbatimText>
         </para>
       </levelledPara>
     </description>

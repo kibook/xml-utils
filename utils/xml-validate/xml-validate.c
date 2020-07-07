@@ -8,7 +8,7 @@
 #include "xml-utils.h"
 
 #define PROG_NAME "xml-validate"
-#define VERSION "1.0.0"
+#define VERSION "1.1.0"
 
 #define ERR_PREFIX PROG_NAME ": ERROR: "
 #define SUCCESS_PREFIX PROG_NAME ": SUCCESS: "
@@ -475,7 +475,7 @@ int main(int argc, char *argv[])
 					show_version();
 					return EXIT_SUCCESS;
 				}
-				LIBXML2_PARSE_LONGOPT_HANDLE(lopts, loptind)
+				LIBXML2_PARSE_LONGOPT_HANDLE(lopts, loptind, optarg)
 				break;
 			case 'F': show_fnames = SHOW_VALID; break;
 			case 'f': show_fnames = SHOW_INVALID; break;

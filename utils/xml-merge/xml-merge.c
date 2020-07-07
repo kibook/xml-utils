@@ -8,7 +8,7 @@
 #include "xml-utils.h"
 
 #define PROG_NAME "xml-merge"
-#define VERSION "1.4.2"
+#define VERSION "1.5.0"
 
 static void show_help(void)
 {
@@ -83,7 +83,7 @@ int main(int argc, char **argv)
 					show_version();
 					return 0;
 				}
-				LIBXML2_PARSE_LONGOPT_HANDLE(lopts, loptind)
+				LIBXML2_PARSE_LONGOPT_HANDLE(lopts, loptind, optarg)
 				break;
 			case 'f':
 				overwrite = true;

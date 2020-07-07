@@ -10,7 +10,7 @@
 #include "xml-utils.h"
 
 #define PROG_NAME "xml-trim"
-#define VERSION "3.4.2"
+#define VERSION "3.5.0"
 
 /* Remove whitespace on left end of string. */
 static char *strltrm(char *dst, const char *src)
@@ -224,7 +224,7 @@ int main(int argc, char **argv)
 					show_version();
 					return 0;
 				}
-				LIBXML2_PARSE_LONGOPT_HANDLE(lopts, loptind);
+				LIBXML2_PARSE_LONGOPT_HANDLE(lopts, loptind, optarg);
 				break;
 			case 'e':
 				xmlNewChild(elems, NULL, BAD_CAST "elem", BAD_CAST optarg);

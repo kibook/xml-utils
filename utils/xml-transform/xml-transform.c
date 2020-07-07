@@ -16,7 +16,7 @@
 #include "identity.h"
 
 #define PROG_NAME "xml-transform"
-#define VERSION "1.3.1"
+#define VERSION "1.4.0"
 
 #define INF_PREFIX PROG_NAME ": INFO: "
 #define ERR_PREFIX PROG_NAME ": ERROR: "
@@ -605,7 +605,7 @@ int main(int argc, char **argv)
 					show_version();
 					return 0;
 				}
-				LIBXML2_PARSE_LONGOPT_HANDLE(lopts, loptind)
+				LIBXML2_PARSE_LONGOPT_HANDLE(lopts, loptind, optarg)
 				break;
 			case 'c':
 				combine = true;

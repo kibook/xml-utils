@@ -6,16 +6,16 @@
       <dmIdent>
         <dmCode modelIdentCode="XMLUTILS" systemDiffCode="A" systemCode="02" subSystemCode="0" subSubSystemCode="0" assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="040" infoCodeVariant="A" itemLocationCode="D"/>
         <language languageIsoCode="en" countryIsoCode="CA"/>
-        <issueInfo issueNumber="009" inWork="00"/>
+        <issueInfo issueNumber="009" inWork="01"/>
       </dmIdent>
       <dmAddressItems>
-        <issueDate year="2020" month="05" day="01"/>
+        <issueDate year="2020" month="07" day="07"/>
         <dmTitle>
           <techName>xml-trim(1) | xml-utils</techName>
         </dmTitle>
       </dmAddressItems>
     </dmAddress>
-    <dmStatus issueType="status">
+    <dmStatus issueType="changed">
       <security securityClassification="01"/>
       <responsiblePartnerCompany>
         <enterpriseName>khzae.net</enterpriseName>
@@ -38,6 +38,9 @@
       <qualityAssurance>
         <unverified/>
       </qualityAssurance>
+      <reasonForUpdate id="rfu-xml-catalog" updateHighlight="1" updateReasonType="urt02">
+        <simplePara>Add --xml-catalog parser option.</simplePara>
+      </reasonForUpdate>
     </dmStatus>
   </identAndStatusSection>
   <content>
@@ -49,7 +52,7 @@
       <levelledPara>
         <title>SYNOPSIS</title>
         <para>
-          <verbatimText verbatimStyle="vs24"><![CDATA[xml-trim [-e <elem> ...] [-N <ns=URL> ...] [-fnh?] <src>...]]></verbatimText>
+          <verbatimText verbatimStyle="vs24">xml-trim [-e &lt;elem&gt; ...] [-N &lt;ns=URL&gt; ...] [-fnh?] &lt;src&gt;...</verbatimText>
         </para>
       </levelledPara>
       <levelledPara>
@@ -118,8 +121,8 @@
             </definitionListItem>
           </definitionList>
         </para>
-        <para>In addition, the following options enable features of the XML parser that are disabled as a precaution by default:</para>
         <para>
+          In addition, the following options allow configuration of the XML parser:
           <definitionList>
             <definitionListItem>
               <listItemTerm>--dtdload</listItemTerm>
@@ -151,6 +154,12 @@
                 <para>Do XInclude processing.</para>
               </listItemDefinition>
             </definitionListItem>
+            <definitionListItem changeMark="1" changeType="add" reasonForUpdateRefIds="rfu-xml-catalog">
+              <listItemTerm>--xml-catalog &lt;file&gt;</listItemTerm>
+              <listItemDefinition>
+                <para>Use an XML catalog when resolving entities. Multiple catalogs may be loaded by specifying this option multiple times.</para>
+              </listItemDefinition>
+            </definitionListItem>
           </definitionList>
         </para>
       </levelledPara>
@@ -159,49 +168,49 @@
         <levelledPara>
           <title>Without namespace</title>
           <para>
-            <verbatimText verbatimStyle="vs11"><![CDATA[<section>
-  <para>
+            <verbatimText verbatimStyle="vs11">&lt;section&gt;
+  &lt;para&gt;
     Hello world.
-  </para>
-</section>]]></verbatimText>
+  &lt;/para&gt;
+&lt;/section&gt;</verbatimText>
             <verbatimText verbatimStyle="vs24">$ xml-trim -e para example.xml</verbatimText>
-            <verbatimText verbatimStyle="vs11"><![CDATA[<section>
-  <para>Hello world.</para>
-</section>]]></verbatimText>
+            <verbatimText verbatimStyle="vs11">&lt;section&gt;
+  &lt;para&gt;Hello world.&lt;/para&gt;
+&lt;/section&gt;</verbatimText>
           </para>
         </levelledPara>
         <levelledPara>
           <title>With namespace</title>
           <para>
-            <verbatimText verbatimStyle="vs11"><![CDATA[<d:section>
-  <d:para>
+            <verbatimText verbatimStyle="vs11">&lt;d:section&gt;
+  &lt;d:para&gt;
     Hello world.
-  </d:para>
-</d:section>]]></verbatimText>
+  &lt;/d:para&gt;
+&lt;/d:section&gt;</verbatimText>
             <verbatimText verbatimStyle="vs24">$ xml-trim -N d=http://docbook.org/ns/docbook -e d:para example.xml</verbatimText>
-            <verbatimText verbatimStyle="vs11"><![CDATA[<d:section>
-  <d:para>Hello world.</d:para>
-</d:section>]]></verbatimText>
+            <verbatimText verbatimStyle="vs11">&lt;d:section&gt;
+  &lt;d:para&gt;Hello world.&lt;/d:para&gt;
+&lt;/d:section&gt;</verbatimText>
           </para>
         </levelledPara>
         <levelledPara>
           <title>Normalizing space</title>
           <para>
-            <verbatimText verbatimStyle="vs11"><![CDATA[<section>
-  <para>
-    This is a <emphasis>long</emphasis>
+            <verbatimText verbatimStyle="vs11">&lt;section&gt;
+  &lt;para&gt;
+    This is a &lt;emphasis&gt;long&lt;/emphasis&gt;
     paragraph with both extra whitespace
     before and after the text, and line
     breaks entered by the author to wrap
     the text on a certain column.
-  </para>
-</section>]]></verbatimText>
+  &lt;/para&gt;
+&lt;/section&gt;</verbatimText>
             <verbatimText verbatimStyle="vs24">$ xml-trim -n -e para example.xml</verbatimText>
-            <verbatimText verbatimStyle="vs11"><![CDATA[<section>
-  <para>This is a <emphasis>long</emphasis> paragraph with both extra whitespace before
+            <verbatimText verbatimStyle="vs11">&lt;section&gt;
+  &lt;para&gt;This is a &lt;emphasis&gt;long&lt;/emphasis&gt; paragraph with both extra whitespace before
 and after the text, and line breaks entered by the author to wrap the
-text on a certain column.</para>
-</section>]]></verbatimText>
+text on a certain column.&lt;/para&gt;
+&lt;/section&gt;</verbatimText>
           </para>
         </levelledPara>
       </levelledPara>

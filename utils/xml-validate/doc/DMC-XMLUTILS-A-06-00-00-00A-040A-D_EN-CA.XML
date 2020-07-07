@@ -6,16 +6,16 @@
       <dmIdent>
         <dmCode modelIdentCode="XMLUTILS" systemDiffCode="A" systemCode="06" subSystemCode="0" subSubSystemCode="0" assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="040" infoCodeVariant="A" itemLocationCode="D"/>
         <language languageIsoCode="en" countryIsoCode="CA"/>
-        <issueInfo issueNumber="001" inWork="00"/>
+        <issueInfo issueNumber="001" inWork="01"/>
       </dmIdent>
       <dmAddressItems>
-        <issueDate year="2020" month="05" day="01"/>
+        <issueDate year="2020" month="07" day="07"/>
         <dmTitle>
           <techName>xml-validate(1) | xml-utils</techName>
         </dmTitle>
       </dmAddressItems>
     </dmAddress>
-    <dmStatus issueType="new">
+    <dmStatus issueType="changed">
       <security securityClassification="01"/>
       <responsiblePartnerCompany>
         <enterpriseName>khzae.net</enterpriseName>
@@ -38,6 +38,9 @@
       <qualityAssurance>
         <unverified/>
       </qualityAssurance>
+      <reasonForUpdate id="rfu-xml-catalog" updateHighlight="1" updateReasonType="urt02">
+        <simplePara>Add --xml-catalog parser option.</simplePara>
+      </reasonForUpdate>
     </dmStatus>
   </identAndStatusSection>
   <content>
@@ -49,7 +52,7 @@
       <levelledPara>
         <title>SYNOPSIS</title>
         <para>
-          <verbatimText verbatimStyle="vs24" changeMark="1" changeType="modify" reasonForUpdateRefIds="rfu-0002"><![CDATA[xml-validate [-s <path>] [-F|-f] [-loqvh?] [<file>...]]]></verbatimText>
+          <verbatimText verbatimStyle="vs24">xml-validate [-s &lt;path&gt;] [-F|-f] [-loqvh?] [&lt;file&gt;...]</verbatimText>
         </para>
       </levelledPara>
       <levelledPara>
@@ -116,8 +119,8 @@
             </definitionListItem>
           </definitionList>
         </para>
-        <para>In addition, the following options enable features of the XML parser that are disabled as a precaution by default:</para>
         <para>
+          In addition, the following options allow configuration of the XML parser:
           <definitionList>
             <definitionListItem>
               <listItemTerm>--dtdload</listItemTerm>
@@ -125,7 +128,7 @@
                 <para>Load the external DTD.</para>
               </listItemDefinition>
             </definitionListItem>
-            <definitionListItem changeMark="1" changeType="add" reasonForUpdateRefIds="rfu-0001">
+            <definitionListItem>
               <listItemTerm>--huge</listItemTerm>
               <listItemDefinition>
                 <para>Remove any internal arbitrary parser limits.</para>
@@ -147,6 +150,12 @@
               <listItemTerm>--xinclude</listItemTerm>
               <listItemDefinition>
                 <para>Do XInclude processing.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem changeMark="1" changeType="add" reasonForUpdateRefIds="rfu-xml-catalog">
+              <listItemTerm>--xml-catalog &lt;file&gt;</listItemTerm>
+              <listItemDefinition>
+                <para>Use an XML catalog when resolving entities. Multiple catalogs may be loaded by specifying this option multiple times.</para>
               </listItemDefinition>
             </definitionListItem>
           </definitionList>
