@@ -10,13 +10,15 @@
 #include "xml-utils.h"
 
 #define PROG_NAME "xml-trim"
-#define VERSION "3.5.0"
+#define VERSION "3.5.1"
+
+#define is_space(c) isspace((unsigned char) c)
 
 /* Remove whitespace on left end of string. */
 static char *strltrm(char *dst, const char *src)
 {
 	int start;
-	for (start = 0; isspace(src[start]); ++start);
+	for (start = 0; is_space(src[start]); ++start);
 	sprintf(dst, "%s", src + start);
 	return dst;
 }
@@ -26,7 +28,7 @@ static char *strrtrm(char *dst, const char *src)
 {
 	int len, end;
 	len = strlen(src);
-	for (end = len - 1; isspace(src[end]); --end);
+	for (end = len - 1; is_space(src[end]); --end);
 	sprintf(dst, "%.*s", end + 1, src);
 	return dst;
 }
@@ -39,9 +41,9 @@ static char *strnorm(char *dst, const char *src)
 	int i, j;
 	j = 0;
 	for (i = 0; src[i]; ++i) {
-		if (isspace(src[i])) {
+		if (is_space(src[i])) {
 			dst[j] = ' ';
-			while (isspace(src[i + 1])) {
+			while (is_space(src[i + 1])) {
 				++i;
 			}
 		} else {
