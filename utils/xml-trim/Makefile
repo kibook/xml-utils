@@ -1,13 +1,22 @@
-SOURCE=xml-trim.c ../common/xml-utils.c
-OUTPUT=xml-trim
+.PHONY: docs clean maintainer-clean install uninstall
+
+COMMON=../common
+
+SOURCE=xml-trim.c $(COMMON)/xml-utils.c
+
+ifeq ($(OS),Windows_NT)
+  OUTPUT=xml-trim.exe
+else
+  OUTPUT=xml-trim
+endif
 
 WARNING_FLAGS=-Wall -Werror -pedantic-errors
-CFLAGS=$(WARNING_FLAGS) -I ../common `pkg-config --cflags libxml-2.0`
+CFLAGS=$(WARNING_FLAGS) -I $(COMMON) `pkg-config --cflags libxml-2.0`
 
 ifeq ($(DEBUG),1)
-	CFLAGS+=-g
+  CFLAGS+=-g
 else
-	CFLAGS+=-O3
+  CFLAGS+=-O3
 endif
 
 LDFLAGS=`pkg-config --libs libxml-2.0`
@@ -20,8 +29,6 @@ all: $(OUTPUT)
 
 $(OUTPUT): $(SOURCE)
 	$(CC) $(CFLAGS) -o $(OUTPUT) $(SOURCE) $(LDFLAGS)
-
-.PHONY: docs clean maintainer-clean install uninstall
 
 docs:
 	$(MAKE) -C doc

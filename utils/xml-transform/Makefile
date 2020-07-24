@@ -1,13 +1,22 @@
-SOURCE=xml-transform.c ../common/xml-utils.c
-OUTPUT=xml-transform
+.PHONY: docs clean maintainer-clean install uninstall
+
+COMMON=../common
+
+SOURCE=xml-transform.c $(COMMON)/xml-utils.c
+
+ifeq ($(OS),Windows_NT)
+  OUTPUT=xml-transform.exe
+else
+  OUTPUT=xml-transform
+endif
 
 WARNING_FLAGS=-Wall -Werror -pedantic-errors
-CFLAGS=$(WARNING_FLAGS) -I ../common `pkg-config --cflags libxml-2.0 libxslt libexslt`
+CFLAGS=$(WARNING_FLAGS) -I $(COMMON) `pkg-config --cflags libxml-2.0 libxslt libexslt`
 
 ifeq ($(DEBUG),1)
-	CFLAGS+=-g
+  CFLAGS+=-g
 else
-	CFLAGS+=-O3
+  CFLAGS+=-O3
 endif
 
 LDFLAGS=`pkg-config --libs libxml-2.0 libxslt libexslt`
@@ -23,8 +32,6 @@ identity.h: identity.xsl
 
 $(OUTPUT): $(SOURCE) identity.h
 	$(CC) $(CFLAGS) -o $(OUTPUT) $(SOURCE) $(LDFLAGS)
-
-.PHONY: docs clean maintainer-clean install uninstall
 
 docs:
 	$(MAKE) -C doc
