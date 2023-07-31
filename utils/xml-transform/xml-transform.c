@@ -579,6 +579,7 @@ int main(int argc, char **argv)
 		{"version"        , no_argument      , 0, 0},
 		{"combine"        , no_argument      , 0, 'c'},
 		{"preserve-dtd"   , no_argument      , 0, 'd'},
+		{"overwrite"      , no_argument      , 0, 'f'},
 		{"help"           , no_argument      , 0, 'h'},
 		{"identity"       , no_argument      , 0, 'i'},
 		{"list"           , no_argument      , 0, 'l'},
