@@ -51,7 +51,12 @@ static struct xml_schema_parser *schema_parsers;
 
 static int schema_parser_count = 0;
 
+/* Signature of xmlStructuredErrorFunc changed in libxml v2.12.0 */
+#if LIBXML_VERSION < 21200
 static void print_error(void *userData, xmlErrorPtr error)
+#else
+static void print_error(void *userData, const xmlError *error)
+#endif
 {
 	if (error->file) {
 		fprintf(userData, ERR_PREFIX "%s (%d): %s", error->file, error->line, error->message);
@@ -60,7 +65,11 @@ static void print_error(void *userData, xmlErrorPtr error)
 	}
 }
 
+#if LIBXML_VERSION < 21200
 static void suppress_error(void *userData, xmlErrorPtr error)
+#else
+static void suppress_error(void *userData, const xmlError *error)
+#endif
 {
 }
 
