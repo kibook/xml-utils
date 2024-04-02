@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
@@ -8,7 +9,7 @@
 #include "xml-utils.h"
 
 #define PROG_NAME "xml-format"
-#define VERSION "2.6.0"
+#define VERSION "2.6.1"
 
 /* Formatter options */
 #define FORMAT_OVERWRITE	0x01

@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include <unistd.h>
 #include <getopt.h>
 #include <string.h>
@@ -8,7 +9,7 @@
 #include "xml-utils.h"
 
 #define PROG_NAME "xml-validate"
-#define VERSION "1.1.0"
+#define VERSION "1.1.1"
 
 #define ERR_PREFIX PROG_NAME ": ERROR: "
 #define SUCCESS_PREFIX PROG_NAME ": SUCCESS: "
