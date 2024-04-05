@@ -1,97 +1,93 @@
-NAME
-====
+# NAME
 
 xml-transform - Apply XSL transformations to XML documents
 
-SYNOPSIS
-========
+# SYNOPSIS
 
     xml-transform [-s <stylesheet> [-p <name>=<value> ...] ...]
                   [-o <file>] [-cdfilqSvh?] [<file> ...]
 
-DESCRIPTION
-===========
+# DESCRIPTION
 
 Applies one or more XSLT stylesheets to one or more XML documents.
 
-OPTIONS
-=======
+# OPTIONS
 
--c, --combine  
-Transform the input files as a single, combined XML document, rather
-than as individual documents.
+  - \-c, --combine  
+    Transform the input files as a single, combined XML document, rather
+    than as individual documents.
 
--d, --preserve-dtd  
-Preserve the DTD of the original document when transforming.
+  - \-d, --preserve-dtd  
+    Preserve the DTD of the original document when transforming.
 
--f, --overwrite  
-Overwrite the specified files instead of writing to stdout.
+  - \-f, --overwrite  
+    Overwrite the specified files instead of writing to stdout.
 
--h, -?, --help  
-Show usage message.
+  - \-h, -?, --help  
+    Show usage message.
 
--i, --identity  
-Includes an "identity" template in to each specified stylesheet.
+  - \-i, --identity  
+    Includes an "identity" template in to each specified stylesheet.
 
--l, --list  
-Treat input (stdin or arguments) as lists of files to transform, rather
-than files themselves.
+  - \-l, --list  
+    Treat input (stdin or arguments) as lists of files to transform,
+    rather than files themselves.
 
--o, --out &lt;file&gt;  
-Output to &lt;file&gt; instead of stdout. This option only makes sense
-when the input is a single XML document.
+  - \-o, --out \<file\>  
+    Output to \<file\> instead of stdout. This option only makes sense
+    when the input is a single XML document.
 
--p, --param &lt;name&gt;=&lt;value&gt;  
-Pass a parameter to the last specified stylesheet. If specified before
-any stylesheets, the parameter will be passed to all stylesheets.
+  - \-p, --param \<name\>=\<value\>  
+    Pass a parameter to the last specified stylesheet. If specified
+    before any stylesheets, the parameter will be passed to all
+    stylesheets.
 
--q, --quiet  
-Quiet mode. Errors are not printed.
+  - \-q, --quiet  
+    Quiet mode. Errors are not printed.
 
--S, --xml-stylesheets  
-Apply stylesheets that are associated to each XML document with the
-`xml-stylesheet` processing instruction. Associated stylesheets are
-applied before any user-specified stylesheets, in the order in which
-they occur within the document.
+  - \-S, --xml-stylesheets  
+    Apply stylesheets that are associated to each XML document with the
+    `xml-stylesheet` processing instruction. Associated stylesheets are
+    applied before any user-specified stylesheets, in the order in which
+    they occur within the document.
 
--s, --stylesheet &lt;stylesheet&gt;  
-An XSLT stylesheet file to apply to each XML document. Multiple
-stylesheets can be specified by supplying this argument multiple times.
-The stylesheets will be applied in the order they are listed.
+  - \-s, --stylesheet \<stylesheet\>  
+    An XSLT stylesheet file to apply to each XML document. Multiple
+    stylesheets can be specified by supplying this argument multiple
+    times. The stylesheets will be applied in the order they are listed.
 
--v, --verbose  
-Verbose output.
+  - \-v, --verbose  
+    Verbose output.
 
---version  
-Show version information.
+  - \--version  
+    Show version information.
 
-&lt;file&gt; ...  
-Any number of XML documents to apply all specified stylesheets to.
+  - \<file\> ...  
+    Any number of XML documents to apply all specified stylesheets to.
 
 In addition, the following options allow configuration of the XML
 parser:
 
---dtdload  
-Load the external DTD.
+  - \--dtdload  
+    Load the external DTD.
 
---huge  
-Remove any internal arbitrary parser limits.
+  - \--huge  
+    Remove any internal arbitrary parser limits.
 
---net  
-Allow network access to load external DTD and entities.
+  - \--net  
+    Allow network access to load external DTD and entities.
 
---noent  
-Resolve entities.
+  - \--noent  
+    Resolve entities.
 
---xinclude  
-Do XInclude processing.
+  - \--xinclude  
+    Do XInclude processing.
 
---xml-catalog &lt;file&gt;  
-Use an XML catalog when resolving entities. Multiple catalogs may be
-loaded by specifying this option multiple times.
+  - \--xml-catalog \<file\>  
+    Use an XML catalog when resolving entities. Multiple catalogs may be
+    loaded by specifying this option multiple times.
 
-Identity template
------------------
+## Identity template
 
 The -i option includes an "identity" template in to each stylesheet
 specified with the -s option. The template is equivalent to this XSL:
@@ -105,7 +101,6 @@ specified with the -s option. The template is equivalent to this XSL:
 This means that any attributes or nodes which are not matched by a more
 specific template in the user-specified stylesheet are copied.
 
-EXAMPLE
-=======
+# EXAMPLE
 
     $ xml-transform -s <XSL> <doc1> <doc2> ...

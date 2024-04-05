@@ -1,6 +1,6 @@
-TARGETS=utils/xml-*
+targets = utils/xml-*
 
-all docs clean maintainer-clean install uninstall: $(TARGETS)
+all docs clean maintainer-clean install uninstall: $(targets)
 
-$(TARGETS)::
+$(targets)::
 	$(MAKE) -C $@ $(MAKECMDGOALS)

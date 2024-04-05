@@ -1,15 +1,12 @@
-NAME
-====
+# NAME
 
 xml-highlight - Highlight syntax in XML documents
 
-SYNOPSIS
-========
+# SYNOPSIS
 
     xml-highlight [options] [<document>...]
 
-DESCRIPTION
-===========
+# DESCRIPTION
 
 The *xml-highlight* tool adds syntax highlighting to program listings in
 an XML document. By default this is accomplished by wrapping detected
@@ -21,86 +18,81 @@ To enable highlighting on text in an element, include the processing
 instruction `<?language ...?>` in the element, where `...` is the name
 of the language.
 
-OPTIONS
-=======
+# OPTIONS
 
--c, --classes &lt;classes&gt;  
-Use a custom class definitions file.
+  - \-c, --classes \<classes\>  
+    Use a custom class definitions file.
 
--f, --overwrite  
-Overwrite input XML file(s) instead of outputting to stdout.
+  - \-f, --overwrite  
+    Overwrite input XML file(s) instead of outputting to stdout.
 
--h, -?, --help  
-Show help/usage message.
+  - \-h, -?, --help  
+    Show help/usage message.
 
--s, --syntax &lt;syntax&gt;  
-Use a custom syntax definitions file.
+  - \-s, --syntax \<syntax\>  
+    Use a custom syntax definitions file.
 
---version  
-Show version information.
+  - \--version  
+    Show version information.
 
 In addition, the following options allow configuration of the XML
 parser:
 
---dtdload  
-Load the external DTD.
+  - \--dtdload  
+    Load the external DTD.
 
---huge  
-Remove any internal arbitrary parser limits.
+  - \--huge  
+    Remove any internal arbitrary parser limits.
 
---net  
-Allow network access to load external DTD and entities.
+  - \--net  
+    Allow network access to load external DTD and entities.
 
---noent  
-Resolve entities.
+  - \--noent  
+    Resolve entities.
 
---xinclude  
-Do XInclude processing.
+  - \--xinclude  
+    Do XInclude processing.
 
---xml-catalog &lt;file&gt;  
-Use an XML catalog when resolving entities. Multiple catalogs may be
-loaded by specifying this option multiple times.
+  - \--xml-catalog \<file\>  
+    Use an XML catalog when resolving entities. Multiple catalogs may be
+    loaded by specifying this option multiple times.
 
-CLASS FILE FORMAT
-=================
+# CLASS FILE FORMAT
 
 The following describes the format of the custom class file specified
 with -c.
 
-Classes
--------
+## Classes
 
-*Markup element:* &lt;`classes`&gt;
+*Markup element:* \<`classes`\>
 
 *Attributes:*
 
--   None
+  - None
 
 *Child elements:*
 
--   &lt;`class`&gt;
+  - \<`class`\>
 
-Class
------
+## Class
 
 Represents a type of syntax and how it should be highlighted. This
 element can also occur within the `syntax` element or within a
 particular `language` element, in which case it is specific to that
 language.
 
-*Markup element:* &lt;`class`&gt;
+*Markup element:* \<`class`\>
 
 *Attributes:*
 
--   `id`, the identifier of the class.
+  - `id`, the identifier of the class.
 
 *Child elements:*
 
 The element `class` contains one child element of any kind, which any
 matching syntax will be wrapped in to.
 
-Example custom classes file
----------------------------
+## Example custom classes file
 
     <classes xmlns:fo="http://www.w3.org/1999/XSL/Format">
     <class id="type">
@@ -117,93 +109,87 @@ Example custom classes file
     </class>
     </classes>
 
-SYNTAX FILE FORMAT
-==================
+# SYNTAX FILE FORMAT
 
 The following describes the format of the custom syntax file specified
 with -s.
 
-Syntax
-------
+## Syntax
 
-*Markup element:* &lt;`syntax`&gt;
+*Markup element:* \<`syntax`\>
 
 *Attributes:*
 
--   None
+  - None
 
 *Child elements:*
 
--   `class`
+  - `class`
 
--   `language`
+  - `language`
 
-Language
---------
+## Language
 
 Describes the syntax of a particular language.
 
-*Markup element:* &lt;`language`&gt;
+*Markup element:* \<`language`\>
 
 *Attributes:*
 
--   `name`, the identifier of the language.
+  - `name`, the identifier of the language.
 
--   `caseInsensitive`, indicates whether keywords are case-insensitive
+  - `caseInsensitive`, indicates whether keywords are case-insensitive
     in this language, with one of the following values:
-
-    -   `"no"` - Keywords are case-sensitive (default)
-
-    -   `"yes"` - Keywords are case-insensitive
+    
+      - `"no"` - Keywords are case-sensitive (default)
+    
+      - `"yes"` - Keywords are case-insensitive
 
 *Child elements:*
 
--   &lt;`class`&gt;
+  - \<`class`\>
 
--   &lt;`area`&gt;
+  - \<`area`\>
 
--   &lt;`keyword`&gt;
+  - \<`keyword`\>
 
-Area
-----
+## Area
 
 Matches a section of delimited text, such as strings, comments, etc.
 
-*Markup element:* &lt;`area`&gt;
+*Markup element:* \<`area`\>
 
 *Attributes:*
 
--   `start`, the opening delimiter.
+  - `start`, the opening delimiter.
 
--   `end`, the closing delimiter.
+  - `end`, the closing delimiter.
 
--   `class`, reference to the `class` element to use for this area.
+  - `class`, reference to the `class` element to use for this area.
 
 *Child elements:*
 
 If attribute `class` is not used, this element can contain one element
 of any kind, in which the text matching the area will be wrapped.
 
-Keyword
--------
+## Keyword
 
 Matches a particular keyword.
 
-*Markup element:* &lt;`keyword`&gt;
+*Markup element:* \<`keyword`\>
 
 *Attributes:*
 
--   `match`, the keyword to match.
+  - `match`, the keyword to match.
 
--   `class`, reference to the `class` element to use for this keyword.
+  - `class`, reference to the `class` element to use for this keyword.
 
 *Child elements:*
 
 If attribute `class` is not used, this element can contain one element
 of any kind, in which the text matching the keyword will be wrapped.
 
-Example custom syntax file
---------------------------
+## Example custom syntax file
 
     <syntax>
     <language name="c">
@@ -216,34 +202,33 @@ Example custom syntax file
     </language>
     </syntax>
 
-BUILT-IN LANGUAGES
-==================
+# BUILT-IN LANGUAGES
 
 The following is a list of language syntaxes currently built-in to the
 tool:
 
--   c
+  - c
 
--   csharp
+  - csharp
 
--   go
+  - go
 
--   java
+  - java
 
--   javascript
+  - javascript
 
--   pascal
+  - pascal
 
--   python
+  - python
 
--   ruby
+  - ruby
 
--   rust
+  - rust
 
--   sh
+  - sh
 
--   sql
+  - sql
 
--   xml
+  - xml
 
--   xsl
+  - xsl

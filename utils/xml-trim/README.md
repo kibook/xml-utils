@@ -1,15 +1,12 @@
-NAME
-====
+# NAME
 
 xml-trim - Trim whitespace in XML elements
 
-SYNOPSIS
-========
+# SYNOPSIS
 
     xml-trim [-e <elem> ...] [-N <ns=URL> ...] [-fnh?] <src>...
 
-DESCRIPTION
-===========
+# DESCRIPTION
 
 The *xml-trim* utility trims whitespace around the text contents of
 specified elements.
@@ -26,64 +23,61 @@ Whitespace is trimmed according to the following rules:
     text node children of the specified elements are converted to a
     single space.
 
-OPTIONS
-=======
+# OPTIONS
 
--e, --element &lt;elem&gt;  
-Elements to trim space on. May include a namespace prefix if the
-namespace was registered with -N. &lt;elem&gt; may be either a simple
-element name (e.g., "para") which matches all elements with the same
-name at any position, or an XPath expression (e.g., "//section/para")
-for finer control.
+  - \-e, --element \<elem\>  
+    Elements to trim space on. May include a namespace prefix if the
+    namespace was registered with -N. \<elem\> may be either a simple
+    element name (e.g., "para") which matches all elements with the same
+    name at any position, or an XPath expression (e.g.,
+    "//section/para") for finer control.
 
--f, --overwrite  
-Overwrite input XML files.
+  - \-f, --overwrite  
+    Overwrite input XML files.
 
--h, -?, --help  
-Show usage message.
+  - \-h, -?, --help  
+    Show usage message.
 
--N, --namespace &lt;ns=URL&gt;  
-Registers an XML namespace handle for URL, which can then be used when
-specifying element names as options. Multiple namespaces can be
-registered by specifying this option multiple times.
+  - \-N, --namespace \<ns=URL\>  
+    Registers an XML namespace handle for URL, which can then be used
+    when specifying element names as options. Multiple namespaces can be
+    registered by specifying this option multiple times.
 
--n, --normalize  
-Normalize space in the specified elements in addition to trimming
-whitespace.
+  - \-n, --normalize  
+    Normalize space in the specified elements in addition to trimming
+    whitespace.
 
---version  
-Show version information.
+  - \--version  
+    Show version information.
 
-&lt;src&gt;  
-The source XML file(s) containing the elements to trim.
+  - \<src\>  
+    The source XML file(s) containing the elements to trim.
 
 In addition, the following options allow configuration of the XML
 parser:
 
---dtdload  
-Load the external DTD.
+  - \--dtdload  
+    Load the external DTD.
 
---huge  
-Remove any internal arbitrary parser limits.
+  - \--huge  
+    Remove any internal arbitrary parser limits.
 
---net  
-Allow network access to load external DTD and entities.
+  - \--net  
+    Allow network access to load external DTD and entities.
 
---noent  
-Resolve entities.
+  - \--noent  
+    Resolve entities.
 
---xinclude  
-Do XInclude processing.
+  - \--xinclude  
+    Do XInclude processing.
 
---xml-catalog &lt;file&gt;  
-Use an XML catalog when resolving entities. Multiple catalogs may be
-loaded by specifying this option multiple times.
+  - \--xml-catalog \<file\>  
+    Use an XML catalog when resolving entities. Multiple catalogs may be
+    loaded by specifying this option multiple times.
 
-EXAMPLES
-========
+# EXAMPLES
 
-Without namespace
------------------
+## Without namespace
 
     <section>
       <para>
@@ -97,8 +91,7 @@ Without namespace
       <para>Hello world.</para>
     </section>
 
-With namespace
---------------
+## With namespace
 
     <d:section>
       <d:para>
@@ -112,8 +105,7 @@ With namespace
       <d:para>Hello world.</d:para>
     </d:section>
 
-Normalizing space
------------------
+## Normalizing space
 
     <section>
       <para>
