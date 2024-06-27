@@ -6,10 +6,10 @@
       <dmIdent>
         <dmCode modelIdentCode="XMLUTILS" systemDiffCode="A" systemCode="03" subSystemCode="0" subSubSystemCode="0" assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="040" infoCodeVariant="A" itemLocationCode="D"/>
         <language languageIsoCode="en" countryIsoCode="CA"/>
-        <issueInfo issueNumber="011" inWork="00"/>
+        <issueInfo issueNumber="011" inWork="01"/>
       </dmIdent>
       <dmAddressItems>
-        <issueDate year="2020" month="09" day="01"/>
+        <issueDate year="2024" month="06" day="27"/>
         <dmTitle>
           <techName>xml-highlight(1) | xml-utils</techName>
         </dmTitle>
@@ -38,8 +38,8 @@
       <qualityAssurance>
         <unverified/>
       </qualityAssurance>
-      <reasonForUpdate id="rfu-xml-catalog" updateHighlight="1" updateReasonType="urt02">
-        <simplePara>Add --xml-catalog parser option.</simplePara>
+      <reasonForUpdate id="rfu-html" updateHighlight="1" updateReasonType="urt02">
+        <simplePara>Add --html parser option.</simplePara>
       </reasonForUpdate>
     </dmStatus>
   </identAndStatusSection>
@@ -105,6 +105,12 @@
                 <para>Load the external DTD.</para>
               </listItemDefinition>
             </definitionListItem>
+            <definitionListItem changeMark="1" changeType="add" reasonForUpdateRefIds="rfu-html">
+              <listItemTerm>--html</listItemTerm>
+              <listItemDefinition>
+                <para>Parse input files as HTML.</para>
+              </listItemDefinition>
+            </definitionListItem>
             <definitionListItem>
               <listItemTerm>--huge</listItemTerm>
               <listItemDefinition>
@@ -129,7 +135,7 @@
                 <para>Do XInclude processing.</para>
               </listItemDefinition>
             </definitionListItem>
-            <definitionListItem changeMark="1" changeType="add" reasonForUpdateRefIds="rfu-xml-catalog">
+            <definitionListItem>
               <listItemTerm>--xml-catalog &lt;file&gt;</listItemTerm>
               <listItemDefinition>
                 <para>Use an XML catalog when resolving entities. Multiple catalogs may be loaded by specifying this option multiple times.</para>

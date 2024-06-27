@@ -10,7 +10,7 @@
 #include "languages.h"
 
 #define PROG_NAME "xml-highlight"
-#define VERSION "1.4.1"
+#define VERSION "1.5.0"
 
 #define PRE_KEYWORD_DELIM BAD_CAST " (\n"
 #define POST_KEYWORD_DELIM BAD_CAST " .,);\n"
@@ -338,18 +338,18 @@ static void highlight_syntax_in_file(const char *fname, const char *syntax, cons
 	xmlDocPtr classdoc;
 
 	if (syntax) {
-		syndoc = read_xml_doc(syntax);
+		syndoc = read_xml_doc(syntax, false);
 	} else {
 		syndoc = read_xml_mem((const char *) syntax_xml, syntax_xml_len);
 	}
 
 	if (classes) {
-		classdoc = read_xml_doc(classes);
+		classdoc = read_xml_doc(classes, false);
 	} else {
 		classdoc = read_xml_mem((const char *) classes_xml, classes_xml_len);
 	}
 
-	doc = read_xml_doc(fname);
+	doc = read_xml_doc(fname, PARSE_AS_HTML);
 
 	highlight_syntax_in_doc(doc, syndoc, classdoc);
 

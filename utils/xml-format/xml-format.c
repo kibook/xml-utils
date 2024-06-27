@@ -6,10 +6,11 @@
 #include <getopt.h>
 #include <libxml/tree.h>
 #include <libxml/xmlsave.h>
+#include <libxml/HTMLtree.h>
 #include "xml-utils.h"
 
 #define PROG_NAME "xml-format"
-#define VERSION "2.6.1"
+#define VERSION "2.7.0"
 
 /* Formatter options */
 #define FORMAT_OVERWRITE	0x01
@@ -129,7 +130,7 @@ static void format_file(const char *path, const char *out, int opts)
 	xmlSaveCtxtPtr save;
 	int saveopts = 0;
 
-	if (!(doc = read_xml_doc(path))) {
+	if (!(doc = read_xml_doc(path, PARSE_AS_HTML))) {
 		return;
 	}
 

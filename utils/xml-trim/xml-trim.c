@@ -11,7 +11,7 @@
 #include "xml-utils.h"
 
 #define PROG_NAME "xml-trim"
-#define VERSION "3.5.2"
+#define VERSION "3.6.0"
 
 #define is_space(c) isspace((unsigned char) c)
 
@@ -120,7 +120,7 @@ static void trim_nodes_in_file(const char *path, xmlNodePtr ns, xmlNodePtr elems
 	xmlXPathContextPtr ctx;
 	xmlNodePtr cur;
 
-	doc = read_xml_doc(path);
+	doc = read_xml_doc(path, PARSE_AS_HTML);
 	ctx = xmlXPathNewContext(doc);
 
 	for (cur = ns->children; cur; cur = cur->next) {
