@@ -21,7 +21,7 @@ xmlDocPtr read_xml_doc(const char *path, const bool html)
 	xmlDocPtr doc;
 
 	if (html) {
-		doc = htmlReadFile(path, NULL, DEFAULT_PARSE_OPTS);
+		doc = htmlReadFile(path, NULL, DEFAULT_PARSE_OPTS | HTML_PARSE_NODEFDTD | HTML_PARSE_NOIMPLIED);
 	} else {
 		doc = xmlReadFile(path, NULL, DEFAULT_PARSE_OPTS);
 	}

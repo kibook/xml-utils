@@ -6,6 +6,7 @@
 #include <getopt.h>
 #include <libxml/tree.h>
 #include <libxml/xmlsave.h>
+#include <libxml/HTMLtree.h>
 #include "xml-utils.h"
 
 #define PROG_NAME "xml-format"
