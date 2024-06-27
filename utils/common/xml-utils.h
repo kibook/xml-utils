@@ -5,13 +5,18 @@
 #include <libxml/parser.h>
 #include <libxml/xinclude.h>
 #include <libxml/catalog.h>
+#include <libxml/HTMLparser.h>
 
 /* Default global XML parser options. */
 extern int DEFAULT_PARSE_OPTS;
 
+/* Whether to parse input files as HTML. */
+extern bool PARSE_AS_HTML;
+
 /* Macros for standard libxml2 parser options. */
 #define LIBXML2_PARSE_LONGOPT_DEFS \
 	{"dtdload",  no_argument, 0, 0},\
+	{"html",     no_argument, 0, 0},\
 	{"huge",     no_argument, 0, 0},\
 	{"net",      no_argument, 0, 0},\
 	{"noent",    no_argument, 0, 0},\
@@ -20,6 +25,8 @@ extern int DEFAULT_PARSE_OPTS;
 #define LIBXML2_PARSE_LONGOPT_HANDLE(lopts, loptind, optarg) \
 	else if (strcmp(lopts[loptind].name, "dtdload") == 0) {\
 		DEFAULT_PARSE_OPTS |= XML_PARSE_DTDLOAD;\
+	} else if (strcmp(lopts[loptind].name, "html") == 0) {\
+		PARSE_AS_HTML = true;\
 	} else if (strcmp(lopts[loptind].name, "huge") == 0) {\
 		DEFAULT_PARSE_OPTS |= XML_PARSE_HUGE;\
 	} else if (strcmp(lopts[loptind].name, "net") == 0) {\
@@ -35,6 +42,7 @@ extern int DEFAULT_PARSE_OPTS;
 	puts("");\
 	puts("XML parser options:");\
 	puts("  --dtdload             Load external DTD.");\
+	puts("  --html                Parse input files as HTML.");\
 	puts("  --huge                Remove any internal arbitrary parser limits.");\
 	puts("  --net                 Allow network access.");\
 	puts("  --noent               Resolve entities.");\
@@ -50,7 +58,7 @@ extern int DEFAULT_PARSE_OPTS;
 bool optset(int opts, int opt);
 
 /* Read an XML document from a file. */
-xmlDocPtr read_xml_doc(const char *path);
+xmlDocPtr read_xml_doc(const char *path, const bool html);
 
 /* Read an XML document from memory. */
 xmlDocPtr read_xml_mem(const char *buffer, int size);

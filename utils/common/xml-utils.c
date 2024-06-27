@@ -7,6 +7,8 @@
  */
 int DEFAULT_PARSE_OPTS = XML_PARSE_NONET;
 
+bool PARSE_AS_HTML = false;
+
 /* Determine if an option is set. */
 bool optset(int opts, int opt)
 {
@@ -14,11 +16,15 @@ bool optset(int opts, int opt)
 }
 
 /* Read an XML document from a file. */
-xmlDocPtr read_xml_doc(const char *path)
+xmlDocPtr read_xml_doc(const char *path, const bool html)
 {
 	xmlDocPtr doc;
 
-	doc = xmlReadFile(path, NULL, DEFAULT_PARSE_OPTS);
+	if (html) {
+		doc = htmlReadFile(path, NULL, DEFAULT_PARSE_OPTS);
+	} else {
+		doc = xmlReadFile(path, NULL, DEFAULT_PARSE_OPTS);
+	}
 
 	if (optset(DEFAULT_PARSE_OPTS, XML_PARSE_XINCLUDE)) {
 		xmlXIncludeProcessFlags(doc, DEFAULT_PARSE_OPTS);

@@ -129,7 +129,7 @@ static void format_file(const char *path, const char *out, int opts)
 	xmlSaveCtxtPtr save;
 	int saveopts = 0;
 
-	if (!(doc = read_xml_doc(path))) {
+	if (!(doc = read_xml_doc(path, PARSE_AS_HTML))) {
 		return;
 	}
 

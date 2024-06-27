@@ -211,7 +211,7 @@ static void load_stylesheet(xmlNodePtr cur, const bool include_identity)
 	const char **params = NULL;
 
 	path = xmlGetProp(cur, BAD_CAST "path");
-	doc = read_xml_doc((char *) path);
+	doc = read_xml_doc((char *) path, false);
 	xmlFree(path);
 
 	if (include_identity) {
@@ -361,7 +361,7 @@ static void transform_file(const char *path, xmlNodePtr stylesheets, const char 
 		fprintf(stderr, I_TRANSFORM, path);
 	}
 
-	doc = read_xml_doc(path);
+	doc = read_xml_doc(path, PARSE_AS_HTML);
 
 	/* Transform using associated xml-stylesheets. */
 	if (use_xml_stylesheets) {
@@ -457,7 +457,7 @@ static void add_param(xmlNodePtr stylesheet, char *s)
 /* Combine a single file into the combined document. */
 static void combine_file(xmlNodePtr combined, const char *path)
 {
-	xmlDocPtr doc = read_xml_doc(path);
+	xmlDocPtr doc = read_xml_doc(path, PARSE_AS_HTML);
 	xmlAddChild(combined, xmlCopyNode(xmlDocGetRootElement(doc), 1));
 	xmlFreeDoc(doc);
 }

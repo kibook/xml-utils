@@ -98,8 +98,8 @@ int main(int argc, char **argv)
 	if (optind < argc) fname1 = argv[optind];
 	if (optind + 1 < argc) fname2 = argv[optind + 1];
 
-	doc1 = read_xml_doc(fname1);
-	doc2 = read_xml_doc(fname2);
+	doc1 = read_xml_doc(fname1, PARSE_AS_HTML);
+	doc2 = read_xml_doc(fname2, PARSE_AS_HTML);
 
 	target2 = xmlDocGetRootElement(doc2);
 

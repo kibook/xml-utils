@@ -102,7 +102,7 @@ static struct xml_schema_parser *add_schema_parser(char *url)
 	xmlXPathObjectPtr id, idref, idrefs;
 
 	/* Read the schema document and create a validating context. */
-	doc = read_xml_doc(url);
+	doc = read_xml_doc(url, false);
 	ctxt = xmlSchemaNewDocParserCtxt(doc);
 	schema = xmlSchemaParse(ctxt);
 	valid_ctxt = xmlSchemaNewValidCtxt(schema);
@@ -369,7 +369,7 @@ static int validate_file(const char *fname, const char *schema, int list)
 	struct xml_schema_parser *parser;
 	int err = 0;
 
-	if (!(doc = read_xml_doc(fname))) {
+	if (!(doc = read_xml_doc(fname, PARSE_AS_HTML))) {
 		return 1;
 	}
 
