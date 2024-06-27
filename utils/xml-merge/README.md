@@ -37,6 +37,9 @@ parser:
   - \--dtdload  
     Load the external DTD.
 
+  - \--html  
+    Parse input files as HTML.
+
   - \--huge  
     Remove any internal arbitrary parser limits.
 
