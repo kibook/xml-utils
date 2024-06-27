@@ -11,7 +11,7 @@
 #include "xml-utils.h"
 
 #define PROG_NAME "xml-trim"
-#define VERSION "3.5.2"
+#define VERSION "3.6.0"
 
 #define is_space(c) isspace((unsigned char) c)
 

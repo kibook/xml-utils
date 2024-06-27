@@ -8,7 +8,7 @@
 #include "xml-utils.h"
 
 #define PROG_NAME "xml-merge"
-#define VERSION "1.5.0"
+#define VERSION "1.6.0"
 
 static void show_help(void)
 {
