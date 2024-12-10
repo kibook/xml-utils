@@ -33,14 +33,17 @@ all: $(executable)
 identity.h: identity.xsl
 	xxd -i $< > $@
 
-$(executable): $(sources) identity.h
+null-input.h: null-input.xml
+	xxd -i $< > $@
+
+$(executable): $(sources) identity.h null-input.h
 	$(CC) $(CFLAGS) -o $@ $(sources) $(LDFLAGS)
 
 docs:
 	$(MAKE) -C doc
 
 clean:
-	$(RM) $(executable) identity.h
+	$(RM) $(executable) identity.h null-input.h
 
 maintainer-clean: clean
 	$(MAKE) -C doc clean

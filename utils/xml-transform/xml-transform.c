@@ -15,9 +15,10 @@
 #include <libexslt/exslt.h>
 #include "xml-utils.h"
 #include "identity.h"
+#include "null-input.h"
 
 #define PROG_NAME "xml-transform"
-#define VERSION "1.5.0"
+#define VERSION "1.6.0"
 
 #define INF_PREFIX PROG_NAME ": INFO: "
 #define ERR_PREFIX PROG_NAME ": ERROR: "
@@ -32,6 +33,7 @@
 static enum verbosity { QUIET, NORMAL, VERBOSE } verbosity = NORMAL;
 static bool preserve_dtd = false;
 static bool use_xml_stylesheets = false;
+static bool null_input = false;
 static xmlNodePtr global_params;
 
 /* Add identity template to stylesheet. */
@@ -361,7 +363,11 @@ static void transform_file(const char *path, xmlNodePtr stylesheets, const char 
 		fprintf(stderr, I_TRANSFORM, path);
 	}
 
-	doc = read_xml_doc(path, PARSE_AS_HTML);
+	if (path == NULL) {
+		doc = read_xml_mem((const char *) null_input_xml, null_input_xml_len);
+	} else {
+		doc = read_xml_doc(path, PARSE_AS_HTML);
+	}
 
 	/* Transform using associated xml-stylesheets. */
 	if (use_xml_stylesheets) {
@@ -535,7 +541,7 @@ static void transform_combined(int argc, char **argv, bool islist, const char *o
 /* Show help/usage message. */
 static void show_help(void)
 {
-	puts("Usage: " PROG_NAME " [-s <stylesheet> [-p <name>=<value> ...] ...] [-o <file>] [-cdfilqSvh?] [<file>...]");
+	puts("Usage: " PROG_NAME " [-s <stylesheet> [-p <name>=<value> ...] ...] [-o <file>] [-cdfilnqSvh?] [<file>...]");
 	puts("");
 	puts("Options:");
 	puts("  -c, --combine                  Combine input files into a single document.");
@@ -544,6 +550,7 @@ static void show_help(void)
 	puts("  -h, -?, --help                 Show usage message.");
 	puts("  -i, --identity                 Include identity template in stylesheets.");
 	puts("  -l, --list                     Treat input as list of files.");
+	puts("  -n, --null-input               Use a minimal XML document as the input");
 	puts("  -o, --out <file>               Output result of transformation to <path>.");
 	puts("  -p, --param <name>=<value>     Pass parameters to stylesheets.");
 	puts("  -q, --quiet                    Quiet mode.");
@@ -575,7 +582,7 @@ int main(int argc, char **argv)
 	bool include_identity = false;
 	bool combine = false;
 
-	const char *sopts = "cdSs:ilo:p:qfvh?";
+	const char *sopts = "cdSs:ilno:p:qfvh?";
 	struct option lopts[] = {
 		{"version"        , no_argument      , 0, 0},
 		{"combine"        , no_argument      , 0, 'c'},
@@ -584,6 +591,7 @@ int main(int argc, char **argv)
 		{"help"           , no_argument      , 0, 'h'},
 		{"identity"       , no_argument      , 0, 'i'},
 		{"list"           , no_argument      , 0, 'l'},
+		{"null-input"     , no_argument      , 0, 'n'},
 		{"out"            , required_argument, 0, 'o'},
 		{"param"          , required_argument, 0, 'p'},
 		{"quiet"          , no_argument      , 0, 'q'},
@@ -628,6 +636,9 @@ int main(int argc, char **argv)
 			case 'l':
 				islist = true;
 				break;
+			case 'n':
+				null_input = true;
+				break;
 			case 'o':
 				free(out);
 				out = strdup(optarg);
@@ -657,7 +668,9 @@ int main(int argc, char **argv)
 
 	load_stylesheets(stylesheets, include_identity);
 
-	if (combine) {
+	if (null_input) {
+		transform_file(NULL, stylesheets, out, false);
+	} else if (combine) {
 		transform_combined(argc, argv, islist, out, stylesheets);
 	} else {
 		if (optind < argc) {

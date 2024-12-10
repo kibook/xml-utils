@@ -6,10 +6,10 @@
       <dmIdent>
         <dmCode modelIdentCode="XMLUTILS" systemDiffCode="A" systemCode="04" subSystemCode="0" subSubSystemCode="0" assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="040" infoCodeVariant="A" itemLocationCode="D"/>
         <language languageIsoCode="en" countryIsoCode="CA"/>
-        <issueInfo issueNumber="004" inWork="01"/>
+        <issueInfo issueNumber="004" inWork="02"/>
       </dmIdent>
       <dmAddressItems>
-        <issueDate year="2024" month="06" day="27"/>
+        <issueDate year="2024" month="12" day="10"/>
         <dmTitle>
           <techName>xml-transform(1) | xml-utils</techName>
         </dmTitle>
@@ -41,6 +41,9 @@
       <reasonForUpdate id="rfu-html" updateHighlight="1" updateReasonType="urt02">
         <simplePara>Add --html parser option.</simplePara>
       </reasonForUpdate>
+      <reasonForUpdate id="rfu-null-input" updateHighlight="1" updateReasonType="urt02">
+        <simplePara>Add -n (--null-input) option.</simplePara>
+      </reasonForUpdate>
     </dmStatus>
   </identAndStatusSection>
   <content>
@@ -53,7 +56,7 @@
         <title>SYNOPSIS</title>
         <para>
           <verbatimText verbatimStyle="vs24">xml-transform [-s &lt;stylesheet&gt; [-p &lt;name&gt;=&lt;value&gt; ...] ...]
-              [-o &lt;file&gt;] [-cdfilqSvh?] [&lt;file&gt; ...]</verbatimText>
+              [-o &lt;file&gt;] [-cdfilnqSvh?] [&lt;file&gt; ...]</verbatimText>
         </para>
       </levelledPara>
       <levelledPara>
@@ -98,6 +101,13 @@
               <listItemTerm>-l, --list</listItemTerm>
               <listItemDefinition>
                 <para>Treat input (stdin or arguments) as lists of files to transform, rather than files themselves.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem changeMark="1" changeType="add" reasonForUpdateRefIds="rfu-null-input">
+              <listItemTerm>-n, --null-input</listItemTerm>
+              <listItemDefinition>
+                <para>Use a minimal XML document as input instead of any files or stdin. This allows for executing a transformation script without needing a "real" XML document as input.</para>
+                <para>The "null" document consists of single element named "a".</para>
               </listItemDefinition>
             </definitionListItem>
             <definitionListItem>

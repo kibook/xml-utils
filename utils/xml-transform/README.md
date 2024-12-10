@@ -5,7 +5,7 @@ xml-transform - Apply XSL transformations to XML documents
 # SYNOPSIS
 
     xml-transform [-s <stylesheet> [-p <name>=<value> ...] ...]
-                  [-o <file>] [-cdfilqSvh?] [<file> ...]
+                  [-o <file>] [-cdfilnqSvh?] [<file> ...]
 
 # DESCRIPTION
 
@@ -32,6 +32,13 @@ Applies one or more XSLT stylesheets to one or more XML documents.
   - \-l, --list  
     Treat input (stdin or arguments) as lists of files to transform,
     rather than files themselves.
+
+  - \-n, --null-input  
+    Use a minimal XML document as input instead of any files or stdin.
+    This allows for executing a transformation script without needing a
+    "real" XML document as input.
+    
+    The "null" document consists of single element named "a".
 
   - \-o, --out \<file\>  
     Output to \<file\> instead of stdout. This option only makes sense
