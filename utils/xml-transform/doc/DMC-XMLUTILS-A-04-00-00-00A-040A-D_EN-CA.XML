@@ -6,10 +6,10 @@
       <dmIdent>
         <dmCode modelIdentCode="XMLUTILS" systemDiffCode="A" systemCode="04" subSystemCode="0" subSubSystemCode="0" assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="040" infoCodeVariant="A" itemLocationCode="D"/>
         <language languageIsoCode="en" countryIsoCode="CA"/>
-        <issueInfo issueNumber="004" inWork="02"/>
+        <issueInfo issueNumber="004" inWork="03"/>
       </dmIdent>
       <dmAddressItems>
-        <issueDate year="2024" month="12" day="10"/>
+        <issueDate year="2024" month="12" day="17"/>
         <dmTitle>
           <techName>xml-transform(1) | xml-utils</techName>
         </dmTitle>
@@ -44,6 +44,9 @@
       <reasonForUpdate id="rfu-null-input" updateHighlight="1" updateReasonType="urt02">
         <simplePara>Add -n (--null-input) option.</simplePara>
       </reasonForUpdate>
+      <reasonForUpdate id="rfu-string-param" updateHighlight="1" updateReasonType="urt02">
+        <simplePara>Add -P (--string-param) option.</simplePara>
+      </reasonForUpdate>
     </dmStatus>
   </identAndStatusSection>
   <content>
@@ -55,7 +58,7 @@
       <levelledPara>
         <title>SYNOPSIS</title>
         <para>
-          <verbatimText verbatimStyle="vs24">xml-transform [-s &lt;stylesheet&gt; [-p &lt;name&gt;=&lt;value&gt; ...] ...]
+          <verbatimText verbatimStyle="vs24">xml-transform [-s &lt;stylesheet&gt; [(-P|-p) &lt;name&gt;=&lt;value&gt; ...] ...]
               [-o &lt;file&gt;] [-cdfilnqSvh?] [&lt;file&gt; ...]</verbatimText>
         </para>
       </levelledPara>
@@ -114,6 +117,12 @@
               <listItemTerm>-o, --out &lt;file&gt;</listItemTerm>
               <listItemDefinition>
                 <para>Output to &lt;file&gt; instead of stdout. This option only makes sense when the input is a single XML document.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem changeMark="1" changeType="add" reasonForUpdateRefIds="rfu-string-param">
+              <listItemTerm>-P, --string-param &lt;name&gt;=&lt;value&gt;</listItemTerm>
+              <listItemDefinition>
+                <para>Pass a string parameter to the last specified stylesheet. If specified before any stylesheets, the parameter will be passed to all stylesheets. This is essentially equivalent to <verbatimText>-p "name='value'"</verbatimText>, though it will auto-detect if the value string contains single or double quotes and use the opposite. Strings with both single and double quotes cannot be used.</para>
               </listItemDefinition>
             </definitionListItem>
             <definitionListItem>

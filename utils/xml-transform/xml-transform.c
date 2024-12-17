@@ -18,7 +18,7 @@
 #include "null-input.h"
 
 #define PROG_NAME "xml-transform"
-#define VERSION "1.6.0"
+#define VERSION "1.7.0"
 
 #define INF_PREFIX PROG_NAME ": INFO: "
 #define ERR_PREFIX PROG_NAME ": ERROR: "
@@ -27,6 +27,7 @@
 
 #define E_BAD_LIST ERR_PREFIX "Could not read list: %s: %s\n"
 #define E_FILE_NO_WRITE ERR_PREFIX "Could not open file for writing: %s: %s\n"
+#define E_BAD_STRING_PARAM ERR_PREFIX "Cannot add string param %s because it contains both quote and double-quote characters.\n"
 
 #define EXIT_OS_ERROR 1
 
@@ -460,6 +461,35 @@ static void add_param(xmlNodePtr stylesheet, char *s)
 	xmlSetProp(p, BAD_CAST "value", BAD_CAST v);
 }
 
+static void add_str_param(xmlNodePtr stylesheet, char *s)
+{
+	xmlChar *name, *v, *value;
+	xmlNodePtr p;
+
+	name = BAD_CAST strtok(s, "=");
+	v = BAD_CAST strtok(NULL, "");
+
+	if (xmlStrchr(v, '"')) {
+		if (xmlStrchr(v, '\'')) {
+			fprintf(stderr, E_BAD_STRING_PARAM, name);
+			return;
+		}
+		value = xmlStrdup((const xmlChar *)"'");
+		value = xmlStrcat(value, v);
+		value = xmlStrcat(value, (const xmlChar *)"'");
+	} else {
+		value = xmlStrdup((const xmlChar *)"\"");
+		value = xmlStrcat(value, v);
+		value = xmlStrcat(value, (const xmlChar *)"\"");
+	}
+
+	p = xmlNewChild(stylesheet, NULL, BAD_CAST "param", NULL);
+	xmlSetProp(p, BAD_CAST "name", name);
+	xmlSetProp(p, BAD_CAST "value", value);
+
+	xmlFree(value);
+}
+
 /* Combine a single file into the combined document. */
 static void combine_file(xmlNodePtr combined, const char *path)
 {
@@ -541,24 +571,25 @@ static void transform_combined(int argc, char **argv, bool islist, const char *o
 /* Show help/usage message. */
 static void show_help(void)
 {
-	puts("Usage: " PROG_NAME " [-s <stylesheet> [-p <name>=<value> ...] ...] [-o <file>] [-cdfilnqSvh?] [<file>...]");
+	puts("Usage: " PROG_NAME " [-s <stylesheet> [-[Pp] <name>=<value> ...] ...] [-o <file>] [-cdfilnqSvh?] [<file>...]");
 	puts("");
 	puts("Options:");
-	puts("  -c, --combine                  Combine input files into a single document.");
-	puts("  -d, --preserve-dtd             Preserve the original DTD.");
-	puts("  -f, --overwrite                Overwrite input files.");
-	puts("  -h, -?, --help                 Show usage message.");
-	puts("  -i, --identity                 Include identity template in stylesheets.");
-	puts("  -l, --list                     Treat input as list of files.");
-	puts("  -n, --null-input               Use a minimal XML document as the input");
-	puts("  -o, --out <file>               Output result of transformation to <path>.");
-	puts("  -p, --param <name>=<value>     Pass parameters to stylesheets.");
-	puts("  -q, --quiet                    Quiet mode.");
-	puts("  -S, --xml-stylesheets          Apply associated stylesheets.");
-	puts("  -s, --stylesheet <stylesheet>  Apply XSLT stylesheet to XML documents.");
-	puts("  -v, --verbose                  Verbose output.");
-	puts("  --version                      Show version information.");
-	puts("  <file>                         XML documents to apply transformations to.");
+	puts("  -c, --combine                      Combine input files into a single document.");
+	puts("  -d, --preserve-dtd                 Preserve the original DTD.");
+	puts("  -f, --overwrite                    Overwrite input files.");
+	puts("  -h, -?, --help                     Show usage message.");
+	puts("  -i, --identity                     Include identity template in stylesheets.");
+	puts("  -l, --list                         Treat input as list of files.");
+	puts("  -n, --null-input                   Use a minimal XML document as the input");
+	puts("  -o, --out <file>                   Output result of transformation to <path>.");
+	puts("  -P, --string-param <name>=<value>  Pass parameters as strings to stylesheets.");
+	puts("  -p, --param <name>=<value>         Pass parameters to stylesheets.");
+	puts("  -q, --quiet                        Quiet mode.");
+	puts("  -S, --xml-stylesheets              Apply associated stylesheets.");
+	puts("  -s, --stylesheet <stylesheet>      Apply XSLT stylesheet to XML documents.");
+	puts("  -v, --verbose                      Verbose output.");
+	puts("  --version                          Show version information.");
+	puts("  <file>                             XML documents to apply transformations to.");
 	LIBXML2_PARSE_LONGOPT_HELP
 }
 
@@ -582,7 +613,7 @@ int main(int argc, char **argv)
 	bool include_identity = false;
 	bool combine = false;
 
-	const char *sopts = "cdSs:ilno:p:qfvh?";
+	const char *sopts = "cdSs:ilno:P:p:qfvh?";
 	struct option lopts[] = {
 		{"version"        , no_argument      , 0, 0},
 		{"combine"        , no_argument      , 0, 'c'},
@@ -593,6 +624,7 @@ int main(int argc, char **argv)
 		{"list"           , no_argument      , 0, 'l'},
 		{"null-input"     , no_argument      , 0, 'n'},
 		{"out"            , required_argument, 0, 'o'},
+		{"string-param"   , required_argument, 0, 'P'},
 		{"param"          , required_argument, 0, 'p'},
 		{"quiet"          , no_argument      , 0, 'q'},
 		{"xml-stylesheets", no_argument      , 0, 'S'},
@@ -648,6 +680,13 @@ int main(int argc, char **argv)
 					add_param(global_params, optarg);
 				} else {
 					add_param(last_style, optarg);
+				}
+				break;
+			case 'P':
+				if (last_style == NULL) {
+					add_str_param(global_params, optarg);
+				} else {
+					add_str_param(last_style, optarg);
 				}
 				break;
 			case 'q':

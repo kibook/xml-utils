@@ -4,7 +4,7 @@ xml-transform - Apply XSL transformations to XML documents
 
 # SYNOPSIS
 
-    xml-transform [-s <stylesheet> [-p <name>=<value> ...] ...]
+    xml-transform [-s <stylesheet> [(-P|-p) <name>=<value> ...] ...]
                   [-o <file>] [-cdfilnqSvh?] [<file> ...]
 
 # DESCRIPTION
@@ -43,6 +43,14 @@ Applies one or more XSLT stylesheets to one or more XML documents.
   - \-o, --out \<file\>  
     Output to \<file\> instead of stdout. This option only makes sense
     when the input is a single XML document.
+
+  - \-P, --string-param \<name\>=\<value\>  
+    Pass a string parameter to the last specified stylesheet. If
+    specified before any stylesheets, the parameter will be passed to
+    all stylesheets. This is essentially equivalent to `-p
+    "name='value'"`, though it will auto-detect if the value string
+    contains single or double quotes and use the opposite. Strings with
+    both single and double quotes cannot be used.
 
   - \-p, --param \<name\>=\<value\>  
     Pass a parameter to the last specified stylesheet. If specified
