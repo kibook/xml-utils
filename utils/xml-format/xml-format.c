@@ -10,7 +10,7 @@
 #include "xml-utils.h"
 
 #define PROG_NAME "xml-format"
-#define VERSION "2.7.0"
+#define VERSION "2.7.1"
 
 /* Formatter options */
 #define FORMAT_OVERWRITE	0x01
@@ -171,7 +171,7 @@ static void show_help(void)
 	puts("  -O, --omit-decl     Omit XML declaration.");
 	puts("  -o, --out <path>    Output to <path> instead of stdout.");
 	puts("  -w, --empty         Treat elements containing only whitespace as empty.");
-	puts(" --version            Show version information.");
+	puts("  --version           Show version information.");
 	puts("  <file>              XML file(s) to format. Otherwise, read from stdin.");
 	LIBXML2_PARSE_LONGOPT_HELP
 }
