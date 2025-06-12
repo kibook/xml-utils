@@ -9,7 +9,7 @@
 #include "xml-utils.h"
 
 #define PROG_NAME "xml-validate"
-#define VERSION "1.2.0"
+#define VERSION "1.3.0"
 
 #define ERR_PREFIX PROG_NAME ": ERROR: "
 #define SUCCESS_PREFIX PROG_NAME ": SUCCESS: "
@@ -378,7 +378,11 @@ static int validate_file(const char *fname, const char *schema, int list)
 	if (schema) {
 		url = strdup(schema);
 	} else {
-		url = (char *) xmlGetNsProp(root, BAD_CAST "noNamespaceSchemaLocation", XSI_URI);
+		if (xmlHasNsProp(root, BAD_CAST "schemaLocation", XSI_URI)) {
+			url = (char *) xmlGetNsProp(root, BAD_CAST "schemaLocation", XSI_URI);
+		} else {
+			url = (char *) xmlGetNsProp(root, BAD_CAST "noNamespaceSchemaLocation", XSI_URI);
+		}
 	}
 
 	if (!url) {
