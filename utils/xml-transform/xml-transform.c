@@ -18,7 +18,7 @@
 #include "null-input.h"
 
 #define PROG_NAME "xml-transform"
-#define VERSION "1.7.0"
+#define VERSION "2.0.0"
 
 #define INF_PREFIX PROG_NAME ": INFO: "
 #define ERR_PREFIX PROG_NAME ": ERROR: "
@@ -703,6 +703,18 @@ int main(int argc, char **argv)
 				show_help();
 				return 0;
 		}
+	}
+
+	/* If no stylesheets were specified with -s, and the -S option was not
+	 * specified, and there are some remaining non-option arguments, read them
+	 * as stylesheets to apply to stdin.
+	 */
+	if (!use_xml_stylesheets && !stylesheets->children && optind < argc) {
+		for (i = optind; i < argc; ++i) {
+			xmlNodePtr s = xmlNewChild(stylesheets, NULL, BAD_CAST "stylesheet", NULL);
+			xmlSetProp(s, BAD_CAST "path", BAD_CAST argv[i]);
+		}
+		optind = argc;
 	}
 
 	load_stylesheets(stylesheets, include_identity);
