@@ -30,26 +30,17 @@ INSTALL = install -Ds
 
 all: $(executable)
 
-identity.h: identity.xsl
-	xxd -i $< > $@
+resources.h: identity.xsl null-input.xml extract.xsl extract-text.xsl
+	> $@ && for f in $+; do xxd -i $$f >>$@; done
 
-null-input.h: null-input.xml
-	xxd -i $< > $@
-
-extract.h: extract.xsl
-	xxd -i $< > $@
-
-extract-text.h: extract-text.xsl
-	xxd -i $< > $@
-
-$(executable): $(sources) identity.h null-input.h extract.h extract-text.h
+$(executable): $(sources) resources.h
 	$(CC) $(CFLAGS) -o $@ $(sources) $(LDFLAGS)
 
 docs:
 	$(MAKE) -C doc
 
 clean:
-	$(RM) $(executable) identity.h null-input.h extract.h extract-text.h
+	$(RM) $(executable) resources.h
 
 maintainer-clean: clean
 	$(MAKE) -C doc clean

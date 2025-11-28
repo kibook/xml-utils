@@ -14,13 +14,10 @@
 #include <libxslt/xsltutils.h>
 #include <libexslt/exslt.h>
 #include "xml-utils.h"
-#include "identity.h"
-#include "null-input.h"
-#include "extract.h"
-#include "extract-text.h"
+#include "resources.h"
 
 #define PROG_NAME "xml-transform"
-#define VERSION "1.8.0"
+#define VERSION "1.8.1"
 
 #define INF_PREFIX PROG_NAME ": INFO: "
 #define ERR_PREFIX PROG_NAME ": ERROR: "
@@ -605,7 +602,7 @@ static void transform_combined(int argc, char **argv, bool islist, const char *o
 /* Show help/usage message. */
 static void show_help(void)
 {
-	puts("Usage: " PROG_NAME " [-s <stylesheet> [-[Pp] <name>=<value> ...] ...] [-o <file>] [-cdfilnqSvh?] [<file>...]");
+	puts("Usage: " PROG_NAME " [-s <stylesheet> [-(P|p) <name>=<value> ...] ...] [-(E|e) <xpath>] [-o <file>] [-cdfilnqSvh?] [<file>...]");
 	puts("");
 	puts("Options:");
 	puts("  -c, --combine                      Combine input files into a single document.");
