@@ -16,9 +16,11 @@
 #include "xml-utils.h"
 #include "identity.h"
 #include "null-input.h"
+#include "extract.h"
+#include "extract-text.h"
 
 #define PROG_NAME "xml-transform"
-#define VERSION "1.7.0"
+#define VERSION "1.8.0"
 
 #define INF_PREFIX PROG_NAME ": INFO: "
 #define ERR_PREFIX PROG_NAME ": ERROR: "
@@ -207,18 +209,50 @@ static void read_param(const char **params, int *n, xmlNodePtr param)
 /* Load stylesheet from disk and cache. */
 static void load_stylesheet(xmlNodePtr cur, const bool include_identity)
 {
-	xmlChar *path;
 	xmlDocPtr doc;
 	xsltStylesheetPtr style;
 	unsigned short nparams;
 	const char **params = NULL;
 
-	path = xmlGetProp(cur, BAD_CAST "path");
-	doc = read_xml_doc((char *) path, false);
-	xmlFree(path);
+	if (xmlHasProp(cur, BAD_CAST "path")) {
+		xmlChar *path;
 
-	if (include_identity) {
-		add_identity(doc);
+		path = xmlGetProp(cur, BAD_CAST "path");
+		doc = read_xml_doc((char *) path, false);
+		xmlFree(path);
+
+		if (include_identity) {
+			add_identity(doc);
+		}
+	} else {
+		xmlChar *method;
+
+		method = xmlGetProp(cur, BAD_CAST "method");
+
+		if (xmlStrcmp(method, BAD_CAST "node") == 0) {
+			doc = read_xml_mem((const char *) extract_xsl, extract_xsl_len);
+		} else {
+			doc = read_xml_mem((const char *) extract_text_xsl, extract_text_xsl_len);
+		}
+
+		xmlFree(method);
+
+		xmlXPathContextPtr ctx = xmlXPathNewContext(doc);
+		xmlXPathObjectPtr obj = xmlXPathEvalExpression(BAD_CAST "/*/*/*", ctx);
+
+		if (!xmlXPathNodeSetIsEmpty(obj->nodesetval)) {
+			xmlChar *xpath;
+			xmlNodePtr valueof;
+
+			valueof = obj->nodesetval->nodeTab[0];
+
+			xpath = xmlGetProp(cur, BAD_CAST "extract");
+			xmlSetProp(valueof, BAD_CAST "select", xpath);
+			xmlFree(xpath);
+		}
+
+		xmlXPathFreeObject(obj);
+		xmlXPathFreeContext(ctx);
 	}
 
 	style = xsltParseStylesheetDoc(doc);
@@ -576,6 +610,8 @@ static void show_help(void)
 	puts("Options:");
 	puts("  -c, --combine                      Combine input files into a single document.");
 	puts("  -d, --preserve-dtd                 Preserve the original DTD.");
+	puts("  -E, --extract-text <xpath>         Extracts the text value of the given XPath expression.");
+	puts("  -e, --extract <xpath>              Extracts the node(s) matching the given XPath expression.");
 	puts("  -f, --overwrite                    Overwrite input files.");
 	puts("  -h, -?, --help                     Show usage message.");
 	puts("  -i, --identity                     Include identity template in stylesheets.");
@@ -613,11 +649,13 @@ int main(int argc, char **argv)
 	bool include_identity = false;
 	bool combine = false;
 
-	const char *sopts = "cdSs:ilno:P:p:qfvh?";
+	const char *sopts = "cdE:e:Ss:ilno:P:p:qfvh?";
 	struct option lopts[] = {
 		{"version"        , no_argument      , 0, 0},
 		{"combine"        , no_argument      , 0, 'c'},
 		{"preserve-dtd"   , no_argument      , 0, 'd'},
+		{"extract-text"   , required_argument, 0, 'E'},
+		{"extract"        , required_argument, 0, 'e'},
 		{"overwrite"      , no_argument      , 0, 'f'},
 		{"help"           , no_argument      , 0, 'h'},
 		{"identity"       , no_argument      , 0, 'i'},
@@ -654,6 +692,16 @@ int main(int argc, char **argv)
 				break;
 			case 'd':
 				preserve_dtd = true;
+				break;
+			case 'E':
+				last_style = xmlNewChild(stylesheets, NULL, BAD_CAST "stylesheet", NULL);
+				xmlSetProp(last_style, BAD_CAST "extract", BAD_CAST optarg);
+				xmlSetProp(last_style, BAD_CAST "method", BAD_CAST "text");
+				break;
+			case 'e':
+				last_style = xmlNewChild(stylesheets, NULL, BAD_CAST "stylesheet", NULL);
+				xmlSetProp(last_style, BAD_CAST "extract", BAD_CAST optarg);
+				xmlSetProp(last_style, BAD_CAST "method", BAD_CAST "node");
 				break;
 			case 'S':
 				use_xml_stylesheets = true;

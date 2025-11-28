@@ -6,10 +6,10 @@
       <dmIdent>
         <dmCode modelIdentCode="XMLUTILS" systemDiffCode="A" systemCode="04" subSystemCode="0" subSubSystemCode="0" assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="040" infoCodeVariant="A" itemLocationCode="D"/>
         <language languageIsoCode="en" countryIsoCode="CA"/>
-        <issueInfo issueNumber="004" inWork="03"/>
+        <issueInfo issueNumber="004" inWork="04"/>
       </dmIdent>
       <dmAddressItems>
-        <issueDate year="2024" month="12" day="17"/>
+        <issueDate year="2025" month="11" day="28"/>
         <dmTitle>
           <techName>xml-transform(1) | xml-utils</techName>
         </dmTitle>
@@ -47,6 +47,9 @@
       <reasonForUpdate id="rfu-string-param" updateHighlight="1" updateReasonType="urt02">
         <simplePara>Add -P (--string-param) option.</simplePara>
       </reasonForUpdate>
+      <reasonForUpdate id="rfu-extract" updateHighlight="1" updateReasonType="urt02">
+        <simplePara>Add -e (--extract) and -E (--extract-text) options.</simplePara>
+      </reasonForUpdate>
     </dmStatus>
   </identAndStatusSection>
   <content>
@@ -58,7 +61,8 @@
       <levelledPara>
         <title>SYNOPSIS</title>
         <para>
-          <verbatimText verbatimStyle="vs24">xml-transform [-s &lt;stylesheet&gt; [(-P|-p) &lt;name&gt;=&lt;value&gt; ...] ...]
+          <verbatimText verbatimStyle="vs24" changeMark="1" changeType="modify" reasonForUpdateRefIds="rfu-extract">xml-transform [-s &lt;stylesheet&gt; [(-P|-p) &lt;name&gt;=&lt;value&gt; ...] ...]
+              [(-E|-e) &lt;xpath&gt; ...]
               [-o &lt;file&gt;] [-cdfilnqSvh?] [&lt;file&gt; ...]</verbatimText>
         </para>
       </levelledPara>
@@ -80,6 +84,20 @@
               <listItemTerm>-d, --preserve-dtd</listItemTerm>
               <listItemDefinition>
                 <para>Preserve the DTD of the original document when transforming.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem changeMark="1" changeType="add" reasonForUpdateRefIds="rfu-extract">
+              <listItemTerm>-E, --extract-text &lt;xpath&gt;</listItemTerm>
+              <listItemDefinition>
+                <para>Extracts the text value of the first node matching the given XPath expression.</para>
+                <para>Although the extracted text will be passed to any subsequent -s/-E/-e options like with -e (--extract), it is more common for this option to be used alone or at the end of a pipeline.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem changeMark="1" changeType="add" reasonForUpdateRefIds="rfu-extract">
+              <listItemTerm>-e, --extract &lt;xpath&gt;</listItemTerm>
+              <listItemDefinition>
+                <para>Extracts the node(s) matching the given XPath expression.</para>
+                <para>The document consisting of the extracted node(s) is passed to any subsequent -s (--stylesheet), -E (--extract-text) or -e options.</para>
               </listItemDefinition>
             </definitionListItem>
             <definitionListItem>
@@ -229,10 +247,35 @@
           <para>This means that any attributes or nodes which are not matched by a more specific template in the user-specified stylesheet are copied.</para>
         </levelledPara>
       </levelledPara>
-      <levelledPara>
-        <title>EXAMPLE</title>
+      <levelledPara changeMark="1" changeType="modify" reasonForUpdateRefIds="rfu-extract">
+        <title>EXAMPLES</title>
         <para>
-          <verbatimText verbatimStyle="vs24">$ xml-transform -s &lt;XSL&gt; &lt;doc1&gt; &lt;doc2&gt; ...</verbatimText>
+          Transform a document using a single stylesheet and output the result:
+          <verbatimText verbatimStyle="vs24">$ xml-transform -s style1.xsl doc1.xml</verbatimText>
+        </para>
+        <para>
+          Transform a document using multiple stylesheets and output the result:
+          <verbatimText verbatimStyle="vs24">$ xml-transform -s style1.xsl -s style2.xsl doc1.xml</verbatimText>
+        </para>
+        <para>
+          Transform multiple documents using a stylesheet and overwrite with the result:
+          <verbatimText verbatimStyle="vs24">$ xml-transform -s style1.xsl -f doc1.xml doc2.xml doc3.xml</verbatimText>
+        </para>
+        <para>
+          Extract node(s) from a document:
+          <verbatimText verbatimStyle="vs24">$ xml-transform -e /foo/bar doc1.xml</verbatimText>
+        </para>
+        <para>
+          Extract a node from a document and then apply a stylesheet to it:
+          <verbatimText verbatimStyle="vs24">$ xml-transform -e /foo/bar -s style1.xsl doc1.xsl</verbatimText>
+        </para>
+        <para>
+          Extract the text value of a single node from a document:
+          <verbatimText verbatimStyle="vs24">$ xml-transform -E /foo/bar doc1.xml</verbatimText>
+        </para>
+        <para>
+          Get the number of a certain node anywhere in a document:
+          <verbatimText verbatimStyle="vs24">$ xml-transform -e 'count(//bar)' doc1.xml</verbatimText>
         </para>
       </levelledPara>
     </description>

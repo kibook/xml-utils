@@ -5,6 +5,7 @@ xml-transform - Apply XSL transformations to XML documents
 # SYNOPSIS
 
     xml-transform [-s <stylesheet> [(-P|-p) <name>=<value> ...] ...]
+                  [(-E|-e) <xpath> ...]
                   [-o <file>] [-cdfilnqSvh?] [<file> ...]
 
 # DESCRIPTION
@@ -19,6 +20,20 @@ Applies one or more XSLT stylesheets to one or more XML documents.
 
   - \-d, --preserve-dtd  
     Preserve the DTD of the original document when transforming.
+
+  - \-E, --extract-text \<xpath\>  
+    Extracts the text value of the first node matching the given XPath
+    expression.
+    
+    Although the extracted text will be passed to any subsequent
+    -s/-E/-e options like with -e (--extract), it is more common for
+    this option to be used alone or at the end of a pipeline.
+
+  - \-e, --extract \<xpath\>  
+    Extracts the node(s) matching the given XPath expression.
+    
+    The document consisting of the extracted node(s) is passed to any
+    subsequent -s (--stylesheet), -E (--extract-text) or -e options.
 
   - \-f, --overwrite  
     Overwrite the specified files instead of writing to stdout.
@@ -119,6 +134,33 @@ specified with the -s option. The template is equivalent to this XSL:
 This means that any attributes or nodes which are not matched by a more
 specific template in the user-specified stylesheet are copied.
 
-# EXAMPLE
+# EXAMPLES
 
-    $ xml-transform -s <XSL> <doc1> <doc2> ...
+Transform a document using a single stylesheet and output the result:
+
+    $ xml-transform -s style1.xsl doc1.xml
+
+Transform a document using multiple stylesheets and output the result:
+
+    $ xml-transform -s style1.xsl -s style2.xsl doc1.xml
+
+Transform multiple documents using a stylesheet and overwrite with the
+result:
+
+    $ xml-transform -s style1.xsl -f doc1.xml doc2.xml doc3.xml
+
+Extract node(s) from a document:
+
+    $ xml-transform -e /foo/bar doc1.xml
+
+Extract a node from a document and then apply a stylesheet to it:
+
+    $ xml-transform -e /foo/bar -s style1.xsl doc1.xsl
+
+Extract the text value of a single node from a document:
+
+    $ xml-transform -E /foo/bar doc1.xml
+
+Get the number of a certain node anywhere in a document:
+
+    $ xml-transform -e 'count(//bar)' doc1.xml
