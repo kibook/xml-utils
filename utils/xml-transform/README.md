@@ -4,9 +4,10 @@ xml-transform - Apply XSL transformations to XML documents
 
 # SYNOPSIS
 
-    xml-transform [-s <stylesheet> [(-P|-p) <name>=<value> ...] ...]
+    xml-transform [-cdfilnqSvh?]
+                  [-s <stylesheet> [(-P|-p) <name>=<value> ...] ...]
                   [(-E|-e) <xpath> ...]
-                  [-o <file>] [-cdfilnqSvh?] [<file> ...]
+                  [-o <output file>] [<input file> ...]
 
 # DESCRIPTION
 
@@ -22,8 +23,31 @@ Applies one or more XSLT stylesheets to one or more XML documents.
     Preserve the DTD of the original document when transforming.
 
   - \-E, --extract-text \<xpath\>  
-    Extracts the text value of the first node matching the given XPath
+    Extracts the text value(s) of the node(s) matching the given XPath
     expression.
+    
+    If the expression matches a single node, the text value is output
+    as-is.
+    
+    If the expression matches multiple nodes, their text values will be
+    output separated by a separator string and terminated by a
+    terminator string.
+    
+    The default separator is a line break character, but this can be
+    changed by specifying a `separator` parameter after the path. For
+    example:
+    
+        $ xml-transform -E /foo/bar -P separator=, test.xml
+    
+    will separate the values with commas.
+    
+    The default terminator is also a line break character, but this can
+    be changed by specifying a `terminator` parameter after the path.
+    For example:
+    
+        $ xml-transform -E /foo/bar -P terminator= test.xml
+    
+    will output no terminator after the values.
     
     Although the extracted text will be passed to any subsequent
     -s/-E/-e options like with -e (--extract), it is more common for
@@ -157,7 +181,7 @@ Extract a node from a document and then apply a stylesheet to it:
 
     $ xml-transform -e /foo/bar -s style1.xsl doc1.xsl
 
-Extract the text value of a single node from a document:
+Extract the text value of a node from a document:
 
     $ xml-transform -E /foo/bar doc1.xml
 

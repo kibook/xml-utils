@@ -17,7 +17,7 @@
 #include "resources.h"
 
 #define PROG_NAME "xml-transform"
-#define VERSION "1.8.1"
+#define VERSION "1.9.0"
 
 #define INF_PREFIX PROG_NAME ": INFO: "
 #define ERR_PREFIX PROG_NAME ": ERROR: "
@@ -607,7 +607,7 @@ static void show_help(void)
 	puts("Options:");
 	puts("  -c, --combine                      Combine input files into a single document.");
 	puts("  -d, --preserve-dtd                 Preserve the original DTD.");
-	puts("  -E, --extract-text <xpath>         Extracts the text value of the given XPath expression.");
+	puts("  -E, --extract-text <xpath>         Extracts the text value(s) of the given XPath expression.");
 	puts("  -e, --extract <xpath>              Extracts the node(s) matching the given XPath expression.");
 	puts("  -f, --overwrite                    Overwrite input files.");
 	puts("  -h, -?, --help                     Show usage message.");
