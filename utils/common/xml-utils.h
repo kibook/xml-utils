@@ -49,10 +49,19 @@ extern bool PARSE_AS_HTML;
 	puts("  --xinclude            Do XInclude processing.");\
 	puts("  --xml-catalog <file>  Use an XML catalog.");
 
+/* libxml < 2.15.0 included a built-in HTTP client that would be used to
+ * load entities, which needed to be disabled when not using the --net option.
+ * This has been removed in 2.15.0, so disabling the entity loader is no longer
+ * necessary.
+ */
+#if LIBXML_VERSION < 21500
 #define LIBXML2_PARSE_INIT \
 	if (optset(DEFAULT_PARSE_OPTS, XML_PARSE_NONET)) {\
 		xmlSetExternalEntityLoader(xmlNoNetExternalEntityLoader);\
 	}
+#else
+#define LIBXML2_PARSE_INIT
+#endif
 
 /* Return whether a bitset contains an option. */
 bool optset(int opts, int opt);
