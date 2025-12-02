@@ -6,10 +6,10 @@
       <dmIdent>
         <dmCode modelIdentCode="XMLUTILS" systemDiffCode="A" systemCode="04" subSystemCode="0" subSubSystemCode="0" assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="040" infoCodeVariant="A" itemLocationCode="D"/>
         <language languageIsoCode="en" countryIsoCode="CA"/>
-        <issueInfo issueNumber="004" inWork="05"/>
+        <issueInfo issueNumber="004" inWork="06"/>
       </dmIdent>
       <dmAddressItems>
-        <issueDate year="2025" month="12" day="01"/>
+        <issueDate year="2025" month="12" day="02"/>
         <dmTitle>
           <techName>xml-transform(1) | xml-utils</techName>
         </dmTitle>
@@ -104,7 +104,7 @@
                   <verbatimText verbatimStyle="vs24">$ xml-transform -E /foo/bar -P terminator= test.xml</verbatimText>
                   will output no terminator after the values.
                 </para>
-                <para>Although the extracted text will be passed to any subsequent -s/-E/-e options like with -e (--extract), it is more common for this option to be used alone or at the end of a pipeline.</para>
+                <para>If there are any subsequent -s/-E/-e options, then the extracted text will be parsed as XML and passed to the next stylesheet.</para>
               </listItemDefinition>
             </definitionListItem>
             <definitionListItem changeMark="1" changeType="add" reasonForUpdateRefIds="rfu-extract">

@@ -49,9 +49,8 @@ Applies one or more XSLT stylesheets to one or more XML documents.
     
     will output no terminator after the values.
     
-    Although the extracted text will be passed to any subsequent
-    -s/-E/-e options like with -e (--extract), it is more common for
-    this option to be used alone or at the end of a pipeline.
+    If there are any subsequent -s/-E/-e options, then the extracted
+    text will be parsed as XML and passed to the next stylesheet.
 
   - \-e, --extract \<xpath\>  
     Extracts the node(s) matching the given XPath expression.

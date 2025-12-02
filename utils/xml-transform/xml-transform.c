@@ -17,7 +17,7 @@
 #include "resources.h"
 
 #define PROG_NAME "xml-transform"
-#define VERSION "1.9.0"
+#define VERSION "1.10.0"
 
 #define INF_PREFIX PROG_NAME ": INFO: "
 #define ERR_PREFIX PROG_NAME ": ERROR: "
@@ -58,47 +58,6 @@ static void add_identity(xmlDocPtr style)
 	xmlFreeDoc(identity);
 }
 
-/* Apply stylesheets to a doc, preserving the original DTD. */
-static xmlDocPtr transform_doc_preserve_dtd(xmlDocPtr doc, xmlNodePtr stylesheets)
-{
-	xmlDocPtr src;
-	xmlNodePtr cur, new;
-
-	src = xmlCopyDoc(doc, 1);
-
-	for (cur = stylesheets->children; cur; cur = cur->next) {
-		xmlDocPtr res;
-		xsltStylesheetPtr style;
-		const char **params;
-
-		/* Select cached stylesheet/params. */
-		style = (xsltStylesheetPtr) cur->doc;
-		params = (const char **) cur->children;
-
-		res = xsltApplyStylesheet(style, doc, params);
-
-		xmlFreeDoc(doc);
-
-		doc = res;
-	}
-
-	/* If the result has a root element, copy it in place of the root
-	 * element of the original document to preserve the original DTD. */
-	if ((new = xmlDocGetRootElement(doc))) {
-		xmlNodePtr old;
-		old = xmlDocSetRootElement(src, xmlCopyNode(new, 1));
-		xmlFreeNode(old);
-	/* Otherwise, copy the whole doc to keep non-XML results. */
-	} else {
-		xmlFreeDoc(src);
-		src = xmlCopyDoc(doc, 1);
-	}
-
-	xmlFreeDoc(doc);
-
-	return src;
-}
-
 /* Apply stylesheets to a doc. */
 static xmlDocPtr transform_doc(xmlDocPtr doc, xmlNodePtr stylesheets)
 {
@@ -117,10 +76,47 @@ static xmlDocPtr transform_doc(xmlDocPtr doc, xmlNodePtr stylesheets)
 
 		xmlFreeDoc(doc);
 
-		doc = res;
+		if (cur->next && xmlStrcmp(style->method, BAD_CAST "text") == 0) {
+			if (res && res->children && res->children->content) {
+				const char *content = (const char *) res->children->content;
+				doc = read_xml_mem(content, strlen(content));
+			} else {
+				doc = xmlNewDoc(BAD_CAST "1.0");
+			}
+			xmlFreeDoc(res);
+		} else {
+			doc = res;
+		}
 	}
 
 	return doc;
+}
+
+/* Apply stylesheets to a doc, preserving the original DTD. */
+static xmlDocPtr transform_doc_preserve_dtd(xmlDocPtr doc, xmlNodePtr stylesheets)
+{
+	xmlDocPtr src;
+	xmlNodePtr new;
+
+	src = xmlCopyDoc(doc, 1);
+
+	doc = transform_doc(doc, stylesheets);
+
+	/* If the result has a root element, copy it in place of the root
+	 * element of the original document to preserve the original DTD. */
+	if ((new = xmlDocGetRootElement(doc))) {
+		xmlNodePtr old;
+		old = xmlDocSetRootElement(src, xmlCopyNode(new, 1));
+		xmlFreeNode(old);
+	/* Otherwise, copy the whole doc to keep non-XML results. */
+	} else {
+		xmlFreeDoc(src);
+		src = xmlCopyDoc(doc, 1);
+	}
+
+	xmlFreeDoc(doc);
+
+	return src;
 }
 
 /* Save a document using the output settings of the specified stylesheet. */
@@ -602,7 +598,7 @@ static void transform_combined(int argc, char **argv, bool islist, const char *o
 /* Show help/usage message. */
 static void show_help(void)
 {
-	puts("Usage: " PROG_NAME " [-s <stylesheet> [-(P|p) <name>=<value> ...] ...] [-(E|e) <xpath>] [-o <file>] [-cdfilnqSvh?] [<file>...]");
+	puts("Usage: " PROG_NAME " [-cdfilnqSvh?] [-s <stylesheet> [-(P|p) <name>=<value> ...] ...] [-(E|e) <xpath>] [-o <file>] [<file>...]");
 	puts("");
 	puts("Options:");
 	puts("  -c, --combine                      Combine input files into a single document.");
