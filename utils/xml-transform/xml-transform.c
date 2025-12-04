@@ -17,7 +17,7 @@
 #include "resources.h"
 
 #define PROG_NAME "xml-transform"
-#define VERSION "1.10.0"
+#define VERSION "1.11.0"
 
 #define INF_PREFIX PROG_NAME ": INFO: "
 #define ERR_PREFIX PROG_NAME ": ERROR: "
@@ -642,7 +642,7 @@ int main(int argc, char **argv)
 	bool include_identity = false;
 	bool combine = false;
 
-	const char *sopts = "cdE:e:Ss:ilno:P:p:qfvh?";
+	const char *sopts = "cdE:e:Ss:Iilno:P:p:qfvh?";
 	struct option lopts[] = {
 		{"version"        , no_argument      , 0, 0},
 		{"combine"        , no_argument      , 0, 'c'},
@@ -651,6 +651,7 @@ int main(int argc, char **argv)
 		{"extract"        , required_argument, 0, 'e'},
 		{"overwrite"      , no_argument      , 0, 'f'},
 		{"help"           , no_argument      , 0, 'h'},
+		{"dump-identity"  , no_argument      , 0, 'I'},
 		{"identity"       , no_argument      , 0, 'i'},
 		{"list"           , no_argument      , 0, 'l'},
 		{"null-input"     , no_argument      , 0, 'n'},
@@ -703,6 +704,9 @@ int main(int argc, char **argv)
 				last_style = xmlNewChild(stylesheets, NULL, BAD_CAST "stylesheet", NULL);
 				xmlSetProp(last_style, BAD_CAST "path", BAD_CAST optarg);
 				break;
+			case 'I':
+				printf("%.*s", identity_xsl_len, identity_xsl);
+				goto cleanup;
 			case 'i':
 				include_identity = true;
 				break;
@@ -768,6 +772,7 @@ int main(int argc, char **argv)
 		}
 	}
 
+cleanup:
 	if (out) {
 		free(out);
 	}

@@ -6,10 +6,10 @@
       <dmIdent>
         <dmCode modelIdentCode="XMLUTILS" systemDiffCode="A" systemCode="04" subSystemCode="0" subSubSystemCode="0" assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="040" infoCodeVariant="A" itemLocationCode="D"/>
         <language languageIsoCode="en" countryIsoCode="CA"/>
-        <issueInfo issueNumber="004" inWork="06"/>
+        <issueInfo issueNumber="004" inWork="07"/>
       </dmIdent>
       <dmAddressItems>
-        <issueDate year="2025" month="12" day="02"/>
+        <issueDate year="2025" month="12" day="04"/>
         <dmTitle>
           <techName>xml-transform(1) | xml-utils</techName>
         </dmTitle>
@@ -50,6 +50,9 @@
       <reasonForUpdate id="rfu-extract" updateHighlight="1" updateReasonType="urt02">
         <simplePara>Add -e (--extract) and -E (--extract-text) options.</simplePara>
       </reasonForUpdate>
+      <reasonForUpdate id="rfu-dump" updateHighlight="1" updateReasonType="urt02">
+        <simplePara>Add -I (--dump-identity) option.</simplePara>
+      </reasonForUpdate>
     </dmStatus>
   </identAndStatusSection>
   <content>
@@ -61,7 +64,7 @@
       <levelledPara>
         <title>SYNOPSIS</title>
         <para>
-          <verbatimText verbatimStyle="vs24" changeMark="1" changeType="modify" reasonForUpdateRefIds="rfu-extract">xml-transform [-cdfilnqSvh?]
+          <verbatimText verbatimStyle="vs24" changeMark="1" changeType="modify" reasonForUpdateRefIds="rfu-extract rfu-dump">xml-transform [-cdfIilnqSvh?]
               [-s &lt;stylesheet&gt; [(-P|-p) &lt;name&gt;=&lt;value&gt; ...] ...]
               [(-E|-e) &lt;xpath&gt; ...]
               [-o &lt;output file&gt;] [&lt;input file&gt; ...]</verbatimText>
@@ -124,6 +127,12 @@
               <listItemTerm>-h, -?, --help</listItemTerm>
               <listItemDefinition>
                 <para>Show usage message.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem changeMark="1" changeType="add" reasonForUpdateRefIds="rfu-dump">
+              <listItemTerm>-I, --dump-identity</listItemTerm>
+              <listItemDefinition>
+                <para>Outputs the identity stylesheet to stdout. This can be useful as a template for new stylesheets.</para>
               </listItemDefinition>
             </definitionListItem>
             <definitionListItem>
@@ -259,6 +268,10 @@
 &lt;/xsl:template&gt;</verbatimText>
           </para>
           <para>This means that any attributes or nodes which are not matched by a more specific template in the user-specified stylesheet are copied.</para>
+          <para changeMark="1" changeType="add" reasonForUpdateRefIds="rfu-dump">
+            The -I (--dump-identity) option can be used to output a stylesheet consisting of just this template to stdout. This can be used as a quick way to create a new stylesheet by redirecting the output to a file:
+            <verbatimText verbatimStyle="vs24">$ xml-transform -I > newstyle.xsl</verbatimText>
+          </para>
         </levelledPara>
       </levelledPara>
       <levelledPara changeMark="1" changeType="modify" reasonForUpdateRefIds="rfu-extract">

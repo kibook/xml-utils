@@ -4,7 +4,7 @@ xml-transform - Apply XSL transformations to XML documents
 
 # SYNOPSIS
 
-    xml-transform [-cdfilnqSvh?]
+    xml-transform [-cdfIilnqSvh?]
                   [-s <stylesheet> [(-P|-p) <name>=<value> ...] ...]
                   [(-E|-e) <xpath> ...]
                   [-o <output file>] [<input file> ...]
@@ -63,6 +63,10 @@ Applies one or more XSLT stylesheets to one or more XML documents.
 
   - \-h, -?, --help  
     Show usage message.
+
+  - \-I, --dump-identity  
+    Outputs the identity stylesheet to stdout. This can be useful as a
+    template for new stylesheets.
 
   - \-i, --identity  
     Includes an "identity" template in to each specified stylesheet.
@@ -156,6 +160,12 @@ specified with the -s option. The template is equivalent to this XSL:
 
 This means that any attributes or nodes which are not matched by a more
 specific template in the user-specified stylesheet are copied.
+
+The -I (--dump-identity) option can be used to output a stylesheet
+consisting of just this template to stdout. This can be used as a quick
+way to create a new stylesheet by redirecting the output to a file:
+
+    $ xml-transform -I > newstyle.xsl
 
 # EXAMPLES
 
