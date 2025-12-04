@@ -10,7 +10,7 @@
 #include "xml-utils.h"
 
 #define PROG_NAME "xml-format"
-#define VERSION "2.7.1"
+#define VERSION "2.7.2"
 
 /* Formatter options */
 #define FORMAT_OVERWRITE	0x01
@@ -18,6 +18,12 @@
 #define FORMAT_OMIT_DECL	0x04
 #define FORMAT_COMPACT		0x08
 #define FORMAT_INDENT		0x10
+
+/* The default string used for indentation. */
+#define DEFAULT_INDENT_STRING "  "
+
+/* String used for indentation. */
+char *indent_string = NULL;
 
 /* Determine whether the node is a textual node. Textual nodes are never
  * subject to formatting or indenting.
@@ -87,12 +93,12 @@ static void indent(xmlNodePtr node)
 	if (!node->prev) {
 		xmlAddPrevSibling(node, xmlNewText(BAD_CAST "\n"));
 		for (i = 1; i < n; ++i) {
-			xmlAddPrevSibling(node, xmlNewText(BAD_CAST xmlTreeIndentString));
+			xmlAddPrevSibling(node, xmlNewText(BAD_CAST indent_string));
 		}
 	}
 
 	for (i = node->next ? 1 : 2; i < n; ++i) {
-		xmlAddNextSibling(node, xmlNewText(BAD_CAST xmlTreeIndentString));
+		xmlAddNextSibling(node, xmlNewText(BAD_CAST indent_string));
 	}
 	xmlAddNextSibling(node, xmlNewText(BAD_CAST "\n"));
 }
@@ -151,6 +157,13 @@ static void format_file(const char *path, const char *out, int opts)
 		save = xmlSaveToFilename("-", NULL, saveopts);
 	}
 
+	/* libxml 2.14.0 introduced this function as a replacement for setting
+	 * the xmlTreeIndentString variable.
+	 */
+#if LIBXML_VERSION >= 21400
+	xmlSaveSetIndentString(save, indent_string);
+#endif
+
 	xmlSaveDoc(save, doc);
 	xmlSaveClose(save);
 
@@ -203,7 +216,6 @@ int main(int argc, char **argv)
 	int loptind = 0;
 
 	int opts = 0;
-	char *indent = NULL;
 	char *out = NULL;
 
 	while ((i = getopt_long(argc, argv, sopts, lopts, &loptind)) != -1) {
@@ -225,7 +237,7 @@ int main(int argc, char **argv)
 				opts |= FORMAT_INDENT;
 				break;
 			case 'i':
-				indent = strdup(optarg);
+				indent_string = strdup(optarg);
 				break;
 			case 'O':
 				opts |= FORMAT_OMIT_DECL;
@@ -243,9 +255,17 @@ int main(int argc, char **argv)
 		}
 	}
 
-	if (indent) {
-		xmlTreeIndentString = indent;
+	/* Set the default indent string. */
+	if (indent_string == NULL) {
+		indent_string = strdup(DEFAULT_INDENT_STRING);
 	}
+
+	/* libxml 2.14.0 deprecates this variable in favour of the
+	 * xmlSaveSetIndentString function.
+	 */
+#if LIBXML_VERSION < 21400
+	xmlTreeIndentString = indent_string;
+#endif
 
 	if (optind < argc) {
 		for (i = optind; i < argc; ++i) {
@@ -255,7 +275,7 @@ int main(int argc, char **argv)
 		format_file("-", out, opts);
 	}
 
-	free(indent);
+	free(indent_string);
 	free(out);
 
 	xmlCleanupParser();
