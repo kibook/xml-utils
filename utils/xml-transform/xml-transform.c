@@ -17,7 +17,7 @@
 #include "resources.h"
 
 #define PROG_NAME "xml-transform"
-#define VERSION "1.11.0"
+#define VERSION "1.11.1"
 
 #define INF_PREFIX PROG_NAME ": INFO: "
 #define ERR_PREFIX PROG_NAME ": ERROR: "
