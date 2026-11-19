@@ -17,7 +17,7 @@
 #include "resources.h"
 
 #define PROG_NAME "xml-transform"
-#define VERSION "1.12.0"
+#define VERSION "1.12.1"
 
 #define INF_PREFIX PROG_NAME ": INFO: "
 #define ERR_PREFIX PROG_NAME ": ERROR: "
@@ -90,7 +90,7 @@ static xmlDocPtr transform_doc(xmlDocPtr doc, xmlNodePtr stylesheets, const char
 		xsltStylesheetPtr style;
 		const char **params;
 		const char **p;
-		size_t n;
+		size_t n = 0;
 		xmlChar *q;
 
 		/* Select cached stylesheet/params. */
@@ -99,11 +99,10 @@ static xmlDocPtr transform_doc(xmlDocPtr doc, xmlNodePtr stylesheets, const char
 
 		/* Add extra _path parameter. */
 		if (params) {
-			n = sizeof(params);
-			p = malloc(n + 2 * sizeof(char *));
-			memcpy(p, params, n - sizeof(char *));
+			while (params[n]) ++n;
+			p = malloc((n + 3) * sizeof(char *));
+			memcpy(p, params, n * sizeof (char *));
 		} else {
-			n = 0;
 			p = malloc(3 * sizeof(char *));
 		}
 
