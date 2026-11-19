@@ -6,7 +6,7 @@ xml-transform - Apply XSL transformations to XML documents
 
     xml-transform [-cdfIilnqSvh?]
                   [-s <stylesheet> [(-P|-p) <name>=<value> ...] ...]
-                  [(-E|-e) <xpath> ...]
+                  [(-E|-e|-m) <xpath> ...]
                   [-o <output file>] [<input file> ...]
 
 # DESCRIPTION
@@ -74,6 +74,9 @@ Applies one or more XSLT stylesheets to one or more XML documents.
   - \-l, --list  
     Treat input (stdin or arguments) as lists of files to transform,
     rather than files themselves.
+
+  - \-m, --match \<xpath\>  
+    If an input file matches the given XPath expression, print its path.
 
   - \-n, --null-input  
     Use a minimal XML document as input instead of any files or stdin.
@@ -197,3 +200,7 @@ Extract the text value of a node from a document:
 Get the number of a certain node anywhere in a document:
 
     $ xml-transform -e 'count(//bar)' doc1.xml
+
+Print the paths of documents that match a given expression:
+
+    $ xml-transform -m '//bar' *.xml

@@ -17,7 +17,7 @@
 #include "resources.h"
 
 #define PROG_NAME "xml-transform"
-#define VERSION "1.11.1"
+#define VERSION "1.12.0"
 
 #define INF_PREFIX PROG_NAME ": INFO: "
 #define ERR_PREFIX PROG_NAME ": ERROR: "
@@ -58,8 +58,30 @@ static void add_identity(xmlDocPtr style)
 	xmlFreeDoc(identity);
 }
 
+/* Create a quoted version of a string for a stylesheet parameter. */
+static xmlChar *quote_str(const xmlChar *value)
+{
+	xmlChar *v;
+
+	if (xmlStrchr(value, '"')) {
+		/* If the string contains both " and ' then it is impossible to quote. */
+		if (xmlStrchr(value, '\'')) {
+			return NULL;
+		}
+		v = xmlStrdup(BAD_CAST "'");
+		v = xmlStrcat(v, value);
+		v = xmlStrcat(v, BAD_CAST "'");
+	} else {
+		v = xmlStrdup(BAD_CAST "\"");
+		v = xmlStrcat(v, value);
+		v = xmlStrcat(v, BAD_CAST "\"");
+	}
+
+	return v;
+}
+
 /* Apply stylesheets to a doc. */
-static xmlDocPtr transform_doc(xmlDocPtr doc, xmlNodePtr stylesheets)
+static xmlDocPtr transform_doc(xmlDocPtr doc, xmlNodePtr stylesheets, const char *path)
 {
 	xmlNodePtr cur;
 
@@ -67,12 +89,34 @@ static xmlDocPtr transform_doc(xmlDocPtr doc, xmlNodePtr stylesheets)
 		xmlDocPtr res;
 		xsltStylesheetPtr style;
 		const char **params;
+		const char **p;
+		size_t n;
+		xmlChar *q;
 
 		/* Select cached stylesheet/params. */
 		style = (xsltStylesheetPtr) cur->doc;
 		params = (const char **) cur->children;
 
-		res = xsltApplyStylesheet(style, doc, params);
+		/* Add extra _path parameter. */
+		if (params) {
+			n = sizeof(params);
+			p = malloc(n + 2 * sizeof(char *));
+			memcpy(p, params, n - sizeof(char *));
+		} else {
+			n = 0;
+			p = malloc(3 * sizeof(char *));
+		}
+
+		q = quote_str(BAD_CAST path);
+
+		p[n] = "_path";
+		p[n + 1] = (char *) q;
+		p[n + 2] = NULL;
+
+		res = xsltApplyStylesheet(style, doc, p);
+
+		xmlFree(q);
+		free(p);
 
 		xmlFreeDoc(doc);
 
@@ -93,14 +137,14 @@ static xmlDocPtr transform_doc(xmlDocPtr doc, xmlNodePtr stylesheets)
 }
 
 /* Apply stylesheets to a doc, preserving the original DTD. */
-static xmlDocPtr transform_doc_preserve_dtd(xmlDocPtr doc, xmlNodePtr stylesheets)
+static xmlDocPtr transform_doc_preserve_dtd(xmlDocPtr doc, xmlNodePtr stylesheets, const char *path)
 {
 	xmlDocPtr src;
 	xmlNodePtr new;
 
 	src = xmlCopyDoc(doc, 1);
 
-	doc = transform_doc(doc, stylesheets);
+	doc = transform_doc(doc, stylesheets, path);
 
 	/* If the result has a root element, copy it in place of the root
 	 * element of the original document to preserve the original DTD. */
@@ -222,7 +266,9 @@ static void load_stylesheet(xmlNodePtr cur, const bool include_identity)
 
 		method = xmlGetProp(cur, BAD_CAST "method");
 
-		if (xmlStrcmp(method, BAD_CAST "node") == 0) {
+		if (xmlStrcmp(method, BAD_CAST "match") == 0) {
+			doc = read_xml_mem((const char *) match_xsl, match_xsl_len);
+		} else if (xmlStrcmp(method, BAD_CAST "node") == 0) {
 			doc = read_xml_mem((const char *) extract_xsl, extract_xsl_len);
 		} else {
 			doc = read_xml_mem((const char *) extract_text_xsl, extract_text_xsl_len);
@@ -240,7 +286,13 @@ static void load_stylesheet(xmlNodePtr cur, const bool include_identity)
 			valueof = obj->nodesetval->nodeTab[0];
 
 			xpath = xmlGetProp(cur, BAD_CAST "extract");
-			xmlSetProp(valueof, BAD_CAST "select", xpath);
+
+			if (xmlStrcmp(valueof->name, BAD_CAST "if") == 0) {
+				xmlSetProp(valueof, BAD_CAST "test", xpath);
+			} else {
+				xmlSetProp(valueof, BAD_CAST "select", xpath);
+			}
+
 			xmlFree(xpath);
 		}
 
@@ -380,6 +432,54 @@ static void free_stylesheets(xmlNodePtr stylesheets)
 	xmlFreeNode(stylesheets);
 }
 
+/* Add a string parameter to a stylesheet with name and value already parsed. */
+static xmlNodePtr set_str_param(xmlNodePtr stylesheet, const xmlChar *name, const xmlChar *value)
+{
+	xmlChar *v;
+	xmlNodePtr p;
+
+	/* Put the string in quotes. If the string contains both " and ' then show an error. */
+	if ((v = quote_str(value)) == NULL) {
+		fprintf(stderr, E_BAD_STRING_PARAM, name);
+		return NULL;
+	}
+
+	p = xmlNewChild(stylesheet, NULL, BAD_CAST "param", NULL);
+	xmlSetProp(p, BAD_CAST "name", name);
+	xmlSetProp(p, BAD_CAST "value", v);
+
+	xmlFree(v);
+
+	return p;
+}
+
+/* Add a parameter to a stylesheet. */
+static xmlNodePtr add_param(xmlNodePtr stylesheet, char *s)
+{
+	char *n, *v;
+	xmlNodePtr p;
+
+	n = strtok(s, "=");
+	v = strtok(NULL, "");
+
+	p = xmlNewChild(stylesheet, NULL, BAD_CAST "param", NULL);
+	xmlSetProp(p, BAD_CAST "name", BAD_CAST n);
+	xmlSetProp(p, BAD_CAST "value", BAD_CAST v);
+
+	return p;
+}
+
+/* Add a string parameter to a stylesheet. */
+static xmlNodePtr add_str_param(xmlNodePtr stylesheet, char *s)
+{
+	xmlChar *name, *value;
+
+	name = BAD_CAST strtok(s, "=");
+	value = BAD_CAST strtok(NULL, "");
+
+	return set_str_param(stylesheet, name, value);
+}
+
 /* Apply stylesheets to a file. */
 static void transform_file(const char *path, xmlNodePtr stylesheets, const char *out, bool overwrite)
 {
@@ -403,18 +503,18 @@ static void transform_file(const char *path, xmlNodePtr stylesheets, const char 
 
 		if (xml_stylesheets->children != NULL) {
 			if (preserve_dtd) {
-				doc = transform_doc_preserve_dtd(doc, xml_stylesheets);
+				doc = transform_doc_preserve_dtd(doc, xml_stylesheets, path);
 			} else {
-				doc = transform_doc(doc, xml_stylesheets);
+				doc = transform_doc(doc, xml_stylesheets, path);
 			}
 		}
 	}
 
 	/* Transform using user-specified stylesheets. */
 	if (preserve_dtd) {
-		doc = transform_doc_preserve_dtd(doc, stylesheets);
+		doc = transform_doc_preserve_dtd(doc, stylesheets, path);
 	} else {
-		doc = transform_doc(doc, stylesheets);
+		doc = transform_doc(doc, stylesheets, path);
 	}
 
 	/* Use the output settings of the last stylesheet to determine how to
@@ -472,49 +572,6 @@ static void transform_list(const char *path, xmlNodePtr stylesheets, const char 
 	if (path) {
 		fclose(f);
 	}
-}
-
-/* Add a parameter to a stylesheet. */
-static void add_param(xmlNodePtr stylesheet, char *s)
-{
-	char *n, *v;
-	xmlNodePtr p;
-
-	n = strtok(s, "=");
-	v = strtok(NULL, "");
-
-	p = xmlNewChild(stylesheet, NULL, BAD_CAST "param", NULL);
-	xmlSetProp(p, BAD_CAST "name", BAD_CAST n);
-	xmlSetProp(p, BAD_CAST "value", BAD_CAST v);
-}
-
-static void add_str_param(xmlNodePtr stylesheet, char *s)
-{
-	xmlChar *name, *v, *value;
-	xmlNodePtr p;
-
-	name = BAD_CAST strtok(s, "=");
-	v = BAD_CAST strtok(NULL, "");
-
-	if (xmlStrchr(v, '"')) {
-		if (xmlStrchr(v, '\'')) {
-			fprintf(stderr, E_BAD_STRING_PARAM, name);
-			return;
-		}
-		value = xmlStrdup((const xmlChar *)"'");
-		value = xmlStrcat(value, v);
-		value = xmlStrcat(value, (const xmlChar *)"'");
-	} else {
-		value = xmlStrdup((const xmlChar *)"\"");
-		value = xmlStrcat(value, v);
-		value = xmlStrcat(value, (const xmlChar *)"\"");
-	}
-
-	p = xmlNewChild(stylesheet, NULL, BAD_CAST "param", NULL);
-	xmlSetProp(p, BAD_CAST "name", name);
-	xmlSetProp(p, BAD_CAST "value", value);
-
-	xmlFree(value);
 }
 
 /* Combine a single file into the combined document. */
@@ -579,7 +636,7 @@ static void transform_combined(int argc, char **argv, bool islist, const char *o
 		combine_file(combined, "-");
 	}
 
-	doc = transform_doc(doc, stylesheets);
+	doc = transform_doc(doc, stylesheets, "");
 
 	/* Use the output settings of the last stylesheet to determine how to
 	 * save the end result. */
@@ -598,7 +655,7 @@ static void transform_combined(int argc, char **argv, bool islist, const char *o
 /* Show help/usage message. */
 static void show_help(void)
 {
-	puts("Usage: " PROG_NAME " [-cdfilnqSvh?] [-s <stylesheet> [-(P|p) <name>=<value> ...] ...] [-(E|e) <xpath>] [-o <file>] [<file>...]");
+	puts("Usage: " PROG_NAME " [-cdfilnqSvh?] [-s <stylesheet> [-(P|p) <name>=<value> ...] ...] [(-E|-e|-m) <xpath>] [-o <file>] [<file>...]");
 	puts("");
 	puts("Options:");
 	puts("  -c, --combine                      Combine input files into a single document.");
@@ -609,6 +666,7 @@ static void show_help(void)
 	puts("  -h, -?, --help                     Show usage message.");
 	puts("  -i, --identity                     Include identity template in stylesheets.");
 	puts("  -l, --list                         Treat input as list of files.");
+	puts("  -m, --match <xpath>                If an input file matches an XPath expression, print its path.");
 	puts("  -n, --null-input                   Use a minimal XML document as the input");
 	puts("  -o, --out <file>                   Output result of transformation to <path>.");
 	puts("  -P, --string-param <name>=<value>  Pass parameters as strings to stylesheets.");
@@ -642,7 +700,7 @@ int main(int argc, char **argv)
 	bool include_identity = false;
 	bool combine = false;
 
-	const char *sopts = "cdE:e:Ss:Iilno:P:p:qfvh?";
+	const char *sopts = "cdE:e:Ss:Iilm:no:P:p:qfvh?";
 	struct option lopts[] = {
 		{"version"        , no_argument      , 0, 0},
 		{"combine"        , no_argument      , 0, 'c'},
@@ -654,6 +712,7 @@ int main(int argc, char **argv)
 		{"dump-identity"  , no_argument      , 0, 'I'},
 		{"identity"       , no_argument      , 0, 'i'},
 		{"list"           , no_argument      , 0, 'l'},
+		{"match"          , required_argument, 0, 'm'},
 		{"null-input"     , no_argument      , 0, 'n'},
 		{"out"            , required_argument, 0, 'o'},
 		{"string-param"   , required_argument, 0, 'P'},
@@ -696,6 +755,11 @@ int main(int argc, char **argv)
 				last_style = xmlNewChild(stylesheets, NULL, BAD_CAST "stylesheet", NULL);
 				xmlSetProp(last_style, BAD_CAST "extract", BAD_CAST optarg);
 				xmlSetProp(last_style, BAD_CAST "method", BAD_CAST "node");
+				break;
+			case 'm':
+				last_style = xmlNewChild(stylesheets, NULL, BAD_CAST "stylesheet", NULL);
+				xmlSetProp(last_style, BAD_CAST "extract", BAD_CAST optarg);
+				xmlSetProp(last_style, BAD_CAST "method", BAD_CAST "match");
 				break;
 			case 'S':
 				use_xml_stylesheets = true;

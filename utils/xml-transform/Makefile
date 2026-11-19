@@ -30,7 +30,7 @@ INSTALL = install -Ds
 
 all: $(executable)
 
-resources.h: identity.xsl null-input.xml extract.xsl extract-text.xsl
+resources.h: identity.xsl null-input.xml extract.xsl extract-text.xsl match.xsl
 	> $@ && for f in $+; do xxd -i $$f >>$@; done
 
 $(executable): $(sources) resources.h

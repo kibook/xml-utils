@@ -6,10 +6,10 @@
       <dmIdent>
         <dmCode modelIdentCode="XMLUTILS" systemDiffCode="A" systemCode="04" subSystemCode="0" subSubSystemCode="0" assyCode="00" disassyCode="00" disassyCodeVariant="A" infoCode="040" infoCodeVariant="A" itemLocationCode="D"/>
         <language languageIsoCode="en" countryIsoCode="CA"/>
-        <issueInfo issueNumber="004" inWork="07"/>
+        <issueInfo issueNumber="004" inWork="08"/>
       </dmIdent>
       <dmAddressItems>
-        <issueDate year="2025" month="12" day="04"/>
+        <issueDate year="2026" month="11" day="19"/>
         <dmTitle>
           <techName>xml-transform(1) | xml-utils</techName>
         </dmTitle>
@@ -53,6 +53,9 @@
       <reasonForUpdate id="rfu-dump" updateHighlight="1" updateReasonType="urt02">
         <simplePara>Add -I (--dump-identity) option.</simplePara>
       </reasonForUpdate>
+      <reasonForUpdate id="rfu-match" updateHighlight="1" updateReasonType="urt02">
+        <simplePara>Add -m (--match) option.</simplePara>
+      </reasonForUpdate>
     </dmStatus>
   </identAndStatusSection>
   <content>
@@ -64,9 +67,9 @@
       <levelledPara>
         <title>SYNOPSIS</title>
         <para>
-          <verbatimText verbatimStyle="vs24" changeMark="1" changeType="modify" reasonForUpdateRefIds="rfu-extract rfu-dump">xml-transform [-cdfIilnqSvh?]
+          <verbatimText verbatimStyle="vs24" changeMark="1" changeType="modify" reasonForUpdateRefIds="rfu-extract rfu-dump rfu-match">xml-transform [-cdfIilnqSvh?]
               [-s &lt;stylesheet&gt; [(-P|-p) &lt;name&gt;=&lt;value&gt; ...] ...]
-              [(-E|-e) &lt;xpath&gt; ...]
+              [(-E|-e|-m) &lt;xpath&gt; ...]
               [-o &lt;output file&gt;] [&lt;input file&gt; ...]</verbatimText>
         </para>
       </levelledPara>
@@ -145,6 +148,12 @@
               <listItemTerm>-l, --list</listItemTerm>
               <listItemDefinition>
                 <para>Treat input (stdin or arguments) as lists of files to transform, rather than files themselves.</para>
+              </listItemDefinition>
+            </definitionListItem>
+            <definitionListItem changeMark="1" changeType="add" reasonForUpdateRefIds="rfu-match">
+              <listItemTerm>-m, --match &lt;xpath&gt;</listItemTerm>
+              <listItemDefinition>
+                <para>If an input file matches the given XPath expression, print its path.</para>
               </listItemDefinition>
             </definitionListItem>
             <definitionListItem changeMark="1" changeType="add" reasonForUpdateRefIds="rfu-null-input">
@@ -270,7 +279,7 @@
           <para>This means that any attributes or nodes which are not matched by a more specific template in the user-specified stylesheet are copied.</para>
           <para changeMark="1" changeType="add" reasonForUpdateRefIds="rfu-dump">
             The -I (--dump-identity) option can be used to output a stylesheet consisting of just this template to stdout. This can be used as a quick way to create a new stylesheet by redirecting the output to a file:
-            <verbatimText verbatimStyle="vs24">$ xml-transform -I > newstyle.xsl</verbatimText>
+            <verbatimText verbatimStyle="vs24">$ xml-transform -I &gt; newstyle.xsl</verbatimText>
           </para>
         </levelledPara>
       </levelledPara>
@@ -303,6 +312,10 @@
         <para>
           Get the number of a certain node anywhere in a document:
           <verbatimText verbatimStyle="vs24">$ xml-transform -e 'count(//bar)' doc1.xml</verbatimText>
+        </para>
+        <para>
+          Print the paths of documents that match a given expression:
+          <verbatimText verbatimStyle="vs24">$ xml-transform -m '//bar' *.xml</verbatimText>
         </para>
       </levelledPara>
     </description>
